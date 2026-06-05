@@ -3,7 +3,6 @@ class World {
   enemies = [new Chicken(), new Chicken(), new Chicken()];
   backgroundObjects = [
     new BackgroundObjects("assets/img/5_background/layers/air.png"),
-    new BackgroundObjects("assets/img/5_background/layers/4_clouds/full.png"),
     new BackgroundObjects(
       "assets/img/5_background/layers/3_third_layer/full.png",
     ),
@@ -14,6 +13,7 @@ class World {
       "assets/img/5_background/layers/1_first_layer/full.png",
     ),
   ];
+  clouds = new Clouds();
   img;
   ctx;
   canvas;
@@ -31,10 +31,16 @@ class World {
     //Background Layers
     this.drawObjectsOnCanvas(this.backgroundObjects);
 
+    //Clouds
+    this.drawOnCanvas(this.clouds);
+
     //Character
     this.drawOnCanvas(this.character);
 
     //Chickens
+    this.enemies.forEach((enemy) => {
+      enemy.update();
+    });
     this.drawObjectsOnCanvas(this.enemies);
 
     let self = this;
