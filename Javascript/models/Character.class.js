@@ -4,9 +4,9 @@ class Character extends MovableObject {
     super();
 
     this.x = 50;
-    this.y = 220;
-    this.width = 100;
-    this.height = 200;
+    this.y = 170;
+    this.width = 120;
+    this.height = 250;
 
     //speed
     this.speedX = 1;
