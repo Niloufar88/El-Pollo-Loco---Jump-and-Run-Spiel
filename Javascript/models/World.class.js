@@ -62,12 +62,24 @@ class World {
   }
 
   drawOnCanvas(object) {
-    this.ctx.drawImage(
-      object.img,
-      object.x,
-      object.y,
-      object.width,
-      object.height,
-    );
+    if (object.otherDirection) {
+      this.flipImage(object);
+    } else {
+      this.ctx.drawImage(
+        object.img,
+        object.x,
+        object.y,
+        object.width,
+        object.height,
+      );
+    }
+  }
+
+  flipImage(object) {
+    this.ctx.save();
+    this.ctx.translate(object.x + object.width, object.y);
+    this.ctx.scale(-1, 1);
+    this.ctx.drawImage(object.img, 0, 0, object.width, object.height);
+    this.ctx.restore();
   }
 }

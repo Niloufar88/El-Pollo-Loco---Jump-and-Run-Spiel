@@ -9,7 +9,7 @@ class Character extends MovableObject {
     this.height = 250;
 
     //speed
-    this.speedX = 1;
+    this.speedX = 2;
     this.speedY = 0;
 
     //Animation Speed
@@ -49,14 +49,25 @@ class Character extends MovableObject {
 
   updateCharacter() {
     if (this.world.keyboard.RIGHT) {
-      this.x += this.speedX;
+      this.moveRight();
       this.playAnimation(this.PEPE_WALK, this.walkSpeed);
     } else if (this.world.keyboard.LEFT) {
-      this.x -= this.speedX;
+      this.moveLeft();
       this.playAnimation(this.PEPE_WALK, this.walkSpeed);
     } else {
       this.playAnimation(this.PEPE_IDLE, this.idleSpeed);
     }
+  }
+
+  moveRight() {
+    this.x += this.speedX;
+    this.otherDirection = false;
+  }
+
+  moveLeft() {
+    if (this.x <= 0) this.x = 0;
+    this.x -= this.speedX;
+    this.otherDirection = true;
   }
 
   playAnimation(images, speed) {

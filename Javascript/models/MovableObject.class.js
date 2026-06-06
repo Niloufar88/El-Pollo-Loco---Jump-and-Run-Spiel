@@ -15,6 +15,7 @@ class MovableObject {
 
   //states
   isDead = false;
+  otherDirection = false;
 
   loadImage(path) {
     this.img = new Image();
