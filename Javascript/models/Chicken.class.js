@@ -4,10 +4,15 @@ class Chicken extends MovableObject {
 
     let isSmall = Math.random() < 0.5;
     this.x = 400 + Math.random() * 200;
-    this.y = isSmall ? 375 : 360;
-    this.width = isSmall ? 40 : 60;
-    this.height = isSmall ? 40 : 60;
-    this.speedX = isSmall ? 0.3 : 0.2;
+    this.y = isSmall ? 365 : 345;
+    this.width = isSmall ? 50 : 75;
+    this.height = isSmall ? 50 : 75;
+    this.speedX = isSmall
+      ? 0.3 + Math.random() * 0.15
+      : 0.2 + Math.random() * 0.15;
+
+    //Animation
+    this.AnimationSpeed = 100;
 
     //Image Array
     this.CHICKEN_WALK = isSmall
@@ -24,12 +29,28 @@ class Chicken extends MovableObject {
 
     this.loadImage(this.CHICKEN_WALK[0]);
     this.loadImages(this.CHICKEN_WALK);
-    this.update();
   }
 
   update() {
     if (!this.isDead) {
-      this.x -= this.speedX;
+      this.moveLeft();
+      this.playAnimation(this.CHICKEN_WALK, this.AnimationSpeed);
+    }
+  }
+
+  moveLeft() {
+    this.x -= this.speedX;
+  }
+
+  playAnimation(images, speed) {
+    let now = Date.now();
+    let timeSinceLastFrame = now - this.lastFrameTime;
+
+    if (timeSinceLastFrame > speed) {
+      let index = this.currentImage % images.length;
+      this.img = this.imageCache[images[index]];
+      this.currentImage++;
+      this.lastFrameTime = now;
     }
   }
 }

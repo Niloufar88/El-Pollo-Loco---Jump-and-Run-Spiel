@@ -17,11 +17,18 @@ class World {
   img;
   ctx;
   canvas;
+  keyboard;
 
-  constructor(canvas) {
+  constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
+    this.keyboard = keyboard;
+    this.setWorld();
     this.draw();
+  }
+
+  setWorld() {
+    this.character.world = this;
   }
 
   draw() {
@@ -35,6 +42,7 @@ class World {
     this.drawOnCanvas(this.clouds);
 
     //Character
+    this.character.updateCharacter();
     this.drawOnCanvas(this.character);
 
     //Chickens

@@ -3,11 +3,15 @@ class MovableObject {
   y = 100;
   width = 80;
   height = 100;
-  speedX = 0;
+  speedX = 0.15;
   img;
 
   //Image Cache
   imageCache = {};
+
+  //Animation
+  currentImage = 0;
+  lastFrameTime = 0;
 
   //states
   isDead = false;
@@ -27,6 +31,8 @@ class MovableObject {
   }
 
   moveLeft() {
-    this.x -= this.speedX;
+    setInterval(() => {
+      this.x -= this.speedX;
+    }, 1000 / 60);
   }
 }

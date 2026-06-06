@@ -1,4 +1,5 @@
 class Character extends MovableObject {
+  world;
   constructor() {
     super();
 
@@ -6,6 +7,17 @@ class Character extends MovableObject {
     this.y = 220;
     this.width = 100;
     this.height = 200;
+
+    //speed
+    this.speedX = 1;
+    this.speedY = 0;
+
+    //Animation Speed
+    this.walkSpeed = 100;
+    this.idleSpeed = 150;
+
+    //Animation
+    this.lastAnimationType = null;
 
     //Image Array
     this.PEPE_IDLE = [
@@ -33,5 +45,33 @@ class Character extends MovableObject {
     this.loadImage(this.PEPE_IDLE[0]);
     this.loadImages(this.PEPE_IDLE);
     this.loadImages(this.PEPE_WALK);
+  }
+
+  updateCharacter() {
+    if (this.world.keyboard.RIGHT) {
+      this.x += this.speedX;
+      this.playAnimation(this.PEPE_WALK, this.walkSpeed);
+    } else if (this.world.keyboard.LEFT) {
+      this.x -= this.speedX;
+      this.playAnimation(this.PEPE_WALK, this.walkSpeed);
+    } else {
+      this.playAnimation(this.PEPE_IDLE, this.idleSpeed);
+    }
+  }
+
+  playAnimation(images, speed) {
+    if (this.lastAnimationType !== images) {
+      this.currentImage = 0;
+      this.lastAnimationType = images;
+    }
+    let now = Date.now();
+    let timeSinceLastFrame = now - this.lastFrameTime;
+
+    if (timeSinceLastFrame > speed) {
+      let index = this.currentImage % images.length;
+      this.img = this.imageCache[images[index]];
+      this.currentImage++;
+      this.lastFrameTime = now;
+    }
   }
 }
