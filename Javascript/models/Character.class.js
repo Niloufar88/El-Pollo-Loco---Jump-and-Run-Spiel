@@ -50,13 +50,17 @@ class Character extends MovableObject {
   updateCharacter() {
     if (this.world.keyboard.RIGHT) {
       this.moveRight();
+
       this.playAnimation(this.PEPE_WALK, this.walkSpeed);
     } else if (this.world.keyboard.LEFT) {
       this.moveLeft();
+
       this.playAnimation(this.PEPE_WALK, this.walkSpeed);
     } else {
       this.playAnimation(this.PEPE_IDLE, this.idleSpeed);
     }
+    // this.world.camera_x = -this.x;
+    this.world.camera_x = -this.x;
   }
 
   moveRight() {

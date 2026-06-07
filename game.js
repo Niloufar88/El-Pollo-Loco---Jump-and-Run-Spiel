@@ -2,6 +2,13 @@ const canvas = document.getElementById("myCanvas");
 let world;
 let keyboard = new Keyboard();
 
+function gameInit() {
+  world = new World(canvas, keyboard);
+  world.draw();
+}
+
+gameInit();
+
 document.addEventListener("keydown", (event) => {
   if (event.key === "ArrowLeft") keyboard.LEFT = true;
   if (event.key === "ArrowRight") keyboard.RIGHT = true;
@@ -17,10 +24,3 @@ document.addEventListener("keyup", (event) => {
   if (event.key === " ") keyboard.SPACE = false;
   if (event.key === "d") keyboard.THROW = false;
 });
-
-function gameInit() {
-  world = new World(canvas, keyboard);
-  world.draw();
-}
-
-gameInit();

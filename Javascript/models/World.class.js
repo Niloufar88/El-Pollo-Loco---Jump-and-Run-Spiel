@@ -18,6 +18,7 @@ class World {
   ctx;
   canvas;
   keyboard;
+  camera_x = 0;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -35,6 +36,10 @@ class World {
     //clearing the canvas before drawing the next frame
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+    //Camera
+    this.ctx.save();
+    this.ctx.translate(this.camera_x, 0);
+
     //Background Layers
     this.drawObjectsOnCanvas(this.backgroundObjects);
 
@@ -50,6 +55,9 @@ class World {
       enemy.update();
     });
     this.drawObjectsOnCanvas(this.enemies);
+
+    //camera reset
+    this.ctx.restore();
 
     let self = this;
     requestAnimationFrame(() => self.draw());
