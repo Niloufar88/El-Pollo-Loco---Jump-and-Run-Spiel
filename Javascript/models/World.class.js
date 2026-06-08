@@ -13,7 +13,7 @@ class World {
       "assets/img/5_background/layers/1_first_layer/full.png",
     ),
   ];
-  clouds = new Clouds();
+  clouds = [new Clouds(), new Clouds(), new Clouds()];
   img;
   ctx;
   canvas;
@@ -41,10 +41,10 @@ class World {
     this.ctx.translate(this.camera_x, 0);
 
     //Background Layers
-    this.drawObjectsOnCanvas(this.backgroundObjects);
+    this.drawInLoop(this.backgroundObjects);
 
     //Clouds
-    this.drawOnCanvas(this.clouds);
+    this.drawInLoop(this.clouds);
 
     //Character
     this.character.updateCharacter();
@@ -89,5 +89,19 @@ class World {
     this.ctx.scale(-1, 1);
     this.ctx.drawImage(object.img, 0, 0, object.width, object.height);
     this.ctx.restore();
+  }
+
+  drawInLoop(objects) {
+    objects.forEach((object) => {
+      for (let i = 0; i < 3; i++) {
+        this.ctx.drawImage(
+          object.img,
+          object.x + i * object.width,
+          object.y,
+          object.width,
+          object.height,
+        );
+      }
+    });
   }
 }
