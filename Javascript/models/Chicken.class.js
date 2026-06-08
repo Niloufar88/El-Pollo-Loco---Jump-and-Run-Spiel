@@ -29,6 +29,7 @@ class Chicken extends MovableObject {
 
     this.loadImage(this.CHICKEN_WALK[0]);
     this.loadImages(this.CHICKEN_WALK);
+    this.playAnimation(this.CHICKEN_WALK, this.AnimationSpeed);
   }
 
   update() {
@@ -40,17 +41,5 @@ class Chicken extends MovableObject {
 
   moveLeft() {
     this.x -= this.speedX;
-  }
-
-  playAnimation(images, speed) {
-    let now = Date.now();
-    let timeSinceLastFrame = now - this.lastFrameTime;
-
-    if (timeSinceLastFrame > speed) {
-      let index = this.currentImage % images.length;
-      this.img = this.imageCache[images[index]];
-      this.currentImage++;
-      this.lastFrameTime = now;
-    }
   }
 }

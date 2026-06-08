@@ -12,11 +12,11 @@ class World {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
-    this.setWorld();
+    this.setWorldForPepe();
     this.draw();
   }
 
-  setWorld() {
+  setWorldForPepe() {
     this.character.world = this;
   }
 
@@ -43,6 +43,10 @@ class World {
       enemy.update();
     });
     this.drawObjectsOnCanvas(this.level.enemies);
+
+    //Endboss
+    this.level.endboss.update();
+    this.drawOnCanvas(this.level.endboss);
 
     //camera reset
     this.ctx.restore();
