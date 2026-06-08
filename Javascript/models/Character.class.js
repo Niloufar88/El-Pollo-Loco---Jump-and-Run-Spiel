@@ -60,16 +60,22 @@ class Character extends MovableObject {
       this.playAnimation(this.PEPE_IDLE, this.idleSpeed);
     }
 
-    this.world.camera_x = -this.x;
+    // calculate the camera-x position based on the character's x position
+    if (this.x >= this.world.worldEndX - this.world.canvas.width + 100)
+      this.world.camera_x = -this.world.worldEndX + this.world.canvas.width;
+    else this.world.camera_x = -this.x + 100;
   }
 
   moveRight() {
+    if (this.x + this.width >= this.world.worldEndX) {
+      this.x = this.world.worldEndX - this.width;
+    }
     this.x += this.speedX;
     this.otherDirection = false;
   }
 
   moveLeft() {
-    if (this.x <= 0) this.x = 0;
+    if (this.x <= -100) this.x = -100;
     this.x -= this.speedX;
     this.otherDirection = true;
   }

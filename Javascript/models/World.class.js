@@ -1,13 +1,12 @@
 class World {
   character = new Character();
-  enemies = level1.enemies;
-  backgroundObjects = level1.backgroundObjects;
-  clouds = level1.clouds;
+  level = level1;
   img;
   ctx;
   canvas;
   keyboard;
   camera_x = 0;
+  worldEndX = this.level.level_end_x;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -30,20 +29,20 @@ class World {
     this.ctx.translate(this.camera_x, 0);
 
     //Background Layers
-    this.drawInLoop(this.backgroundObjects, 3);
+    this.drawInLoop(this.level.backgroundObjects, 3);
 
     //Clouds
-    this.drawInLoop(this.clouds, 3);
+    this.drawInLoop(this.level.clouds, 3);
 
     //Character
     this.character.updateCharacter();
     this.drawOnCanvas(this.character);
 
     //Chickens
-    this.enemies.forEach((enemy) => {
+    this.level.enemies.forEach((enemy) => {
       enemy.update();
     });
-    this.drawObjectsOnCanvas(this.enemies);
+    this.drawObjectsOnCanvas(this.level.enemies);
 
     //camera reset
     this.ctx.restore();
