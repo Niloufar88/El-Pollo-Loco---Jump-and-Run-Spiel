@@ -1,19 +1,8 @@
 class World {
   character = new Character();
-  enemies = [new Chicken(), new Chicken(), new Chicken()];
-  backgroundObjects = [
-    new BackgroundObjects("assets/img/5_background/layers/air.png"),
-    new BackgroundObjects(
-      "assets/img/5_background/layers/3_third_layer/full.png",
-    ),
-    new BackgroundObjects(
-      "assets/img/5_background/layers/2_second_layer/full.png",
-    ),
-    new BackgroundObjects(
-      "assets/img/5_background/layers/1_first_layer/full.png",
-    ),
-  ];
-  clouds = [new Clouds(), new Clouds(), new Clouds()];
+  enemies = level1.enemies;
+  backgroundObjects = level1.backgroundObjects;
+  clouds = level1.clouds;
   img;
   ctx;
   canvas;
@@ -41,10 +30,10 @@ class World {
     this.ctx.translate(this.camera_x, 0);
 
     //Background Layers
-    this.drawInLoop(this.backgroundObjects);
+    this.drawInLoop(this.backgroundObjects, 3);
 
     //Clouds
-    this.drawInLoop(this.clouds);
+    this.drawInLoop(this.clouds, 3);
 
     //Character
     this.character.updateCharacter();
@@ -91,9 +80,9 @@ class World {
     this.ctx.restore();
   }
 
-  drawInLoop(objects) {
+  drawInLoop(objects, count) {
     objects.forEach((object) => {
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < count; i++) {
         this.ctx.drawImage(
           object.img,
           object.x + i * object.width,

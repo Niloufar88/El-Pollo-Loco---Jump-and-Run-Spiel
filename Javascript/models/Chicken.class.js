@@ -3,7 +3,7 @@ class Chicken extends MovableObject {
     super();
 
     let isSmall = Math.random() < 0.5;
-    this.x = 400 + Math.random() * 200;
+    this.x = 400 + Math.random() * 2500;
     this.y = isSmall ? 365 : 345;
     this.width = isSmall ? 50 : 75;
     this.height = isSmall ? 50 : 75;
