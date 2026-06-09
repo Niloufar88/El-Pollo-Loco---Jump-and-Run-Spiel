@@ -10,7 +10,6 @@ class Character extends MovableObject {
 
     //speed
     this.speedX = 2;
-    this.speedY = 0;
 
     //Animation Speed
     this.walkSpeed = 100;
@@ -18,6 +17,11 @@ class Character extends MovableObject {
 
     //Animation
     this.lastAnimationType = null;
+
+    //jump
+    this.speedY = 0;
+    this.acceleration = 2.5;
+    this.ground = 170;
 
     //Image Array
     this.PEPE_IDLE = [
@@ -78,6 +82,19 @@ class Character extends MovableObject {
     if (this.x <= -100) this.x = -100;
     this.x -= this.speedX;
     this.otherDirection = true;
+  }
+
+  applyGravity() {
+    if (this.isAboveGround()) {
+      this.y += this.speedY;
+      this.speedY += this.acceleration;
+    }
+
+    if (this.y >= this.ground) this.y = this.ground;
+  }
+
+  isAboveGround() {
+    return this.y < this.ground;
   }
 
   playAnimation(images, speed) {
