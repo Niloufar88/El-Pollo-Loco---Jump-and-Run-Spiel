@@ -2,11 +2,17 @@ class Character extends MovableObject {
   world;
   constructor() {
     super();
-
+    //Position and Size
     this.x = 50;
     this.y = 170;
     this.width = 120;
     this.height = 250;
+
+    //Position and Size for Collision Box
+    this.collisionWidth = 80;
+    this.collisionHeight = 140;
+    this.offsetX = (this.width - this.collisionWidth) / 2;
+    this.offsetY = 100;
 
     //speed
     this.speedX = 3;
@@ -21,6 +27,12 @@ class Character extends MovableObject {
     this.gravity = 1.5;
     this.ground = 170;
     this.isJumping = false;
+
+    //Collision
+    this.health = 100;
+    this.isHurt = false;
+    this.isInvincible = false;
+    this.invincibilityDuration = 1500;
 
     //Image Array
     this.PEPE_IDLE = [
@@ -86,6 +98,10 @@ class Character extends MovableObject {
     }
 
     // calculate the camera-x position based on the character's x position
+    this.cameraPosition();
+  }
+
+  cameraPosition() {
     if (this.x >= this.world.worldEndX - this.world.canvas.width + 100)
       this.world.camera_x = -this.world.worldEndX + this.world.canvas.width;
     else this.world.camera_x = -this.x + 100;

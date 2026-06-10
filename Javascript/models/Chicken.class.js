@@ -2,6 +2,7 @@ class Chicken extends MovableObject {
   constructor() {
     super();
 
+    //Position and Size
     let isSmall = Math.random() < 0.5;
     this.x = 400 + Math.random() * 2500;
     this.y = isSmall ? 365 : 345;
@@ -10,6 +11,12 @@ class Chicken extends MovableObject {
     this.speedX = isSmall
       ? 0.3 + Math.random() * 0.15
       : 0.2 + Math.random() * 0.15;
+
+    //size of Collision Box
+    this.collisionWidth = isSmall ? 40 : 60;
+    this.collisionHeight = isSmall ? 40 : 60;
+    this.offsetX = (this.width - this.collisionWidth) / 2;
+    this.offsetY = (this.height - this.collisionHeight) / 2;
 
     //Animation
     this.AnimationSpeed = 100;

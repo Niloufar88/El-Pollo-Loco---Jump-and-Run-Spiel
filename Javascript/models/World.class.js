@@ -35,9 +35,9 @@ class World {
     this.drawInLoop(this.level.clouds, 3);
 
     //Character
-
     this.character.updateCharacter();
     this.drawOnCanvas(this.character);
+    this.checkCollisionsWithChickens();
 
     //Chickens
     this.level.enemies.forEach((enemy) => {
@@ -77,6 +77,7 @@ class World {
       );
     }
     this.drawCollisionBox(object);
+    this.drawCollisionBoxWithOffset(object);
   }
 
   //wenn Character andere Richtung schaut, wird das Bild gespiegelt
@@ -105,10 +106,32 @@ class World {
 
   // draw Kollionboxen für die Methode isColliding
   drawCollisionBox(object) {
-    this.ctx.beginPath();
     this.ctx.strokeStyle = "red";
     this.ctx.lineWidth = 2;
-    this.ctx.rect(object.x, object.y, object.width, object.height);
-    this.ctx.stroke();
+    this.ctx.strokeRect(object.x, object.y, object.width, object.height);
+  }
+
+  //draw CollisionBox with Offsets
+  drawCollisionBoxWithOffset(object) {
+    let boxX = object.x + (object.offsetX || 0);
+    let boxY = object.y + (object.offsetY || 0);
+
+    this.ctx.strokeStyle = "green";
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeRect(
+      boxX,
+      boxY,
+      object.collisionWidth,
+      object.collisionHeight,
+    );
+  }
+
+  checkCollisionsWithChickens() {
+    this.level.enemies.forEach((enemy) => {
+      if (this.character.isColliding(enemy)) {
+        this.character.health -= 10;
+        console.log("Character Health: " + this.character.health);
+      }
+    });
   }
 }

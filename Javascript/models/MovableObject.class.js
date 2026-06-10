@@ -53,4 +53,23 @@ class MovableObject {
       this.lastFrameTime = now;
     }
   }
+
+  isColliding(other) {
+    let thisLeft = this.x + (this.offsetX || 0);
+    let thisRight = thisLeft + (this.collisionWidth || this.width);
+    let thisTop = this.y + (this.offsetY || 0);
+    let thisBottom = thisTop + (this.collisionHeight || this.height);
+
+    let otherLeft = other.x + (other.offsetX || 0);
+    let otherRight = otherLeft + (other.collisionWidth || other.width);
+    let otherTop = other.y + (other.offsetY || 0);
+    let otherBottom = otherTop + (other.collisionHeight || other.height);
+
+    return (
+      thisLeft < otherRight &&
+      thisRight > otherLeft &&
+      thisBottom > otherTop &&
+      thisTop < otherBottom
+    );
+  }
 }
