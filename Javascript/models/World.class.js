@@ -56,12 +56,14 @@ class World {
     requestAnimationFrame(() => self.draw());
   }
 
+  //draw mehrere Objekte auf Canvas
   drawObjectsOnCanvas(objects) {
     objects.forEach((obj) => {
       this.drawOnCanvas(obj);
     });
   }
 
+  // draw einzelnes Objekt auf Canvas
   drawOnCanvas(object) {
     if (object.otherDirection) {
       this.flipImage(object);
@@ -74,8 +76,10 @@ class World {
         object.height,
       );
     }
+    this.drawCollisionBox(object);
   }
 
+  //wenn Character andere Richtung schaut, wird das Bild gespiegelt
   flipImage(object) {
     this.ctx.save();
     this.ctx.translate(object.x + object.width, object.y);
@@ -84,6 +88,7 @@ class World {
     this.ctx.restore();
   }
 
+  // um Background Layers und clouds mehrmals hintereinander zeichnen
   drawInLoop(objects, count) {
     objects.forEach((object) => {
       for (let i = 0; i < count; i++) {
@@ -96,5 +101,14 @@ class World {
         );
       }
     });
+  }
+
+  // draw Kollionboxen für die Methode isColliding
+  drawCollisionBox(object) {
+    this.ctx.beginPath();
+    this.ctx.strokeStyle = "red";
+    this.ctx.lineWidth = 2;
+    this.ctx.rect(object.x, object.y, object.width, object.height);
+    this.ctx.stroke();
   }
 }
