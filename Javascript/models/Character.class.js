@@ -9,19 +9,18 @@ class Character extends MovableObject {
     this.height = 250;
 
     //speed
-    this.speedX = 2;
+    this.speedX = 3;
 
     //Animation Speed
     this.walkSpeed = 100;
     this.idleSpeed = 150;
-
-    //Animation
-    this.lastAnimationType = null;
+    this.jumpSpeed = 60;
 
     //jump
     this.speedY = 0;
-    this.acceleration = 2.5;
+    this.gravity = 1.5;
     this.ground = 170;
+    this.isJumping = false;
 
     //Image Array
     this.PEPE_IDLE = [
@@ -46,19 +45,41 @@ class Character extends MovableObject {
       "assets/img/pepe-character/walk/W-26.png",
     ];
 
+    this.PEPE_JUMP = [
+      "assets/img/pepe-character/jump/J-31.png",
+      "assets/img/pepe-character/jump/J-32.png",
+      "assets/img/pepe-character/jump/J-33.png",
+      "assets/img/pepe-character/jump/J-34.png",
+      "assets/img/pepe-character/jump/J-35.png",
+      "assets/img/pepe-character/jump/J-36.png",
+      "assets/img/pepe-character/jump/J-37.png",
+      "assets/img/pepe-character/jump/J-38.png",
+      "assets/img/pepe-character/jump/J-39.png",
+    ];
+
     this.loadImage(this.PEPE_IDLE[0]);
     this.loadImages(this.PEPE_IDLE);
     this.loadImages(this.PEPE_WALK);
+    this.loadImages(this.PEPE_JUMP);
   }
 
   updateCharacter() {
-    if (this.world.keyboard.RIGHT) {
-      this.moveRight();
+    this.applyGravity();
 
+    if (
+      (this.world.keyboard.SPACE || this.world.keyboard.UP) &&
+      this.isOnGround()
+    ) {
+      this.jump();
+    }
+
+    if (this.isJumping) {
+      this.playAnimation(this.PEPE_JUMP, this.jumpSpeed); // Animation läuft bisschen schneller als beabsichtigt, muss später nochmal angepasst werden
+    } else if (this.world.keyboard.RIGHT) {
+      this.moveRight();
       this.playAnimation(this.PEPE_WALK, this.walkSpeed);
     } else if (this.world.keyboard.LEFT) {
       this.moveLeft();
-
       this.playAnimation(this.PEPE_WALK, this.walkSpeed);
     } else {
       this.playAnimation(this.PEPE_IDLE, this.idleSpeed);
@@ -85,31 +106,28 @@ class Character extends MovableObject {
   }
 
   applyGravity() {
-    if (this.isAboveGround()) {
-      this.y += this.speedY;
-      this.speedY += this.acceleration;
-    }
+    this.y += this.speedY;
+    this.speedY += this.gravity;
 
-    if (this.y >= this.ground) this.y = this.ground;
+    if (this.y >= this.ground) {
+      this.speedY = 0;
+      this.y = this.ground;
+      this.isJumping = false;
+    }
   }
 
   isAboveGround() {
     return this.y < this.ground;
   }
 
-  playAnimation(images, speed) {
-    if (this.lastAnimationType !== images) {
-      this.currentImage = 0;
-      this.lastAnimationType = images;
-    }
-    let now = Date.now();
-    let timeSinceLastFrame = now - this.lastFrameTime;
+  isOnGround() {
+    return this.y >= this.ground;
+  }
 
-    if (timeSinceLastFrame > speed) {
-      let index = this.currentImage % images.length;
-      this.img = this.imageCache[images[index]];
-      this.currentImage++;
-      this.lastFrameTime = now;
+  jump() {
+    if (this.isOnGround()) {
+      this.speedY = -25;
+      this.isJumping = true;
     }
   }
 }

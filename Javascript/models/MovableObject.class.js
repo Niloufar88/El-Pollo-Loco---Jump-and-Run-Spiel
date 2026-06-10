@@ -38,7 +38,7 @@ class MovableObject {
     }, 1000 / 60);
   }
 
-  playAnimation(images, speed, oneTime = false) {
+  playAnimation(images, speed) {
     if (this.lastAnimationType !== images) {
       this.currentImage = 0;
       this.lastAnimationType = images;
@@ -47,15 +47,9 @@ class MovableObject {
     let timeSinceLastFrame = now - this.lastFrameTime;
 
     if (timeSinceLastFrame >= speed) {
-      let index;
-      if (oneTime && this.currentImage >= images.length - 1) {
-        index = images.length - 1;
-      } else {
-        index = this.currentImage % images.length;
-        this.currentImage++;
-      }
-
+      let index = this.currentImage % images.length;
       this.img = this.imageCache[images[index]];
+      this.currentImage++;
       this.lastFrameTime = now;
     }
   }

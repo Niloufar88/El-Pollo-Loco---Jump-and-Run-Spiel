@@ -35,6 +35,7 @@ class World {
     this.drawInLoop(this.level.clouds, 3);
 
     //Character
+
     this.character.updateCharacter();
     this.drawOnCanvas(this.character);
 
