@@ -8,9 +8,6 @@ class Endboss extends MovableObject {
     this.width = 400;
     this.height = 400;
 
-    //Animation
-    this.lastAnimationType = null;
-
     //Animation Speed
     this.alertSpeed = 250;
     this.walkSpeed = 100;
@@ -35,22 +32,6 @@ class Endboss extends MovableObject {
   update() {
     if (!this.isDead) {
       this.playAnimation(this.BOSS_ALERT, this.alertSpeed);
-    }
-  }
-
-  playAnimation(images, speed) {
-    if (this.lastAnimationType !== images) {
-      this.currentImage = 0;
-      this.lastAnimationType = images;
-    }
-    let now = Date.now();
-    let timeSinceLastFrame = now - this.lastFrameTime;
-
-    if (timeSinceLastFrame > speed) {
-      let index = this.currentImage % images.length;
-      this.img = this.imageCache[images[index]];
-      this.currentImage++;
-      this.lastFrameTime = now;
     }
   }
 }
