@@ -1,5 +1,6 @@
 class World {
   character = new Character();
+  healthBarPepe = new StatusBar();
   level = level1;
   img;
   ctx;
@@ -54,6 +55,13 @@ class World {
 
     //camera reset
     this.ctx.restore();
+
+    //draw Statusbar
+    this.healthBarPepe.drawStatusBar(
+      this.ctx,
+      this.healthBarPepe.PEPE_HEALTH_BAR_IMAGES,
+      this.character.health,
+    );
 
     let self = this;
     requestAnimationFrame(() => self.draw());
