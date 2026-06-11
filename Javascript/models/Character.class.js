@@ -37,6 +37,9 @@ class Character extends MovableObject {
     this.lastHitTime = 0;
     this.invincibilityDuration = 1500;
 
+    //collectables
+    this.bottlesCollected = 0;
+
     //Image Array
     this.PEPE_IDLE = [
       "assets/img/pepe-character/idle/I-1.png",
@@ -202,28 +205,4 @@ class Character extends MovableObject {
       this.isInvincible = false;
     }, this.invincibilityDuration);
   }
-
-  // jumpAnimation(images, speed, oneTime = true) {
-  //   if (this.lastAnimationType !== images) {
-  //     this.currentImage = 0;
-  //     this.lastAnimationType = images;
-  //   }
-
-  //   let currentTime = Date.now();
-  //   let timeSinceLastFrame = currentTime - this.lastFrameTime;
-
-  //   if (timeSinceLastFrame >= speed) {
-  //     let index;
-
-  //     // Für Jump: Stoppe bei letztem Bild
-  //     if (oneTime && this.currentImage >= images.length - 1) {
-  //       index = images.length - 1; // Bleib beim letzten Bild
-  //     } else {
-  //       index = this.currentImage % images.length;
-  //       this.currentImage++;
-  //     }
-  //     this.img = this.imageCache[images[index]];
-  //     this.lastFrameTime = currentTime;
-  //   }
-  // }
 }

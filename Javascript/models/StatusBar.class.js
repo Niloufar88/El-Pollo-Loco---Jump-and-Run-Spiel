@@ -1,4 +1,7 @@
 class StatusBar extends DrawableObjects {
+  barWidth = 200;
+  barHeight = 50;
+
   constructor() {
     super();
 
@@ -34,10 +37,8 @@ class StatusBar extends DrawableObjects {
     //Position and size of the Statusbar
     let barX = 10;
     let barY = 10;
-    let barWidth = 200;
-    let barHeight = 50;
 
     // draw the status bar
-    ctx.drawImage(barImg, barX, barY, barWidth, barHeight);
+    ctx.drawImage(barImg, barX, barY, this.barWidth, this.barHeight);
   }
 }

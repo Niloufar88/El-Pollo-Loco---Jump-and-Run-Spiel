@@ -44,9 +44,16 @@ class World {
     this.jumpOnChickens();
     this.level.enemies.forEach((enemy) => {
       enemy.update();
-    });
-    this.level.enemies.forEach((enemy) => {
       enemy.drawOnCanvas(this.ctx, enemy);
+    });
+
+    //Bottles
+    this.checkCollisionBottles();
+    this.level.bottles.forEach((bottle) => {
+      bottle.updateBottle();
+      if (!bottle.isCollected) {
+        bottle.drawOnCanvas(this.ctx, bottle);
+      }
     });
 
     //Endboss
@@ -108,6 +115,15 @@ class World {
         } else {
           this.character.hit();
         }
+      }
+    });
+  }
+
+  checkCollisionBottles() {
+    this.level.bottles.forEach((bottle) => {
+      if (!bottle.isCollected && this.character.isColliding(bottle)) {
+        bottle.collected();
+        this.character.bottlesCollected++;
       }
     });
   }
