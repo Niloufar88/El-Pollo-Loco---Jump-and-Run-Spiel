@@ -1,13 +1,10 @@
-class MovableObject {
+class MovableObject extends DrawableObject {
   x = 100;
   y = 100;
   width = 80;
   height = 100;
   speedX = 0.15;
   img;
-
-  //Image Cache
-  imageCache = {};
 
   //Animation
   lastAnimationType = null;
@@ -17,20 +14,6 @@ class MovableObject {
   //states
   isDead = false;
   otherDirection = false;
-
-  loadImage(path) {
-    this.img = new Image();
-    this.img.src = path;
-  }
-
-  loadImages(images) {
-    images.forEach((path) => {
-      let img = new Image();
-      img.onload = () => {};
-      img.src = path;
-      this.imageCache[path] = img;
-    });
-  }
 
   moveLeft() {
     setInterval(() => {
@@ -52,25 +35,6 @@ class MovableObject {
       this.currentImage++;
       this.lastFrameTime = now;
     }
-  }
-
-  isColliding(other) {
-    let thisLeft = this.x + (this.offsetX || 0);
-    let thisRight = thisLeft + (this.collisionWidth || this.width);
-    let thisTop = this.y + (this.offsetY || 0);
-    let thisBottom = thisTop + (this.collisionHeight || this.height);
-
-    let otherLeft = other.x + (other.offsetX || 0);
-    let otherRight = otherLeft + (other.collisionWidth || other.width);
-    let otherTop = other.y + (other.offsetY || 0);
-    let otherBottom = otherTop + (other.collisionHeight || other.height);
-
-    return (
-      thisLeft < otherRight &&
-      thisRight > otherLeft &&
-      thisBottom > otherTop &&
-      thisTop < otherBottom
-    );
   }
 
   die() {
