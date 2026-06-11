@@ -1,10 +1,5 @@
-class MovableObject extends DrawableObject {
-  x = 100;
-  y = 100;
-  width = 80;
-  height = 100;
+class MovableObject extends DrawableObjects {
   speedX = 0.15;
-  img;
 
   //Animation
   lastAnimationType = null;

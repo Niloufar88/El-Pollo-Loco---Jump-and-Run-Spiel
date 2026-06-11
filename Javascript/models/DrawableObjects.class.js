@@ -4,11 +4,10 @@ class DrawableObjects {
   y;
   width;
   height;
+  img;
 
   //Image Cache
   imageCache = {};
-
-  constructor() {}
 
   //a Method to load a single image into the imageCache and set it as the current image
   loadImage(path) {
@@ -27,26 +26,54 @@ class DrawableObjects {
     });
   }
 
+  //draw mehrere Objekte auf Canvas
+  drawObjectsOnCanvas(objects) {
+    objects.forEach((obj) => {
+      this.drawOnCanvas(this.ctx, obj);
+    });
+  }
+
+  // draw einzelnes Objekt auf Canvas
+  drawOnCanvas(ctx, object) {
+    if (object.otherDirection) {
+      this.flipImage(ctx, object);
+    } else {
+      ctx.drawImage(
+        object.img,
+        object.x,
+        object.y,
+        object.width,
+        object.height,
+      );
+    }
+    this.drawCollisionBox(ctx, object);
+    this.drawCollisionBoxWithOffset(ctx, object);
+  }
+
+  //wenn Character andere Richtung schaut, wird das Bild gespiegelt
+  flipImage(ctx, object) {
+    ctx.save();
+    ctx.translate(object.x + object.width, object.y);
+    ctx.scale(-1, 1);
+    ctx.drawImage(object.img, 0, 0, object.width, object.height);
+    ctx.restore();
+  }
+
   // draw a border for an Object on canvas based on real Postion and size
-  drawCollisionBox(object) {
-    this.ctx.strokeStyle = "red";
-    this.ctx.lineWidth = 2;
-    this.ctx.strokeRect(object.x, object.y, object.width, object.height);
+  drawCollisionBox(ctx, object) {
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(object.x, object.y, object.width, object.height);
   }
 
   //draw a border for an Object on canvas based on Collision Box Position and size
-  drawCollisionBoxWithOffset(object) {
+  drawCollisionBoxWithOffset(ctx, object) {
     let boxX = object.x + (object.offsetX || 0);
     let boxY = object.y + (object.offsetY || 0);
 
-    this.ctx.strokeStyle = "green";
-    this.ctx.lineWidth = 2;
-    this.ctx.strokeRect(
-      boxX,
-      boxY,
-      object.collisionWidth,
-      object.collisionHeight,
-    );
+    ctx.strokeStyle = "green";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(boxX, boxY, object.collisionWidth, object.collisionHeight);
   }
 
   //the Method to check if two objects are colliding

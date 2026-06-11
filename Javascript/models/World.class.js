@@ -36,7 +36,7 @@ class World {
 
     //Character
     this.character.updateCharacter();
-    this.drawOnCanvas(this.character);
+    this.character.drawOnCanvas(this.ctx, this.character);
     this.checkCollisionsWithChickens();
 
     //Chickens
@@ -44,50 +44,19 @@ class World {
     this.level.enemies.forEach((enemy) => {
       enemy.update();
     });
-    this.drawObjectsOnCanvas(this.level.enemies);
+    this.level.enemies.forEach((enemy) => {
+      enemy.drawOnCanvas(this.ctx, enemy);
+    });
 
     //Endboss
     this.level.endboss.update();
-    this.drawOnCanvas(this.level.endboss);
+    this.level.endboss.drawOnCanvas(this.ctx, this.level.endboss);
 
     //camera reset
     this.ctx.restore();
 
     let self = this;
     requestAnimationFrame(() => self.draw());
-  }
-
-  //draw mehrere Objekte auf Canvas
-  drawObjectsOnCanvas(objects) {
-    objects.forEach((obj) => {
-      this.drawOnCanvas(obj);
-    });
-  }
-
-  // draw einzelnes Objekt auf Canvas
-  drawOnCanvas(object) {
-    if (object.otherDirection) {
-      this.flipImage(object);
-    } else {
-      this.ctx.drawImage(
-        object.img,
-        object.x,
-        object.y,
-        object.width,
-        object.height,
-      );
-    }
-    this.drawCollisionBox(object);
-    this.drawCollisionBoxWithOffset(object);
-  }
-
-  //wenn Character andere Richtung schaut, wird das Bild gespiegelt
-  flipImage(object) {
-    this.ctx.save();
-    this.ctx.translate(object.x + object.width, object.y);
-    this.ctx.scale(-1, 1);
-    this.ctx.drawImage(object.img, 0, 0, object.width, object.height);
-    this.ctx.restore();
   }
 
   // um Background Layers und clouds mehrmals hintereinander zeichnen
@@ -128,10 +97,8 @@ class World {
       if (this.character.isColliding(enemy)) {
         if (pepeFeet < chickenMiddle) {
           enemy.die();
-          console.log(`${enemy} is dead.`);
         } else {
           this.character.hit();
-          console.log(`${this.character} is dead.`);
         }
       }
     });
