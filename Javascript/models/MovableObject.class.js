@@ -72,4 +72,8 @@ class MovableObject {
       thisTop < otherBottom
     );
   }
+
+  die() {
+    this.isDead = true;
+  }
 }

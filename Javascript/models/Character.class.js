@@ -21,10 +21,12 @@ class Character extends MovableObject {
     this.walkSpeed = 100;
     this.idleSpeed = 150;
     this.jumpSpeed = 60;
+    this.deathSpeed = 100;
+    this.hurtSpeed = 100;
 
     //jump
     this.speedY = 0;
-    this.gravity = 1.5;
+    this.gravity = 1;
     this.ground = 170;
     this.isJumping = false;
 
@@ -32,6 +34,7 @@ class Character extends MovableObject {
     this.health = 100;
     this.isHurt = false;
     this.isInvincible = false;
+    this.lastHitTime = 0;
     this.invincibilityDuration = 1500;
 
     //Image Array
@@ -69,14 +72,37 @@ class Character extends MovableObject {
       "assets/img/pepe-character/jump/J-39.png",
     ];
 
+    this.PEPE_DEAD = [
+      "assets/img/pepe-character/dead/D-51.png",
+      "assets/img/pepe-character/dead/D-52.png",
+      "assets/img/pepe-character/dead/D-53.png",
+      "assets/img/pepe-character/dead/D-54.png",
+      "assets/img/pepe-character/dead/D-55.png",
+      "assets/img/pepe-character/dead/D-56.png",
+      "assets/img/pepe-character/dead/D-57.png",
+    ];
+
+    this.PEPE_HURT = [
+      "assets/img/pepe-character/hurt/H-41.png",
+      "assets/img/pepe-character/hurt/H-42.png",
+    ];
+
     this.loadImage(this.PEPE_IDLE[0]);
     this.loadImages(this.PEPE_IDLE);
     this.loadImages(this.PEPE_WALK);
     this.loadImages(this.PEPE_JUMP);
+    this.loadImages(this.PEPE_DEAD);
+    this.loadImages(this.PEPE_HURT);
   }
 
   updateCharacter() {
     this.applyGravity();
+
+    // check if Pepe is dead
+    if (this.isDead) {
+      this.playAnimation(this.PEPE_DEAD, this.deathSpeed);
+      return;
+    }
 
     if (
       (this.world.keyboard.SPACE || this.world.keyboard.UP) &&
@@ -85,8 +111,17 @@ class Character extends MovableObject {
       this.jump();
     }
 
+    // if Pepe is hurt
+    if (this.isHurt) {
+      this.playAnimation(this.PEPE_HURT, this.hurtSpeed);
+    }
+
+    //Jump
     if (this.isJumping) {
-      this.playAnimation(this.PEPE_JUMP, this.jumpSpeed); // Animation läuft bisschen schneller als beabsichtigt, muss später nochmal angepasst werden
+      if (!this.isHurt) {
+        // this.jumpAnimation(this.PEPE_JUMP, this.jumpSpeed, true);
+        this.playAnimation(this.PEPE_JUMP, this.jumpSpeed); // Animation läuft bisschen schneller als beabsichtigt, muss später nochmal angepasst werden
+      }
     } else if (this.world.keyboard.RIGHT) {
       this.moveRight();
       this.playAnimation(this.PEPE_WALK, this.walkSpeed);
@@ -142,8 +177,53 @@ class Character extends MovableObject {
 
   jump() {
     if (this.isOnGround()) {
-      this.speedY = -25;
+      this.speedY = -20;
       this.isJumping = true;
     }
   }
+
+  hit() {
+    if (this.isInvincible) return;
+    this.health -= 10;
+    this.lastHitTime = Date.now();
+    this.isInvincible = true;
+    this.isHurt = true;
+
+    if (this.health < 0) {
+      this.health = 0;
+      this.isDead = true;
+    }
+
+    setTimeout(() => {
+      this.isHurt = false;
+    }, 500);
+
+    setTimeout(() => {
+      this.isInvincible = false;
+    }, this.invincibilityDuration);
+  }
+
+  // jumpAnimation(images, speed, oneTime = true) {
+  //   if (this.lastAnimationType !== images) {
+  //     this.currentImage = 0;
+  //     this.lastAnimationType = images;
+  //   }
+
+  //   let currentTime = Date.now();
+  //   let timeSinceLastFrame = currentTime - this.lastFrameTime;
+
+  //   if (timeSinceLastFrame >= speed) {
+  //     let index;
+
+  //     // Für Jump: Stoppe bei letztem Bild
+  //     if (oneTime && this.currentImage >= images.length - 1) {
+  //       index = images.length - 1; // Bleib beim letzten Bild
+  //     } else {
+  //       index = this.currentImage % images.length;
+  //       this.currentImage++;
+  //     }
+  //     this.img = this.imageCache[images[index]];
+  //     this.lastFrameTime = currentTime;
+  //   }
+  // }
 }

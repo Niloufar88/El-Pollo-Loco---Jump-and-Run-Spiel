@@ -40,6 +40,7 @@ class World {
     this.checkCollisionsWithChickens();
 
     //Chickens
+    this.jumpOnChickens();
     this.level.enemies.forEach((enemy) => {
       enemy.update();
     });
@@ -129,8 +130,31 @@ class World {
   checkCollisionsWithChickens() {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
-        this.character.health -= 10;
-        console.log("Character Health: " + this.character.health);
+        if (!this.character.isInvincible) {
+          this.character.health -= 10;
+          this.character.hit();
+        }
+      }
+    });
+  }
+
+  jumpOnChickens() {
+    this.level.enemies.forEach((enemy) => {
+      let pepeFeet =
+        this.character.y +
+        this.character.offsetY +
+        (this.character.collisionHeight || this.character.height);
+      let chickenMiddle =
+        (enemy.y + enemy.offsetY + (enemy.collisionHeight || enemy.height)) / 2;
+
+      if (this.character.isColliding(enemy)) {
+        if (pepeFeet < chickenMiddle) {
+          enemy.die();
+          console.log(`${enemy} is dead.`);
+        } else {
+          this.character.hit();
+          console.log(`${this.character} is dead.`);
+        }
       }
     });
   }

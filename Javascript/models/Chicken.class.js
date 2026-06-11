@@ -49,4 +49,14 @@ class Chicken extends MovableObject {
   moveLeft() {
     this.x -= this.speedX;
   }
+
+  die() {
+    if (this.isDead) return;
+
+    die.super();
+
+    setTimeout(() => {
+      this.remove = true;
+    }, 500);
+  }
 }
