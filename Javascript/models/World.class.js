@@ -1,6 +1,7 @@
 class World {
   character = new Character();
   healthBarPepe = new StatusBar();
+  bottleBar = new StatusBar();
   level = level1;
   img;
   ctx;
@@ -63,11 +64,20 @@ class World {
     //camera reset
     this.ctx.restore();
 
-    //draw Statusbar
+    //======== draw Statusbars ========
+    //pepe health bar
     this.healthBarPepe.drawStatusBar(
       this.ctx,
       this.healthBarPepe.PEPE_HEALTH_BAR_IMAGES,
       this.character.health,
+    );
+
+    //collected bottles bar
+    this.bottleBar.drawCollectableBar(
+      this.ctx,
+      this.bottleBar.BOTTLES_BAR_IMAGES,
+      this.level.bottles.length,
+      this.character.bottlesCollected,
     );
 
     let self = this;
