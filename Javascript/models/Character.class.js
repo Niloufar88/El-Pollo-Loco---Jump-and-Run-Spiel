@@ -121,12 +121,7 @@ class Character extends MovableObject {
     }
 
     //Jump
-    if (this.isJumping) {
-      if (!this.isHurt) {
-        // this.jumpAnimation(this.PEPE_JUMP, this.jumpSpeed, true);
-        this.playAnimation(this.PEPE_JUMP, this.jumpSpeed); // Animation läuft bisschen schneller als beabsichtigt, muss später nochmal angepasst werden
-      }
-    } else if (this.world.keyboard.RIGHT) {
+    if (this.world.keyboard.RIGHT) {
       this.moveRight();
       this.playAnimation(this.PEPE_WALK, this.walkSpeed);
     } else if (this.world.keyboard.LEFT) {
@@ -134,6 +129,13 @@ class Character extends MovableObject {
       this.playAnimation(this.PEPE_WALK, this.walkSpeed);
     } else {
       this.playAnimation(this.PEPE_IDLE, this.idleSpeed);
+    }
+
+    if (this.isJumping) {
+      if (!this.isHurt) {
+        // this.jumpAnimation(this.PEPE_JUMP, this.jumpSpeed, true);
+        this.playAnimation(this.PEPE_JUMP, this.jumpSpeed); // Animation läuft bisschen schneller als beabsichtigt, muss später nochmal angepasst werden
+      }
     }
 
     // calculate the camera-x position based on the character's x position
