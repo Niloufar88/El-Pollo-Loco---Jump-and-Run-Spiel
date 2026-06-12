@@ -2,6 +2,7 @@ class World {
   character = new Character();
   healthBarPepe = new StatusBar();
   bottleBar = new StatusBar();
+  coinBar = new StatusBar();
   level = level1;
   img;
   ctx;
@@ -30,18 +31,19 @@ class World {
     this.ctx.save();
     this.ctx.translate(this.camera_x, 0);
 
-    //Background Layers
+    //draw Background Layers on canvas
     this.drawInLoop(this.level.backgroundObjects, 3);
 
-    //Clouds
+    //draw Clouds on canvas
     this.drawInLoop(this.level.clouds, 3);
 
     //Character
-    this.checkCollisionsWithChickens();
+
     this.character.updateCharacter();
     this.character.drawOnCanvas(this.ctx, this.character);
 
     //Chickens
+    this.checkCollisionsWithChickens();
     this.level.enemies.forEach((enemy) => {
       enemy.update();
       enemy.drawOnCanvas(this.ctx, enemy);
@@ -70,19 +72,15 @@ class World {
 
     //======== draw Statusbars ========
     //pepe health bar
-    this.healthBarPepe.drawStatusBar(
-      this.ctx,
-      this.healthBarPepe.PEPE_HEALTH_BAR_IMAGES,
-      this.character.health,
-    );
+    this.drawPepeHealthBarOnCanvas();
 
     //collected bottles bar
-    this.bottleBar.drawCollectableBar(
-      this.ctx,
-      this.bottleBar.BOTTLES_BAR_IMAGES,
-      this.level.bottles.length,
-      this.character.bottlesCollected,
-    );
+    this.drawBottleBarOnCanvas();
+
+    //collected Coins Bar
+    this.drawCoinBarOnCanvas();
+
+    //=================================
 
     let self = this;
     requestAnimationFrame(() => self.draw());
@@ -139,5 +137,34 @@ class World {
         this.character.coinsCollected++;
       }
     });
+  }
+
+  drawCoinBarOnCanvas() {
+    this.coinBar.drawCollectableBar(
+      this.ctx,
+      this.coinBar.COINS_BAR_IMAGES,
+      this.level.coins.length,
+      this.character.coinsCollected,
+      110,
+    );
+  }
+
+  drawBottleBarOnCanvas() {
+    this.bottleBar.drawCollectableBar(
+      this.ctx,
+      this.bottleBar.BOTTLES_BAR_IMAGES,
+      this.level.bottles.length,
+      this.character.bottlesCollected,
+      60,
+    );
+  }
+
+  drawPepeHealthBarOnCanvas() {
+    this.healthBarPepe.drawStatusBar(
+      this.ctx,
+      this.healthBarPepe.PEPE_HEALTH_BAR_IMAGES,
+      this.character.health,
+      10,
+    );
   }
 }
