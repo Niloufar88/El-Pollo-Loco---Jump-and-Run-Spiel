@@ -165,8 +165,8 @@ class Character extends MovableObject {
     this.speedY += this.gravity;
 
     if (this.y >= this.ground) {
-      this.speedY = 0;
       this.y = this.ground;
+      this.speedY = 0;
       this.isJumping = false;
     }
   }
@@ -195,15 +195,15 @@ class Character extends MovableObject {
 
     if (this.health < 0) {
       this.health = 0;
-      this.isDead = true;
+      this.die();
+    } else {
+      setTimeout(() => {
+        this.isHurt = false;
+      }, 500);
+
+      setTimeout(() => {
+        this.isInvincible = false;
+      }, this.invincibilityDuration);
     }
-
-    setTimeout(() => {
-      this.isHurt = false;
-    }, 500);
-
-    setTimeout(() => {
-      this.isInvincible = false;
-    }, this.invincibilityDuration);
   }
 }

@@ -20,6 +20,7 @@ class Chicken extends MovableObject {
 
     //Animation
     this.AnimationSpeed = 100;
+    this.deadSpeed = 100;
 
     //Image Array
     this.CHICKEN_WALK = isSmall
@@ -34,12 +35,17 @@ class Chicken extends MovableObject {
           "assets/img/enemies/chicken normal walk/3_w.png",
         ];
 
+    this.CHICKEN_DEAD = isSmall
+      ? "assets/img/enemies/chicken small dead/dead.png"
+      : "assets/img/enemies/chicken normal dead/dead0.png";
+
     this.loadImage(this.CHICKEN_WALK[0]);
     this.loadImages(this.CHICKEN_WALK);
-    this.playAnimation(this.CHICKEN_WALK, this.AnimationSpeed);
+    this.loadImages([this.CHICKEN_DEAD]);
   }
 
   update() {
+    if (this.isDead) this.playAnimation([this.CHICKEN_DEAD], this.deadSpeed);
     if (!this.isDead) {
       this.moveLeft();
       this.playAnimation(this.CHICKEN_WALK, this.AnimationSpeed);
@@ -53,7 +59,8 @@ class Chicken extends MovableObject {
   die() {
     if (this.isDead) return;
 
-    die.super();
+    super.die();
+    this.speedX = 0;
 
     setTimeout(() => {
       this.remove = true;

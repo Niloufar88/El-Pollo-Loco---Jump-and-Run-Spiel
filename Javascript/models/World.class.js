@@ -107,12 +107,12 @@ class World {
       let pepeFeet =
         this.character.y +
         this.character.offsetY +
-        (this.character.collisionHeight || this.character.height);
-      let chickenMiddle =
-        (enemy.y + enemy.offsetY + (enemy.collisionHeight || enemy.height)) / 2;
+        this.character.collisionHeight;
+      let chickenMiddle = enemy.y + enemy.offsetY + enemy.collisionHeight / 2;
 
-      if (!enemy.isDead && this.character.isColliding(enemy)) {
-        if (pepeFeet < chickenMiddle) {
+      if (this.character.isColliding(enemy)) {
+        //collision is acceptable just when pepe jump on the chickens, so from the top
+        if (pepeFeet < chickenMiddle && this.character.speedY > 0) {
           enemy.die();
         } else if (!this.character.isInvincible) {
           this.character.hit();

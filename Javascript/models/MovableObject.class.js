@@ -4,6 +4,7 @@ class MovableObject extends DrawableObjects {
   //states
   isDead = false;
   otherDirection = false;
+  health;
 
   moveLeft() {
     setInterval(() => {
