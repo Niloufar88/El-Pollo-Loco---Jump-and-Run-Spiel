@@ -15,8 +15,10 @@ const level1 = new Level(
   ],
   new Endboss("assets/img/4_enemie_boss/1_alert/1.png"),
   [],
+  [],
 );
 
 level1.generatingEnemies(15);
 level1.generatingClouds(3);
 level1.generateBottles(9);
+level1.generateRandomCoins();

@@ -33,8 +33,4 @@ class Bottle extends CollectableObjects {
   updateBottle() {
     this.playAnimation(this.BOTTLE_IMAGES, this.rotationSpeed);
   }
-
-  collected() {
-    this.isCollected = true;
-  }
 }

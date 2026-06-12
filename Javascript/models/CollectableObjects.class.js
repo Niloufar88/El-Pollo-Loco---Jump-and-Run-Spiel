@@ -5,4 +5,8 @@ class CollectableObjects extends DrawableObjects {
   constructor() {
     super();
   }
+
+  collected() {
+    this.isCollected = true;
+  }
 }

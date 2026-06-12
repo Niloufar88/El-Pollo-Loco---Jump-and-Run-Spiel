@@ -39,6 +39,7 @@ class Character extends MovableObject {
 
     //collectables
     this.bottlesCollected = 0;
+    this.coinsCollected = 0;
 
     //Image Array
     this.PEPE_IDLE = [

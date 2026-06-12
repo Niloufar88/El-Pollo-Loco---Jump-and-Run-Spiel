@@ -37,12 +37,11 @@ class World {
     this.drawInLoop(this.level.clouds, 3);
 
     //Character
+    this.checkCollisionsWithChickens();
     this.character.updateCharacter();
     this.character.drawOnCanvas(this.ctx, this.character);
-    this.checkCollisionsWithChickens();
 
     //Chickens
-    this.jumpOnChickens();
     this.level.enemies.forEach((enemy) => {
       enemy.update();
       enemy.drawOnCanvas(this.ctx, enemy);
@@ -52,9 +51,14 @@ class World {
     this.checkCollisionBottles();
     this.level.bottles.forEach((bottle) => {
       bottle.updateBottle();
-      if (!bottle.isCollected) {
-        bottle.drawOnCanvas(this.ctx, bottle);
-      }
+      if (!bottle.isCollected) bottle.drawOnCanvas(this.ctx, bottle);
+    });
+
+    //Coins
+    this.checkCollisionsCoins();
+    this.level.coins.forEach((coin) => {
+      coin.updateCoins();
+      if (!coin.isCollected) coin.drawOnCanvas(this.ctx, coin);
     });
 
     //Endboss
@@ -82,6 +86,7 @@ class World {
 
     let self = this;
     requestAnimationFrame(() => self.draw());
+    this.level.enemies = this.level.enemies.filter((enemy) => !enemy.remove);
   }
 
   // um Background Layers und clouds mehrmals hintereinander zeichnen
@@ -101,17 +106,6 @@ class World {
 
   checkCollisionsWithChickens() {
     this.level.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy)) {
-        if (!this.character.isInvincible) {
-          this.character.health -= 10;
-          this.character.hit();
-        }
-      }
-    });
-  }
-
-  jumpOnChickens() {
-    this.level.enemies.forEach((enemy) => {
       let pepeFeet =
         this.character.y +
         this.character.offsetY +
@@ -119,10 +113,10 @@ class World {
       let chickenMiddle =
         (enemy.y + enemy.offsetY + (enemy.collisionHeight || enemy.height)) / 2;
 
-      if (this.character.isColliding(enemy)) {
+      if (!enemy.isDead && this.character.isColliding(enemy)) {
         if (pepeFeet < chickenMiddle) {
           enemy.die();
-        } else {
+        } else if (!this.character.isInvincible) {
           this.character.hit();
         }
       }
@@ -134,6 +128,15 @@ class World {
       if (!bottle.isCollected && this.character.isColliding(bottle)) {
         bottle.collected();
         this.character.bottlesCollected++;
+      }
+    });
+  }
+
+  checkCollisionsCoins() {
+    this.level.coins.forEach((coin) => {
+      if (!coin.isCollected && this.character.isColliding(coin)) {
+        coin.collected();
+        this.character.coinsCollected++;
       }
     });
   }
