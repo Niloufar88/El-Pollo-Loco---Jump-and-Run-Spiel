@@ -1,3 +1,111 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "Luckiest Guy", cursive;
+  src: url(assets//Fonts/Luckiest_Guy/LuckiestGuy-Regular.ttf)
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  height: 100vh;
+  font-family: "Luckiest Guy", cursive;
+}
+
+h1 {
+  text-transform: uppercase;
+  font-size: 48px;
+}
+
+#startScreen {
+  background-image: url("assets//img//9_intro_outro_screens/start/startscreen_1.png");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  width: 720px;
+  height: 480px;
+}
+
+.btns {
+  position: absolute;
+  width: 100%;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 0 50px;
+}
+
+#gameBtns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+#gameBtns button {
+  cursor: pointer;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 5px;
+  color: #ffc300;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+#gameBtns button:nth-child(1) {
+  background-color: #c40c0c;
+}
+
+#gameBtns button:nth-child(2) {
+  background-color: #480505;
+}
+
+#gameBtns button:nth-child(3) {
+  background-color: #911919;
+}
+
+#gameBtns button:nth-child(4) {
+  background-color: #6d0404;
+}
+
+#configBtns {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+#configBtns button {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  /* background-color: #ffc300; */
+  background-color: white;
+  font-size: 16px;
+  padding: 6px;
+  border-radius: 50%;
+  display: block;
+  text-align: center;
+}
+
 #myCanvas {
+  display: none;
   background-color: #000000;
 }

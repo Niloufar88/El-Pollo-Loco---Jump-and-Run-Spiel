@@ -65,7 +65,7 @@ class StatusBar extends DrawableObjects {
 
     //Position and size of the Statusbar
 
-    let barY = 10;
+    let barY = 0;
 
     // draw the status bar
     ctx.drawImage(barImg, barX, barY, this.barWidth, this.barHeight);

@@ -145,7 +145,7 @@ class World {
       this.coinBar.COINS_BAR_IMAGES,
       this.level.coins.length,
       this.character.coinsCollected,
-      110,
+      100,
     );
   }
 
@@ -155,7 +155,7 @@ class World {
       this.bottleBar.BOTTLES_BAR_IMAGES,
       this.level.bottles.length,
       this.character.bottlesCollected,
-      60,
+      50,
     );
   }
 

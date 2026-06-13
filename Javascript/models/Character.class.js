@@ -111,14 +111,11 @@ class Character extends MovableObject {
     if (
       (this.world.keyboard.SPACE || this.world.keyboard.UP) &&
       this.isOnGround()
-    ) {
+    )
       this.jump();
-    }
 
     // if Pepe is hurt
-    if (this.isHurt) {
-      this.playAnimation(this.PEPE_HURT, this.hurtSpeed);
-    }
+    if (this.isHurt) this.playAnimation(this.PEPE_HURT, this.hurtSpeed);
 
     //Jump
     if (this.world.keyboard.RIGHT) {

@@ -8,6 +8,12 @@
     <!-- CSS -->
     <link rel="stylesheet" href="style.css" />
 
+    <!-- FONT AWESOME -->
+    <script
+      src="https://kit.fontawesome.com/34f17cdf39.js"
+      crossorigin="anonymous"
+    ></script>
+
     <!-- FAVICON-->
 
     <link
@@ -30,10 +36,49 @@
     <link rel="manifest" href="assets/favicon_io (1)/site.webmanifest" />
   </head>
   <body>
-    <!-- CANVAS -->
-    <canvas id="myCanvas" width="720" height="480"></canvas>
+    <!-- TITLE -->
+    <h1>el pollo loco</h1>
 
-    <!-- JS -->
+    <!-- START SCREEN -->
+    <div id="startScreen">
+      <div class="btns">
+        <!-- GAME BUTTONS -->
+        <div id="gameBtns">
+          <!-- START GAME BUTTON -->
+          <button id="startGame">Start Game</button>
+
+          <!-- CONTROLS -->
+          <button id="controls">Controls</button>
+
+          <!-- IMPRESSUM -->
+          <button id="credits">Impressum</button>
+
+          <!-- HOW TO PLAY -->
+          <button id="howToPlay">How to Play</button>
+        </div>
+
+        <!-- CONFIG BUTTONS -->
+        <div id="configBtns">
+          <!-- UNMUTE BUTTON -->
+          <button id="unmute" aria-label="unmute-button">
+            <i class="fa-solid fa-volume-high"></i>
+          </button>
+          <!-- MUTE BUTTON -->
+          <button id="mute" aria-label="mute-button">
+            <i class="fa-solid fa-volume-xmark"></i>
+          </button>
+          <!-- FULLSCREEN BUTTON -->
+          <button id="fullScreen" aria-label="fullscreen-button">
+            <i class="fa-solid fa-expand"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CANVAS -->
+    <canvas id="myCanvas" width="720" height="480"> </canvas>
+
+    <!-- JS SCRIPTS -->
     <script src="./Javascript/models/DrawableObjects.class.js"></script>
     <script src="./Javascript/models/MovableObject.class.js"></script>
     <script src="./Javascript/models/Character.class.js"></script>
