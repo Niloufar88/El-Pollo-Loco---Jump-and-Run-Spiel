@@ -7,48 +7,77 @@
 }
 
 @font-face {
-  font-family: "Luckiest Guy", cursive;
+  font-family: "Luckiest Guy";
   src: url(assets//Fonts/Luckiest_Guy/LuckiestGuy-Regular.ttf)
     format("truetype");
-  font-weight: 400;
+  font-weight: normal;
   font-style: normal;
 }
 
 body {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   gap: 20px;
   height: 100vh;
   font-family: "Luckiest Guy", cursive;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("assets/img/blue\ background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  filter: blur(5px) brightness(0.8);
+  opacity: 0.85;
 }
 
 h1 {
   text-transform: uppercase;
   font-size: 48px;
+  z-index: 2;
 }
 
-#startScreen {
+.start-screen {
   background-image: url("assets//img//9_intro_outro_screens/start/startscreen_1.png");
   background-size: cover;
   background-position: center;
-  position: relative;
   width: 720px;
   height: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
 }
 
 .btns {
-  position: absolute;
-  width: 100%;
-  top: 30px;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
-  padding: 0 50px;
+  gap: 100px;
+  padding: 20px 0 0;
+}
+
+#contents {
+  visibility: hidden;
+  background-color: white;
+  width: 65%;
+  height: 55%;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
 }
 
 #gameBtns {
@@ -66,6 +95,13 @@ h1 {
   color: #ffc300;
   text-transform: uppercase;
   font-weight: bold;
+  border-color: #ffc300;
+  border-width: 3px;
+}
+
+.content-text ul li {
+  list-style-type: none;
+  line-height: 28px;
 }
 
 #gameBtns button:nth-child(1) {
@@ -84,7 +120,7 @@ h1 {
   background-color: #6d0404;
 }
 
-#configBtns {
+.configBtns {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -92,7 +128,7 @@ h1 {
   gap: 16px;
 }
 
-#configBtns button {
+.configBtns button {
   cursor: pointer;
   width: 40px;
   height: 40px;
@@ -105,7 +141,12 @@ h1 {
   text-align: center;
 }
 
+.configBtns .unmute-btn {
+  display: none;
+}
+
 #myCanvas {
   display: none;
+  /* visibility: hidden; */
   background-color: #000000;
 }

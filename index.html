@@ -36,47 +36,70 @@
     <link rel="manifest" href="assets/favicon_io (1)/site.webmanifest" />
   </head>
   <body>
-    <!-- TITLE -->
-    <h1>el pollo loco</h1>
+    <header>
+      <!-- TITLE -->
+      <h1>el pollo loco</h1>
+    </header>
 
-    <!-- START SCREEN -->
-    <div id="startScreen">
-      <div class="btns">
-        <!-- GAME BUTTONS -->
-        <div id="gameBtns">
-          <!-- START GAME BUTTON -->
-          <button id="startGame">Start Game</button>
+    <main>
+      <!-- START SCREEN -->
+      <div id="start-screen" class="start-screen">
+        <div class="btns">
+          <!-- GAME BUTTONS -->
+          <div id="gameBtns">
+            <!-- START GAME BUTTON -->
+            <button id="startGame-btn">Start Game</button>
 
-          <!-- CONTROLS -->
-          <button id="controls">Controls</button>
+            <!-- HOW TO PLAY -->
+            <button
+              id="howToPlay-btn"
+              onclick="showRelevantContent(renderHowToPlayContent())"
+            >
+              How to Play
+            </button>
 
-          <!-- IMPRESSUM -->
-          <button id="credits">Impressum</button>
+            <!-- CONTROLS -->
+            <button
+              id="controls-btn"
+              onclick="showRelevantContent(renderControlsContent())"
+            >
+              Controls
+            </button>
 
-          <!-- HOW TO PLAY -->
-          <button id="howToPlay">How to Play</button>
+            <!-- IMPRESSUM -->
+            <button
+              id="credits-btn"
+              onclick="showRelevantContent(renderImpressumContent())"
+            >
+              Impressum
+            </button>
+          </div>
+
+          <!-- CONFIG BUTTONS -->
+          <div class="configBtns">
+            <!-- UNMUTE BUTTON -->
+            <button class="unmute-btn" aria-label="unmute-button">
+              <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <!-- MUTE BUTTON -->
+            <button class="mute-btn" aria-label="mute-button">
+              <i class="fa-solid fa-volume-xmark"></i>
+            </button>
+            <!-- FULLSCREEN BUTTON -->
+            <button class="fullScreen-btn" aria-label="fullscreen-button">
+              <i class="fa-solid fa-expand"></i>
+            </button>
+          </div>
         </div>
 
-        <!-- CONFIG BUTTONS -->
-        <div id="configBtns">
-          <!-- UNMUTE BUTTON -->
-          <button id="unmute" aria-label="unmute-button">
-            <i class="fa-solid fa-volume-high"></i>
-          </button>
-          <!-- MUTE BUTTON -->
-          <button id="mute" aria-label="mute-button">
-            <i class="fa-solid fa-volume-xmark"></i>
-          </button>
-          <!-- FULLSCREEN BUTTON -->
-          <button id="fullScreen" aria-label="fullscreen-button">
-            <i class="fa-solid fa-expand"></i>
-          </button>
-        </div>
+        <div id="contents"></div>
       </div>
-    </div>
 
-    <!-- CANVAS -->
-    <canvas id="myCanvas" width="720" height="480"> </canvas>
+      <!-- CANVAS -->
+      <canvas id="myCanvas" width="720" height="480"> </canvas>
+    </main>
+
+    <!-- Script Template -->
 
     <!-- JS SCRIPTS -->
     <script src="./Javascript/models/DrawableObjects.class.js"></script>
@@ -96,6 +119,8 @@
     <script src="./Javascript/models/Level.class.js"></script>
     <script src="./Javascript/levels/level1.js"></script>
 
+    <script src="templates.js"></script>
+    <script src="scripts.js"></script>
     <script src="game.js"></script>
   </body>
 </html>

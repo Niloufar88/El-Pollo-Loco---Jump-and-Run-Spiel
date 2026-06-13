@@ -1,3 +1,4 @@
+// Canvas Variables
 const canvas = document.getElementById("myCanvas");
 let world;
 let keyboard = new Keyboard();
@@ -7,8 +8,7 @@ function gameInit() {
   world.draw();
 }
 
-gameInit();
-
+//keyboard Events
 document.addEventListener("keydown", (event) => {
   if (event.key === "ArrowLeft") keyboard.LEFT = true;
   if (event.key === "ArrowRight") keyboard.RIGHT = true;
@@ -24,3 +24,5 @@ document.addEventListener("keyup", (event) => {
   if (event.key === " ") keyboard.SPACE = false;
   if (event.key === "d") keyboard.THROW = false;
 });
+
+//
