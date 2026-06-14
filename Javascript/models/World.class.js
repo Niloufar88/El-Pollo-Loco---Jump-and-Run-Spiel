@@ -38,7 +38,6 @@ class World {
     this.drawInLoop(this.level.clouds, 3);
 
     //Character
-
     this.character.updateCharacter();
     this.character.drawOnCanvas(this.ctx, this.character);
 
@@ -56,6 +55,13 @@ class World {
       if (!bottle.isCollected) bottle.drawOnCanvas(this.ctx, bottle);
     });
 
+    //throwable Bottles
+    this.throwableBottles();
+    this.level.thrownBottles.forEach((thrownBottle) => {
+      thrownBottle.updateThrowableBottles();
+      thrownBottle.drawOnCanvas(this.ctx, thrownBottle);
+    });
+
     //Coins
     this.checkCollisionsCoins();
     this.level.coins.forEach((coin) => {
@@ -71,15 +77,7 @@ class World {
     this.ctx.restore();
 
     //======== draw Statusbars ========
-    //pepe health bar
-    this.drawPepeHealthBarOnCanvas();
-
-    //collected bottles bar
-    this.drawBottleBarOnCanvas();
-
-    //collected Coins Bar
-    this.drawCoinBarOnCanvas();
-
+    this.drawBarsOnCanvas();
     //=================================
 
     let self = this;
@@ -166,5 +164,45 @@ class World {
       this.character.health,
       10,
     );
+  }
+
+  drawBarsOnCanvas() {
+    //pepe health bar
+    this.drawPepeHealthBarOnCanvas();
+
+    //collected bottles bar
+    this.drawBottleBarOnCanvas();
+
+    //collected Coins Bar
+    this.drawCoinBarOnCanvas();
+  }
+
+  throwableBottles() {
+    if (this.keyboard.THROW && this.character.bottlesCollected > 0) {
+      console.log(`keyboard throw is triggered`);
+      let bottleDirection = this.character.otherDirection ? -1 : 1;
+      let bottleX = this.character.x + this.character.offsetX + 50;
+      let bottleY = this.character.y + this.character.offsetY + 50;
+
+      console.log(
+        `bottleY: `,
+        bottleY,
+        `bottleX:`,
+        bottleX,
+        `direction: `,
+        bottleDirection,
+      );
+
+      this.level.thrownBottles.push(
+        new ThrowableBottles(bottleX, bottleY, bottleDirection),
+      );
+      console.log(`the new bottle has been pushed to the array`);
+      console.log(this.level.thrownBottles);
+
+      this.character.bottlesCollected--;
+      this.keyboard.THROW = false;
+
+      console.log(this.keyboard.THROW);
+    }
   }
 }

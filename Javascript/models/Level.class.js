@@ -4,15 +4,25 @@ class Level {
   backgroundObjects;
   bottles;
   coins;
+  thrownBottles;
   level_end_x = 4000;
 
-  constructor(enemies, clouds, backgroundObjects, endboss, bottles, coins) {
+  constructor(
+    enemies,
+    clouds,
+    backgroundObjects,
+    endboss,
+    bottles,
+    coins,
+    thrownBottles,
+  ) {
     this.enemies = enemies;
     this.clouds = clouds;
     this.backgroundObjects = backgroundObjects;
     this.endboss = endboss;
     this.bottles = bottles;
     this.coins = coins;
+    this.thrownBottles = thrownBottles;
   }
 
   generatingEnemies(count) {

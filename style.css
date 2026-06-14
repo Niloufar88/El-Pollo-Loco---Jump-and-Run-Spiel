@@ -19,13 +19,13 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  /* gap: 20px; */
   height: 100vh;
-  font-family: "Luckiest Guy", cursive;
+  font-family: "Luckiest Guy";
   position: relative;
 }
 
-body::before {
+/* body::before {
   content: "";
   position: absolute;
   top: 0;
@@ -38,7 +38,7 @@ body::before {
   background-position: center;
   filter: blur(5px) brightness(0.8);
   opacity: 0.85;
-}
+} */
 
 h1 {
   text-transform: uppercase;
@@ -49,7 +49,7 @@ h1 {
 .start-screen {
   background-image: url("assets//img//9_intro_outro_screens/start/startscreen_1.png");
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   width: 720px;
   height: 480px;
   display: flex;
