@@ -13,14 +13,14 @@ class ThrowableBottles extends MovableObject {
     this.height = 60;
 
     //Throw Speed
-    this.speedX = 15 * direction;
+    this.speedX = 10 * direction;
     this.speedY = -25;
 
     //gravity
     this.gravity = 1.5;
 
     //Animation Speed
-    this.rotationSpeed = 100;
+    this.rotationSpeed = 50;
 
     //state
     // this.hasHit = false;
