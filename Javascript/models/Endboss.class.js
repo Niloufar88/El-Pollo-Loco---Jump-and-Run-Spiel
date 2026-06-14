@@ -27,6 +27,7 @@ class Endboss extends MovableObject {
     this.isAttacking = false;
     this.isHurt = false;
     this.health = 100;
+    this.damage = 10;
 
     //Image Arrays
     this.BOSS_ALERT = [
@@ -69,13 +70,11 @@ class Endboss extends MovableObject {
     if (distance <= 300) this.isAttacking = true;
     else this.isAttacking = false;
 
-    if (this.isAttacking) {
+    if (this.isHurt) this.playAnimation(this.BOSS_HURT, this.hurtSpeed);
+    else if (this.isAttacking) {
       this.playAnimation(this.BOSS_ATTACK, this.attackSpeed);
       this.moveTowardsPlayer(character);
-    } else
-      // } else if (this.isHurt)
-      //   this.playAnimation(this.BOSS_HURT, this.hurtSpeed);
-      // else if (distance <= 500)
+    } else if (distance <= 500)
       this.playAnimation(this.BOSS_ALERT, this.alertSpeed);
   }
 
@@ -83,12 +82,9 @@ class Endboss extends MovableObject {
     if (player.x < this.x) this.x -= this.speedX;
   }
 
-  hurt() {
+  hurt(damage) {
     if (this.isDead) return;
-
-    this.health -= 10;
-    console.log(this.health);
-
+    this.health -= damage;
     this.isHurt = true;
 
     if (this.health <= 0) this.die();

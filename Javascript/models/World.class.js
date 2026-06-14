@@ -58,10 +58,9 @@ class World {
     //throwable Bottles
     this.throwableBottles();
     this.level.thrownBottles.forEach((thrownBottle) => {
+      thrownBottle.throwUpdate();
       thrownBottle.drawOnCanvas(this.ctx, thrownBottle);
     });
-
-    this.checkCollisionWithBoss();
 
     //Coins
     this.checkCollisionsCoins();
@@ -73,6 +72,9 @@ class World {
     //Endboss
     this.level.endboss.update(this.character);
     this.level.endboss.drawOnCanvas(this.ctx, this.level.endboss);
+    this.checkCollisionWithBoss(this.level.endboss.damage);
+    this.filterThrownBottles();
+    this.CheckPepeCollisionWithBoss();
 
     //camera reset
     this.ctx.restore();
@@ -113,7 +115,7 @@ class World {
         //collision is acceptable just when pepe jump on the chickens, so from the top
         if (pepeFeet < chickenMiddle && this.character.speedY > 0) {
           enemy.die();
-        } else if (!this.character.isInvincible) {
+        } else if (!this.character.isInvincible && !enemy.isDead) {
           this.character.hit();
         }
       }
@@ -138,16 +140,29 @@ class World {
     });
   }
 
-  checkCollisionWithBoss() {
+  checkCollisionWithBoss(damage) {
     this.level.thrownBottles.forEach((thrownBottle) => {
       if (
         !this.level.endboss.isDead &&
         thrownBottle.isColliding(this.level.endboss)
       ) {
-        this.level.endboss.hurt();
+        console.log(`colliding`);
+        this.level.endboss.hurt(damage);
+        console.log(this.level.endboss.health);
         thrownBottle.hasHit = true;
       }
     });
+  }
+
+  CheckPepeCollisionWithBoss() {
+    if (
+      this.level.endboss.isColliding(this.character) &&
+      !this.character.isDead
+    ) {
+      if (!this.character.isInvincible) {
+        this.character.hit();
+      }
+    }
   }
 
   drawCoinBarOnCanvas() {
@@ -193,7 +208,7 @@ class World {
   throwableBottles() {
     let now = Date.now();
     if (this.keyboard.THROW && this.character.bottlesCollected > 0) {
-      if (now - this.character.lastHitTime > 500) {
+      if (now - this.character.lastThrowTime > 500) {
         let bottleDirection = this.character.otherDirection ? -1 : 1;
         let bottleX = this.character.x + this.character.offsetX + 50;
         let bottleY = this.character.y + this.character.offsetY + 50;
@@ -204,8 +219,14 @@ class World {
 
         this.character.bottlesCollected--;
         this.keyboard.THROW = false;
-        this.character.lastHitTime = now;
+        this.character.lastThrowTime = now;
       }
     }
+  }
+
+  filterThrownBottles() {
+    this.level.thrownBottles = this.level.thrownBottles.filter(
+      (bottle) => !bottle.hasHit,
+    );
   }
 }
