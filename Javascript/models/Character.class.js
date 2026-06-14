@@ -20,7 +20,7 @@ class Character extends MovableObject {
     //Animation Speed
     this.walkSpeed = 100;
     this.idleSpeed = 150;
-    this.jumpSpeed = 60;
+    this.jumpSpeed = 110;
     this.deathSpeed = 100;
     this.hurtSpeed = 100;
 
@@ -40,6 +40,9 @@ class Character extends MovableObject {
     //collectables
     this.bottlesCollected = 0;
     this.coinsCollected = 0;
+
+    //throwing Bottles
+    this.lastThrowTime = 0;
 
     //Image Array
     this.PEPE_IDLE = [
@@ -103,7 +106,7 @@ class Character extends MovableObject {
     this.applyGravity();
     // check if Pepe is dead
     if (this.isDead) {
-      this.playAnimation(this.PEPE_DEAD, this.deathSpeed);
+      this.playAnimation(this.PEPE_DEAD, this.deathSpeed, true);
       return;
     }
 
@@ -117,6 +120,12 @@ class Character extends MovableObject {
     if (this.isHurt) this.playAnimation(this.PEPE_HURT, this.hurtSpeed);
 
     //Jump
+
+    if (this.isJumping) {
+      if (!this.isHurt) {
+        this.playAnimation(this.PEPE_JUMP, this.jumpSpeed, true);
+      }
+    }
     if (this.world.keyboard.RIGHT) {
       this.moveRight();
       this.playAnimation(this.PEPE_WALK, this.walkSpeed);
@@ -125,13 +134,6 @@ class Character extends MovableObject {
       this.playAnimation(this.PEPE_WALK, this.walkSpeed);
     } else {
       this.playAnimation(this.PEPE_IDLE, this.idleSpeed);
-    }
-
-    if (this.isJumping) {
-      if (!this.isHurt) {
-        // this.jumpAnimation(this.PEPE_JUMP, this.jumpSpeed, true);
-        this.playAnimation(this.PEPE_JUMP, this.jumpSpeed); // Animation läuft bisschen schneller als beabsichtigt, muss später nochmal angepasst werden
-      }
     }
 
     // calculate the camera-x position based on the character's x position
@@ -181,6 +183,7 @@ class Character extends MovableObject {
     if (this.isOnGround()) {
       this.speedY = -20;
       this.isJumping = true;
+      this.currentImage = 0;
     }
   }
 
