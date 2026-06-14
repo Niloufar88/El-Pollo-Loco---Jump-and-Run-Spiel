@@ -3,15 +3,18 @@ class ThrowableBottles extends MovableObject {
   hasThrown = false;
 
   constructor(x, y, direction) {
-    super();
+    super(x, y);
+
+    this.x = x;
+    this.y = y;
 
     //size
-    this.width = 50;
-    this.height = 50;
+    this.width = 60;
+    this.height = 60;
 
     //Throw Speed
-    this.speedX = 0;
-    this.speedY = -20;
+    this.speedX = 20 * direction;
+    this.speedY = -30;
 
     //gravity
     this.gravity = 2;
@@ -34,22 +37,19 @@ class ThrowableBottles extends MovableObject {
     this.loadImage(this.THROWABLE_BOTTLE_IMAGES[0]);
     this.loadImages(this.THROWABLE_BOTTLE_IMAGES);
 
-    this.updateThrowableBottles();
-  }
-
-  updateThrowableBottles() {
     this.throw();
   }
 
   throw() {
-    // if (!this.hasHit)
-    this.playAnimation(this.THROWABLE_BOTTLE_IMAGES, this.rotationSpeed);
-    this.throwPhysic();
+    setInterval(() => {
+      this.playAnimation(this.THROWABLE_BOTTLE_IMAGES, this.rotationSpeed);
+      this.throwPhysic();
+    }, 100);
   }
 
   throwPhysic(direction) {
     setInterval(() => {
-      this.x += this.speedX * direction;
+      this.x += this.speedX;
       this.y += this.speedY;
       this.speedY += this.gravity;
     }, 1000 / 60);

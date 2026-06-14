@@ -101,7 +101,6 @@ class Character extends MovableObject {
 
   updateCharacter() {
     this.applyGravity();
-
     // check if Pepe is dead
     if (this.isDead) {
       this.playAnimation(this.PEPE_DEAD, this.deathSpeed);

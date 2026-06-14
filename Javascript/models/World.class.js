@@ -58,7 +58,6 @@ class World {
     //throwable Bottles
     this.throwableBottles();
     this.level.thrownBottles.forEach((thrownBottle) => {
-      thrownBottle.updateThrowableBottles();
       thrownBottle.drawOnCanvas(this.ctx, thrownBottle);
     });
 
@@ -178,31 +177,21 @@ class World {
   }
 
   throwableBottles() {
+    let now = Date.now();
     if (this.keyboard.THROW && this.character.bottlesCollected > 0) {
-      console.log(`keyboard throw is triggered`);
-      let bottleDirection = this.character.otherDirection ? -1 : 1;
-      let bottleX = this.character.x + this.character.offsetX + 50;
-      let bottleY = this.character.y + this.character.offsetY + 50;
+      if (now - this.character.lastHitTime > 500) {
+        let bottleDirection = this.character.otherDirection ? -1 : 1;
+        let bottleX = this.character.x + this.character.offsetX + 50;
+        let bottleY = this.character.y + this.character.offsetY + 50;
 
-      console.log(
-        `bottleY: `,
-        bottleY,
-        `bottleX:`,
-        bottleX,
-        `direction: `,
-        bottleDirection,
-      );
+        this.level.thrownBottles.push(
+          new ThrowableBottles(bottleX, bottleY, bottleDirection),
+        );
 
-      this.level.thrownBottles.push(
-        new ThrowableBottles(bottleX, bottleY, bottleDirection),
-      );
-      console.log(`the new bottle has been pushed to the array`);
-      console.log(this.level.thrownBottles);
-
-      this.character.bottlesCollected--;
-      this.keyboard.THROW = false;
-
-      console.log(this.keyboard.THROW);
+        this.character.bottlesCollected--;
+        this.keyboard.THROW = false;
+        this.character.lastHitTime = now;
+      }
     }
   }
 }
