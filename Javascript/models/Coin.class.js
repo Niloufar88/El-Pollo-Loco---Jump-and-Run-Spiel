@@ -17,6 +17,9 @@ class Coin extends CollectableObjects {
     //Animation Speed
     this.animationSpeed = 150;
 
+    //state
+    this.isCollected = false;
+
     //Array of images
     this.COIN_IMAGES = [
       "assets/img/coin/coin_1.png",

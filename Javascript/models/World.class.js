@@ -61,6 +61,8 @@ class World {
       thrownBottle.drawOnCanvas(this.ctx, thrownBottle);
     });
 
+    this.checkCollisionWithBoss();
+
     //Coins
     this.checkCollisionsCoins();
     this.level.coins.forEach((coin) => {
@@ -69,7 +71,7 @@ class World {
     });
 
     //Endboss
-    this.level.endboss.update();
+    this.level.endboss.update(this.character);
     this.level.endboss.drawOnCanvas(this.ctx, this.level.endboss);
 
     //camera reset
@@ -132,6 +134,18 @@ class World {
       if (!coin.isCollected && this.character.isColliding(coin)) {
         coin.collected();
         this.character.coinsCollected++;
+      }
+    });
+  }
+
+  checkCollisionWithBoss() {
+    this.level.thrownBottles.forEach((thrownBottle) => {
+      if (
+        !this.level.endboss.isDead &&
+        thrownBottle.isColliding(this.level.endboss)
+      ) {
+        this.level.endboss.hurt();
+        thrownBottle.hasHit = true;
       }
     });
   }

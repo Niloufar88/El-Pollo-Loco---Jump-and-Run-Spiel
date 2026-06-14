@@ -19,6 +19,9 @@ class Bottle extends CollectableObjects {
     //Animation Speed
     this.rotationSpeed = 300;
 
+    //state
+    this.isCollected = false;
+
     //Images Array
     this.BOTTLE_IMAGES = [
       "assets/img/6_salsa_bottle/1_salsa_bottle_on_ground.png",
@@ -31,6 +34,7 @@ class Bottle extends CollectableObjects {
   }
 
   updateBottle() {
-    this.playAnimation(this.BOTTLE_IMAGES, this.rotationSpeed);
+    if (!this.isCollected)
+      this.playAnimation(this.BOTTLE_IMAGES, this.rotationSpeed);
   }
 }
