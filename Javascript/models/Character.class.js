@@ -20,7 +20,7 @@ class Character extends MovableObject {
     //Animation Speed
     this.walkSpeed = 100;
     this.idleSpeed = 150;
-    this.jumpSpeed = 110;
+    this.jumpSpeed = 60;
     this.deathSpeed = 100;
     this.hurtSpeed = 100;
 
@@ -29,6 +29,7 @@ class Character extends MovableObject {
     this.gravity = 1;
     this.ground = 170;
     this.isJumping = false;
+    this.isPlayingJumpAnimation = false;
 
     //Collision
     this.health = 100;
@@ -116,21 +117,25 @@ class Character extends MovableObject {
     )
       this.jump();
 
+    //movement
+    if (this.world.keyboard.RIGHT) this.moveRight();
+    if (this.world.keyboard.LEFT) this.moveLeft();
+
     // if Pepe is hurt
     if (this.isHurt) this.playAnimation(this.PEPE_HURT, this.hurtSpeed);
-
     //Jump
-
-    if (this.isJumping) {
+    else if (this.isPlayingJumpAnimation) {
       if (!this.isHurt) {
         this.playAnimation(this.PEPE_JUMP, this.jumpSpeed, true);
+
+        if (
+          this.currentImage >= this.PEPE_JUMP.length - 1 &&
+          this.isOnGround()
+        ) {
+          this.isPlayingJumpAnimation = false;
+        }
       }
-    }
-    if (this.world.keyboard.RIGHT) {
-      this.moveRight();
-      this.playAnimation(this.PEPE_WALK, this.walkSpeed);
-    } else if (this.world.keyboard.LEFT) {
-      this.moveLeft();
+    } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
       this.playAnimation(this.PEPE_WALK, this.walkSpeed);
     } else {
       this.playAnimation(this.PEPE_IDLE, this.idleSpeed);
@@ -183,6 +188,7 @@ class Character extends MovableObject {
     if (this.isOnGround()) {
       this.speedY = -20;
       this.isJumping = true;
+      this.isPlayingJumpAnimation = true;
       this.currentImage = 0;
     }
   }
