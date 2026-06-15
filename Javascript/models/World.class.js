@@ -119,12 +119,12 @@ class World {
         //collision is acceptable just when pepe jump on the chickens, so from the top
         if (pepeFeet < chickenMiddle && this.character.speedY > 0) {
           enemy.die();
-          this.audioManager.HIT.play();
+          this.audioManager.sounds.hit.play();
           // this.character.speedY = -8;
           // this.character.isJumping = true;
         } else if (!this.character.isInvincible && !enemy.isDead) {
           this.character.hit();
-          this.audioManager.HURT.play();
+          this.audioManager.sounds.hurt.play();
         }
       }
     });
@@ -135,7 +135,7 @@ class World {
       if (!bottle.isCollected && this.character.isColliding(bottle)) {
         bottle.collected();
         this.character.bottlesCollected++;
-        this.audioManager.BOTTLES.play();
+        this.audioManager.sounds.bottles.play();
       }
     });
   }
@@ -145,7 +145,7 @@ class World {
       if (!coin.isCollected && this.character.isColliding(coin)) {
         coin.collected();
         this.character.coinsCollected++;
-        this.audioManager.COINS.play();
+        this.audioManager.sounds.coins.play();
       }
     });
   }
@@ -157,8 +157,8 @@ class World {
         thrownBottle.isColliding(this.level.endboss)
       ) {
         this.level.endboss.hurt(damage);
-        this.audioManager.BREAK.play();
         thrownBottle.hasHit = true;
+        this.audioManager.sounds.break.play();
       }
     });
   }
@@ -170,7 +170,7 @@ class World {
     ) {
       if (!this.character.isInvincible) {
         this.character.hit();
-        this.audioManager.HURT.play();
+        this.audioManager.sounds.hurt.play();
       }
     }
   }
@@ -245,13 +245,15 @@ class World {
       (this.keyboard.RIGHT || this.keyboard.LEFT) &&
       !this.character.isJumping
     )
-      this.audioManager.WALK.play();
-    else this.audioManager.WALK.pause();
+      this.audioManager.sounds.walk.play();
+    else this.audioManager.sounds.walk.pause();
   }
 
   applyBossSounds() {
-    if (this.level.endboss.isDead) this.audioManager.BOSS_DEAD.play();
-    else if (this.level.endboss.isAttacking)
-      this.audioManager.BOSS_GROWL.play();
+    if (this.level.endboss.isDead) {
+      this.audioManager.sounds.bossDead.play();
+      return;
+    } else if (this.level.endboss.isAttacking)
+      this.audioManager.sounds.bossGrowl.play();
   }
 }

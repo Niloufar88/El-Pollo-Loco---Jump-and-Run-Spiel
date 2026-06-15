@@ -141,9 +141,14 @@ h1 {
   text-align: center;
 }
 
-.configBtns .unmute-btn {
-  display: none;
+.audio-btn img {
+  width: 100%;
+  height: 100%;
 }
+
+/* .configBtns .unaudio-btn {
+  display: none;
+} */
 
 #myCanvas {
   display: none;

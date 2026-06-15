@@ -4,6 +4,10 @@ let world;
 let keyboard = new Keyboard();
 let audioManager = new AudioManager();
 
+window.addEventListener("DOMContentLoaded", () => {
+  audioManager.loadSounds();
+});
+
 function gameInit() {
   world = new World(canvas, keyboard, audioManager);
   world.draw();
@@ -16,7 +20,8 @@ const howToPlayBtn = document.getElementById("howToPlay-btn");
 const contentContainer = document.getElementById("contents");
 const controlsBtn = document.getElementById("controls-btn");
 const fullscreenBtn = document.querySelector(".fullScreen-btn");
-const muteBtn = document.querySelector(".mute-btn");
+const muteBtn = document.querySelector(".audio-btn");
+const muteBtnImg = muteBtn.querySelector(".audio-btn img");
 
 //start Game handler
 startGameBtn.addEventListener("click", () => {
@@ -28,7 +33,7 @@ startGameBtn.addEventListener("click", () => {
 
 //side-Screen function
 function showRelevantContent(func) {
-  audioManager.CLICK.play();
+  audioManager.sounds.click.play();
   contentContainer.innerHTML = "";
   contentContainer.style.visibility = "visible";
   contentContainer.innerHTML = func;
@@ -44,11 +49,23 @@ fullscreenBtn.addEventListener("click", () => {
   }
 });
 
+//game music manager
 function manageGameAudio() {
-  audioManager.GAME.play();
-  audioManager.GAME.volume = 0.2;
-  audioManager.GAME.loop = true;
+  audioManager.sounds.menu.pause();
+  audioManager.sounds.game.play();
+  audioManager.sounds.game.volume = 0.2;
+  audioManager.sounds.game.loop = true;
 }
+
+//toggle menu Music
+muteBtn.addEventListener("click", () => {
+  muteBtnImg.src = muteBtnImg.src.includes("volume-xmark-solid.png")
+    ? "assets/Icons/volume-solid.png"
+    : "assets/Icons/volume-xmark-solid.png";
+  audioManager.sounds.menu.play();
+  audioManager.sounds.menu.loop = true;
+  audioManager.sounds.game.volume = 0.1;
+});
 
 //keyboard Events
 document.addEventListener("keydown", (event) => {
