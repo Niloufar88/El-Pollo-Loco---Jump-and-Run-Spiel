@@ -19,6 +19,7 @@ class Endboss extends MovableObject {
     this.walkSpeed = 100;
     this.attackSpeed = 150;
     this.hurtSpeed = 150;
+    this.deadSpeed = 150;
 
     //speed
     this.speedX = 1;
@@ -58,13 +59,25 @@ class Endboss extends MovableObject {
       "assets/img/enemies/boss chicken/4_hurt/G23.png",
     ];
 
+    this.BOSS_DEAD = [
+      "assets/img/enemies/boss chicken/5_dead/G24.png",
+      "assets/img/enemies/boss chicken/5_dead/G25.png",
+      "assets/img/enemies/boss chicken/5_dead/G26.png",
+    ];
+
     this.loadImage(this.BOSS_ALERT[0]);
     this.loadImages(this.BOSS_ALERT);
     this.loadImages(this.BOSS_ATTACK);
     this.loadImages(this.BOSS_HURT);
+    this.loadImages(this.BOSS_DEAD);
   }
 
   update(character) {
+    if (this.isDead) {
+      this.playAnimation(this.BOSS_DEAD, this.deadSpeed, true);
+      return;
+    }
+
     let distance = Math.abs(this.x - character.x);
 
     if (distance <= 300) this.isAttacking = true;
