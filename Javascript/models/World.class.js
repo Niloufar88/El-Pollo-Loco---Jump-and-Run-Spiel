@@ -3,6 +3,7 @@ class World {
   healthBarPepe = new StatusBar();
   bottleBar = new StatusBar();
   coinBar = new StatusBar();
+  audioManager = new AudioManager();
   level = level1;
   img;
   ctx;
@@ -11,10 +12,11 @@ class World {
   camera_x = 0;
   worldEndX = this.level.level_end_x;
 
-  constructor(canvas, keyboard) {
+  constructor(canvas, keyboard, audioManager) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
+    this.audioManager = audioManager;
     this.setWorldForPepe();
     this.draw();
   }
@@ -47,6 +49,7 @@ class World {
       enemy.update();
       enemy.drawOnCanvas(this.ctx, enemy);
     });
+    this.applyWalkingSound();
 
     //Bottles
     this.checkCollisionBottles();
@@ -75,6 +78,7 @@ class World {
     this.checkCollisionWithBoss(this.level.endboss.damage);
     this.filterThrownBottles();
     this.CheckPepeCollisionWithBoss();
+    this.applyBossSounds();
 
     //camera reset
     this.ctx.restore();
@@ -115,8 +119,12 @@ class World {
         //collision is acceptable just when pepe jump on the chickens, so from the top
         if (pepeFeet < chickenMiddle && this.character.speedY > 0) {
           enemy.die();
+          this.audioManager.HIT.play();
+          // this.character.speedY = -8;
+          // this.character.isJumping = true;
         } else if (!this.character.isInvincible && !enemy.isDead) {
           this.character.hit();
+          this.audioManager.HURT.play();
         }
       }
     });
@@ -127,6 +135,7 @@ class World {
       if (!bottle.isCollected && this.character.isColliding(bottle)) {
         bottle.collected();
         this.character.bottlesCollected++;
+        this.audioManager.BOTTLES.play();
       }
     });
   }
@@ -136,6 +145,7 @@ class World {
       if (!coin.isCollected && this.character.isColliding(coin)) {
         coin.collected();
         this.character.coinsCollected++;
+        this.audioManager.COINS.play();
       }
     });
   }
@@ -146,9 +156,8 @@ class World {
         !this.level.endboss.isDead &&
         thrownBottle.isColliding(this.level.endboss)
       ) {
-        console.log(`colliding`);
         this.level.endboss.hurt(damage);
-        console.log(this.level.endboss.health);
+        this.audioManager.BREAK.play();
         thrownBottle.hasHit = true;
       }
     });
@@ -161,6 +170,7 @@ class World {
     ) {
       if (!this.character.isInvincible) {
         this.character.hit();
+        this.audioManager.HURT.play();
       }
     }
   }
@@ -228,5 +238,20 @@ class World {
     this.level.thrownBottles = this.level.thrownBottles.filter(
       (bottle) => !bottle.hasHit,
     );
+  }
+
+  applyWalkingSound() {
+    if (
+      (this.keyboard.RIGHT || this.keyboard.LEFT) &&
+      !this.character.isJumping
+    )
+      this.audioManager.WALK.play();
+    else this.audioManager.WALK.pause();
+  }
+
+  applyBossSounds() {
+    if (this.level.endboss.isDead) this.audioManager.BOSS_DEAD.play();
+    else if (this.level.endboss.isAttacking)
+      this.audioManager.BOSS_GROWL.play();
   }
 }

@@ -15,7 +15,7 @@ class Character extends MovableObject {
     this.offsetY = 100;
 
     //speed
-    this.speedX = 3;
+    this.speedX = 2;
 
     //Animation Speed
     this.walkSpeed = 100;
@@ -26,7 +26,7 @@ class Character extends MovableObject {
 
     //jump
     this.speedY = 0;
-    this.gravity = 1;
+    this.gravity = 0.8;
     this.ground = 170;
     this.isJumping = false;
     this.isPlayingJumpAnimation = false;

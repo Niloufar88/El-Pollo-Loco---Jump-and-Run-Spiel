@@ -2,9 +2,10 @@
 const canvas = document.getElementById("myCanvas");
 let world;
 let keyboard = new Keyboard();
+let audioManager = new AudioManager();
 
 function gameInit() {
-  world = new World(canvas, keyboard);
+  world = new World(canvas, keyboard, audioManager);
   world.draw();
 }
 
@@ -15,16 +16,19 @@ const howToPlayBtn = document.getElementById("howToPlay-btn");
 const contentContainer = document.getElementById("contents");
 const controlsBtn = document.getElementById("controls-btn");
 const fullscreenBtn = document.querySelector(".fullScreen-btn");
+const muteBtn = document.querySelector(".mute-btn");
 
 //start Game handler
 startGameBtn.addEventListener("click", () => {
   startScreen.style.display = "none";
   canvas.style.display = "block";
   gameInit();
+  manageGameAudio();
 });
 
 //side-Screen function
 function showRelevantContent(func) {
+  audioManager.CLICK.play();
   contentContainer.innerHTML = "";
   contentContainer.style.visibility = "visible";
   contentContainer.innerHTML = func;
@@ -39,6 +43,12 @@ fullscreenBtn.addEventListener("click", () => {
     document.exitFullscreen();
   }
 });
+
+function manageGameAudio() {
+  audioManager.GAME.play();
+  audioManager.GAME.volume = 0.2;
+  audioManager.GAME.loop = true;
+}
 
 //keyboard Events
 document.addEventListener("keydown", (event) => {
