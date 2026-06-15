@@ -63,8 +63,8 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 100px;
-  padding: 20px 0 0;
+  gap: 50px;
+  padding: 20px 0 0 20px;
 }
 
 #contents {
@@ -89,7 +89,8 @@ h1 {
 
 #gameBtns button {
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
+  letter-spacing: 2px;
   padding: 10px;
   border-radius: 5px;
   color: #ffc300;
@@ -97,6 +98,7 @@ h1 {
   font-weight: bold;
   border-color: #ffc300;
   border-width: 3px;
+  font-family: "Luckiest Guy";
 }
 
 .content-text ul li {
