@@ -48,7 +48,7 @@
           <!-- GAME BUTTONS -->
           <div id="gameBtns">
             <!-- START GAME BUTTON -->
-            <button id="startGame-btn">Start Game</button>
+            <button id="startGame-btn" onclick="startGame()">Start Game</button>
 
             <!-- HOW TO PLAY -->
             <button
@@ -76,7 +76,7 @@
           </div>
 
           <!-- CONFIG BUTTONS -->
-          <div class="configBtns">
+          <div class="configBtns" data-id="welcome">
             <!-- UNMUTE BUTTON -->
             <!-- <button class="unaudio-btn" aria-label="unmute-button">
               <i class="fa-solid fa-volume-high"></i>
@@ -96,7 +96,22 @@
       </div>
 
       <!-- CANVAS -->
-      <canvas id="myCanvas" width="720" height="480"> </canvas>
+      <div id="canvas-container" class="canvas-container">
+        <!-- CANVAS -->
+        <canvas id="myCanvas" width="720" height="480"> </canvas>
+
+        <!-- CONFIG BUTTONS -->
+        <div class="canvas-btns" data-id="canvas">
+          <!-- MUTE BUTTON -->
+          <button class="audio-btn" aria-label="audio-button">
+            <img src="assets/Icons/volume-xmark-solid.png" alt="audio-btn" />
+          </button>
+          <!-- FULLSCREEN BUTTON -->
+          <button class="fullScreen-btn" aria-label="fullscreen-button">
+            <i class="fa-solid fa-expand"></i>
+          </button>
+        </div>
+      </div>
     </main>
 
     <!-- Script Template -->

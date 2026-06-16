@@ -16,20 +16,21 @@ function gameInit() {
 //Screens and Buttons Variables
 const startGameBtn = document.getElementById("startGame-btn");
 const startScreen = document.getElementById("start-screen");
+const canvasContainer = document.getElementById("canvas-container");
 const howToPlayBtn = document.getElementById("howToPlay-btn");
 const contentContainer = document.getElementById("contents");
 const controlsBtn = document.getElementById("controls-btn");
-const fullscreenBtn = document.querySelector(".fullScreen-btn");
-const muteBtn = document.querySelector(".audio-btn");
-const muteBtnImg = muteBtn.querySelector(".audio-btn img");
+const fullscreenBtns = document.querySelectorAll(".fullScreen-btn");
+const muteBtns = document.querySelectorAll(".audio-btn");
+const muteBtnImgs = document.querySelectorAll(".audio-btn img");
 
 //start Game handler
-startGameBtn.addEventListener("click", () => {
+function startGame() {
   startScreen.style.display = "none";
-  canvas.style.display = "block";
+  canvasContainer.style.display = "block";
   gameInit();
   manageGameAudio();
-});
+}
 
 //side-Screen function
 function showRelevantContent(func) {
@@ -41,12 +42,14 @@ function showRelevantContent(func) {
 }
 
 //fullscreen handler
-fullscreenBtn.addEventListener("click", () => {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen();
-  } else {
-    document.exitFullscreen();
-  }
+fullscreenBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  });
 });
 
 //game music manager
@@ -58,14 +61,53 @@ function manageGameAudio() {
 }
 
 //toggle menu Music
-muteBtn.addEventListener("click", () => {
-  muteBtnImg.src = muteBtnImg.src.includes("volume-xmark-solid.png")
-    ? "assets/Icons/volume-solid.png"
-    : "assets/Icons/volume-xmark-solid.png";
+muteBtns.forEach((muteBtn) => {
+  muteBtn.addEventListener("click", (event) => {
+    console.log(event.currentTarget.parentElement.dataset.id);
+
+    muteBtnImgs.forEach((img) => {
+      if (img.src.includes("volume-xmark-solid.png")) {
+        img.src = "assets/Icons/volume-solid.png";
+        if (event.currentTarget.parentElement.dataset.id === "welcome") {
+          manageUnmuteAudioWelcomeScreen();
+        } else if (event.currentTarget.parentElement.dataset.id === "canvas") {
+          manageUnmuteAudioCanvas();
+        }
+      } else if (img.src.includes("assets/Icons/volume-solid.png")) {
+        img.src = "assets/Icons/volume-xmark-solid.png";
+        if (event.currentTarget.parentElement.dataset.id === "welcome") {
+          manageMuteAudioWelcomeScreen();
+        } else if (event.currentTarget.parentElement.dataset.id === "canvas") {
+          manageMuteAudioCanvas();
+        }
+      }
+    });
+  });
+});
+
+function manageUnmuteAudioWelcomeScreen() {
+  audioManager.sounds.game.pause();
+  audioManager.sounds.game.currentTime = 0;
   audioManager.sounds.menu.play();
   audioManager.sounds.menu.loop = true;
-  audioManager.sounds.game.volume = 0.1;
-});
+  audioManager.sounds.menu.volume = 0.2;
+}
+
+function manageUnmuteAudioCanvas() {
+  audioManager.sounds.menu.pause();
+  audioManager.sounds.menu.currentTime = 0;
+  audioManager.sounds.game.play();
+  audioManager.sounds.game.loop = true;
+  audioManager.sounds.game.volume = 0.2;
+}
+
+function manageMuteAudioWelcomeScreen() {
+  audioManager.pauseGameSoundEffects();
+}
+
+function manageMuteAudioCanvas() {
+  audioManager.pauseGameSoundEffects();
+}
 
 //keyboard Events
 document.addEventListener("keydown", (event) => {

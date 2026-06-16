@@ -68,5 +68,15 @@ class AudioManager {
       "assets/sounds/ikoliks_aj-mexico-mexican-mariachi-music-468180.mp3",
     );
     this.load("click", "assets/sounds/mixkit-mouse-click-close-1113 (1).wav");
+    this.load("gameOver", "assets/sounds/mixkit-game-over-trombone-1940.wav");
+    this.load("win", "assets/sounds/pw23check-winning-218995.mp3");
+  }
+
+  pauseGameSoundEffects() {
+    for (let key in this.sounds) {
+      this.sounds[key].pause();
+      this.sounds[key].volume = 0;
+      this.sounds[key].currentTime = 0;
+    }
   }
 }
