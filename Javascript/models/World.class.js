@@ -3,7 +3,7 @@ class World {
   healthBarPepe = new StatusBar();
   bottleBar = new StatusBar();
   coinBar = new StatusBar();
-  audioManager = new AudioManager();
+  audioManager;
   level = level1;
   img;
   ctx;
@@ -236,7 +236,7 @@ class World {
 
   filterThrownBottles() {
     this.level.thrownBottles = this.level.thrownBottles.filter(
-      (bottle) => !bottle.hasHit,
+      (bottle) => !bottle.hasHit && bottle.x > -100 && bottle.y < 420,
     );
   }
 
@@ -251,7 +251,7 @@ class World {
 
   applyBossSounds() {
     if (this.level.endboss.isDead) {
-      this.audioManager.sounds.bossDead.play();
+      this.audioManager.sounds.bossDead.play(); // should be played just once
       return;
     } else if (this.level.endboss.isAttacking)
       this.audioManager.sounds.bossGrowl.play();

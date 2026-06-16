@@ -61,7 +61,7 @@ class Level {
       let startX = segWidth;
       let baseX = startX + segWidth * i;
       let startY = Math.random() * (360 - 150) + 150;
-      let count = Math.random() * 4;
+      let count = Math.floor(Math.random() * 4) + 1; // 1 to 4 coins per column
 
       this.coins.push(
         ...this.generateRandomCoinColumns(baseX, startY, 50, count),

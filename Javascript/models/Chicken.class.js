@@ -42,6 +42,8 @@ class Chicken extends MovableObject {
     this.loadImage(this.CHICKEN_WALK[0]);
     this.loadImages(this.CHICKEN_WALK);
     this.loadImages([this.CHICKEN_DEAD]);
+
+    this.moveLeft();
   }
 
   update() {
@@ -50,10 +52,6 @@ class Chicken extends MovableObject {
       this.moveLeft();
       this.playAnimation(this.CHICKEN_WALK, this.AnimationSpeed);
     }
-  }
-
-  moveLeft() {
-    this.x -= this.speedX;
   }
 
   die() {
