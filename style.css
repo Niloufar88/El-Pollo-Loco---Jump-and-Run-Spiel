@@ -23,7 +23,7 @@ body {
   /* gap: 20px; */
   height: 100vh;
   font-family: "Luckiest Guy";
-  position: relative;
+  /* position: relative; */
 }
 
 /* body::before {
@@ -41,10 +41,22 @@ body {
   opacity: 0.85;
 } */
 
-h1 {
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header h1 {
   text-transform: uppercase;
   font-size: 48px;
   z-index: 2;
+}
+
+main {
+  position: relative;
+  width: 720px;
+  height: 480px;
 }
 
 .start-screen {
@@ -57,7 +69,7 @@ h1 {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  position: relative;
+  /* position: relative; */
 }
 
 .btns {
@@ -153,8 +165,47 @@ h1 {
   display: none;
 } */
 
-#myCanvas {
+.canvas-container {
   display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.canvas-btns {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  /* width: 100%;
+  height: 100%; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.canvas-btns button {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  /* background-color: #ffc300; */
+  background-color: white;
+  font-size: 16px;
+  padding: 6px;
+  border-radius: 50%;
+  display: block;
+  text-align: center;
+}
+
+#myCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   /* visibility: hidden; */
   background-color: #000000;
 }
