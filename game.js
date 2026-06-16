@@ -4,6 +4,10 @@ let world;
 let keyboard = new Keyboard();
 let audioManager = new AudioManager();
 
+let saveMutedState = localStorage.getItem("audioMuted");
+if (saveMutedState === null) audioManager.sounds.mute = true;
+else audioManager.sounds.mute = saveMutedState === true;
+
 window.addEventListener("DOMContentLoaded", () => {
   audioManager.loadSounds();
 });
