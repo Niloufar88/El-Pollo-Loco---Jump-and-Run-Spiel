@@ -38,7 +38,7 @@ function startGame() {
   winLoseScreen.style.display = "none";
   canvasContainer.style.display = "block";
   gameInit();
-  if (!audioManager.isMuted) manageGameAudio(audioManager.menuMusik);
+  if (!audioManager.isMuted) manageGameAudio();
 }
 
 function backToMenu(event) {
@@ -46,9 +46,14 @@ function backToMenu(event) {
   let screenId = event.currentTarget.parentElement.dataset.id;
 
   if (screenId === "canvas") {
+    manageMuteAudios(
+      audioManager.soundEffects,
+      audioManager.menuMusik,
+      audioManager.winLoseMusic,
+    );
     canvasContainer.style.display = "none";
     startScreen.style.display = "flex";
-    manageUnmuteAudioWelcomeScreen(audioManager.soundEffects);
+    manageUnmuteAudioWelcomeScreen();
   }
 }
 
@@ -73,11 +78,13 @@ fullscreenBtns.forEach((btn) => {
 });
 
 //game music manager
-function manageGameAudio(audioLibrary) {
-  audioManager.pauseGameAudios(audioLibrary);
-  audioManager.soundEffects.game.play();
-  audioManager.soundEffects.game.volume = 0.2;
-  audioManager.soundEffects.game.loop = true;
+function manageGameAudio() {
+  manageMuteAudios();
+  if (!audioManager.isMuted) {
+    audioManager.soundEffects.game.play();
+    audioManager.soundEffects.game.volume = 0.2;
+    audioManager.soundEffects.game.loop = true;
+  }
 }
 
 //toggle mute/unmute state
@@ -90,19 +97,12 @@ muteBtns.forEach((muteBtn) => {
     localStorage.setItem("audioMuted", audioManager.isMuted);
     updateAllIcons();
 
-    if (audioManager.isMuted)
-      manageMuteAudios(
-        audioManager.soundEffects,
-        audioManager.menuMusik,
-        audioManager.winLoseMusic,
-      );
+    if (audioManager.isMuted) manageMuteAudios();
     else {
       let screenId = event.currentTarget.parentElement.dataset.id;
 
-      if (screenId === "welcome")
-        manageUnmuteAudioWelcomeScreen(audioManager.soundEffects);
-      else if (screenId === "canvas")
-        manageUnmuteAudioCanvas(audioManager.menuMusik);
+      if (screenId === "welcome") manageUnmuteAudioWelcomeScreen();
+      else if (screenId === "canvas") manageUnmuteAudioCanvas();
     }
   });
 });
@@ -115,8 +115,8 @@ function updateAllIcons() {
   });
 }
 
-function manageUnmuteAudioWelcomeScreen(audioLibrary) {
-  audioManager.pauseGameAudios(audioLibrary);
+function manageUnmuteAudioWelcomeScreen() {
+  manageMuteAudios();
   if (!audioManager.isMuted) {
     audioManager.menuMusik.menu.play();
     audioManager.menuMusik.menu.loop = true;
@@ -124,8 +124,8 @@ function manageUnmuteAudioWelcomeScreen(audioLibrary) {
   }
 }
 
-function manageUnmuteAudioCanvas(audioLibrary) {
-  audioManager.pauseGameAudios(audioLibrary);
+function manageUnmuteAudioCanvas() {
+  manageMuteAudios();
   if (!audioManager.isMuted) {
     audioManager.soundEffects.game.play();
     audioManager.soundEffects.game.loop = true;
@@ -133,10 +133,10 @@ function manageUnmuteAudioCanvas(audioLibrary) {
   }
 }
 
-function manageMuteAudios(library1, library2, library3) {
-  audioManager.pauseGameAudios(library1);
-  audioManager.pauseGameAudios(library2);
-  audioManager.pauseGameAudios(library3);
+function manageMuteAudios() {
+  audioManager.pauseGameAudios(audioManager.soundEffects);
+  audioManager.pauseGameAudios(audioManager.menuMusik);
+  audioManager.pauseGameAudios(audioManager.winLoseMusic);
 }
 
 //keyboard Events
