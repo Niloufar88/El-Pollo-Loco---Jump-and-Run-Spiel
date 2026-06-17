@@ -263,7 +263,7 @@ class World {
   }
 
   applyBossSounds() {
-    if (this.level.endboss.isDead) {
+    if (this.level.endboss.isDead && !this.level.endboss.isPlayingDeadSound) {
       if (!this.audioManager.isMuted) {
         this.audioManager.soundEffects.bossDead.play();
         this.level.endboss.isPlayingDeadSound = true;

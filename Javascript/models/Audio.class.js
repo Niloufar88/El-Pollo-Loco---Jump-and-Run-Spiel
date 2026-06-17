@@ -101,22 +101,4 @@ class AudioManager {
       console.log(key);
     }
   }
-
-  // pauseMenuMusic() {
-  //   for (let key of Object.keys(this.menuMusik)) {
-  //     this.menuMusik[key].pause();
-  //     this.menuMusik[key].currentTime = 0;
-
-  //     console.log(key);
-  //   }
-  // }
-
-  // pauseWinLoseMusic() {
-  //   for (let key of Object.keys(this.winLoseMusic)) {
-  //     this.winLoseMusic[key].pause();
-  //     this.winLoseMusic[key].currentTime = 0;
-
-  //     console.log(key);
-  //   }
-  // }
 }
