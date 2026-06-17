@@ -251,7 +251,8 @@ class World {
 
   applyBossSounds() {
     if (this.level.endboss.isDead) {
-      this.audioManager.sounds.bossDead.play(); // should be played just once
+      this.audioManager.sounds.bossDead.play();
+      this.level.endboss.isPlayingDeadSound = true;
       return;
     } else if (this.level.endboss.isAttacking)
       this.audioManager.sounds.bossGrowl.play();

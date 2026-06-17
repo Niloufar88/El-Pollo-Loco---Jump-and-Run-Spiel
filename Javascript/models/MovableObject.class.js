@@ -37,6 +37,5 @@ class MovableObject extends DrawableObjects {
 
   die() {
     this.isDead = true;
-    // this.currentImage = 0;
   }
 }

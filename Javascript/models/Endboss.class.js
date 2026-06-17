@@ -27,6 +27,9 @@ class Endboss extends MovableObject {
     //state
     this.isAttacking = false;
     this.isHurt = false;
+    this.isPlayingDeadSound = false;
+
+    //health and damage
     this.health = 100;
     this.damage = 10;
 

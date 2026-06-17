@@ -17,7 +17,7 @@ const muteBtnImgs = document.querySelectorAll(".audio-btn img");
 
 let saveMutedState = localStorage.getItem("audioMuted");
 if (saveMutedState === null) audioManager.isMuted = true;
-else audioManager.isMuted = saveMutedState === true;
+else audioManager.isMuted = saveMutedState === "true";
 
 window.addEventListener("DOMContentLoaded", () => {
   audioManager.loadSounds();
@@ -35,12 +35,12 @@ function startGame() {
   startScreen.style.display = "none";
   canvasContainer.style.display = "block";
   gameInit();
-  manageGameAudio();
+  if (!audioManager.isMuted) manageGameAudio();
 }
 
 //side-Screen function
 function showRelevantContent(func) {
-  audioManager.sounds.click.play();
+  if (!audioManager.isMuted) audioManager.sounds.click.play();
   contentContainer.innerHTML = "";
   contentContainer.style.visibility = "visible";
   contentContainer.innerHTML = func;
@@ -66,28 +66,23 @@ function manageGameAudio() {
   audioManager.sounds.game.loop = true;
 }
 
-//toggle menu Music
+//toggle mute/unmute state
 muteBtns.forEach((muteBtn) => {
   muteBtn.addEventListener("click", (event) => {
     console.log(event.currentTarget.parentElement.dataset.id);
 
-    muteBtnImgs.forEach((img) => {
-      if (img.src.includes("volume-xmark-solid.png")) {
-        img.src = "assets/Icons/volume-solid.png";
-        if (event.currentTarget.parentElement.dataset.id === "welcome") {
-          manageUnmuteAudioWelcomeScreen();
-        } else if (event.currentTarget.parentElement.dataset.id === "canvas") {
-          manageUnmuteAudioCanvas();
-        }
-      } else if (img.src.includes("assets/Icons/volume-solid.png")) {
-        img.src = "assets/Icons/volume-xmark-solid.png";
-        if (event.currentTarget.parentElement.dataset.id === "welcome") {
-          manageMuteAudioWelcomeScreen();
-        } else if (event.currentTarget.parentElement.dataset.id === "canvas") {
-          manageMuteAudioCanvas();
-        }
-      }
-    });
+    audioManager.isMuted = !audioManager.isMuted;
+
+    localStorage.setItem("audioMuted", audioManager.isMuted);
+    updateAllIcons();
+
+    if (audioManager.isMuted) manageMuteAudios();
+    else {
+      let screenId = event.currentTarget.parentElement.dataset.id;
+
+      if (screenId === "welcome") manageUnmuteAudioWelcomeScreen();
+      else if (screenId === "canvas") manageUnmuteAudioCanvas();
+    }
   });
 });
 
