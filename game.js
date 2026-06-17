@@ -4,19 +4,6 @@ let world;
 let keyboard = new Keyboard();
 let audioManager = new AudioManager();
 
-let saveMutedState = localStorage.getItem("audioMuted");
-if (saveMutedState === null) audioManager.sounds.mute = true;
-else audioManager.sounds.mute = saveMutedState === true;
-
-window.addEventListener("DOMContentLoaded", () => {
-  audioManager.loadSounds();
-});
-
-function gameInit() {
-  world = new World(canvas, keyboard, audioManager);
-  world.draw();
-}
-
 //Screens and Buttons Variables
 const startGameBtn = document.getElementById("startGame-btn");
 const startScreen = document.getElementById("start-screen");
@@ -27,6 +14,21 @@ const controlsBtn = document.getElementById("controls-btn");
 const fullscreenBtns = document.querySelectorAll(".fullScreen-btn");
 const muteBtns = document.querySelectorAll(".audio-btn");
 const muteBtnImgs = document.querySelectorAll(".audio-btn img");
+
+let saveMutedState = localStorage.getItem("audioMuted");
+if (saveMutedState === null) audioManager.isMuted = true;
+else audioManager.isMuted = saveMutedState === true;
+
+window.addEventListener("DOMContentLoaded", () => {
+  audioManager.loadSounds();
+
+  updateAllIcons();
+});
+
+function gameInit() {
+  world = new World(canvas, keyboard, audioManager);
+  world.draw();
+}
 
 //start Game handler
 function startGame() {
@@ -89,6 +91,14 @@ muteBtns.forEach((muteBtn) => {
   });
 });
 
+function updateAllIcons() {
+  muteBtnImgs.forEach((img) => {
+    img.src = audioManager.isMuted
+      ? "assets/Icons/volume-xmark-solid.png"
+      : "assets/Icons/volume-solid.png";
+  });
+}
+
 function manageUnmuteAudioWelcomeScreen() {
   audioManager.sounds.game.pause();
   audioManager.sounds.game.currentTime = 0;
@@ -105,12 +115,8 @@ function manageUnmuteAudioCanvas() {
   audioManager.sounds.game.volume = 0.2;
 }
 
-function manageMuteAudioWelcomeScreen() {
-  audioManager.pauseGameSoundEffects();
-}
-
-function manageMuteAudioCanvas() {
-  audioManager.pauseGameSoundEffects();
+function manageMuteAudios() {
+  audioManager.pauseGameAudios();
 }
 
 //keyboard Events
