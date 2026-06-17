@@ -7,6 +7,7 @@ let audioManager = new AudioManager();
 //Screens and Buttons Variables
 const startGameBtn = document.getElementById("startGame-btn");
 const startScreen = document.getElementById("start-screen");
+const winLoseScreen = document.getElementById("win-lose-screen");
 const canvasContainer = document.getElementById("canvas-container");
 const howToPlayBtn = document.getElementById("howToPlay-btn");
 const contentContainer = document.getElementById("contents");
@@ -14,14 +15,15 @@ const controlsBtn = document.getElementById("controls-btn");
 const fullscreenBtns = document.querySelectorAll(".fullScreen-btn");
 const muteBtns = document.querySelectorAll(".audio-btn");
 const muteBtnImgs = document.querySelectorAll(".audio-btn img");
+const backBtn = document.querySelector(".back-btn");
 
 let saveMutedState = localStorage.getItem("audioMuted");
 if (saveMutedState === null) audioManager.isMuted = true;
 else audioManager.isMuted = saveMutedState === "true";
 
 window.addEventListener("DOMContentLoaded", () => {
-  audioManager.loadSounds();
-
+  audioManager.loadAllSounds();
+  winLoseScreen.style.display = "none";
   updateAllIcons();
 });
 
@@ -33,14 +35,26 @@ function gameInit() {
 //start Game handler
 function startGame() {
   startScreen.style.display = "none";
+  winLoseScreen.style.display = "none";
   canvasContainer.style.display = "block";
   gameInit();
-  if (!audioManager.isMuted) manageGameAudio();
+  if (!audioManager.isMuted) manageGameAudio(audioManager.menuMusik);
+}
+
+function backToMenu(event) {
+  console.log(event.currentTarget.parentElement.dataset.id);
+  let screenId = event.currentTarget.parentElement.dataset.id;
+
+  if (screenId === "canvas") {
+    canvasContainer.style.display = "none";
+    startScreen.style.display = "flex";
+    manageUnmuteAudioWelcomeScreen(audioManager.soundEffects);
+  }
 }
 
 //side-Screen function
 function showRelevantContent(func) {
-  if (!audioManager.isMuted) audioManager.sounds.click.play();
+  if (!audioManager.isMuted) audioManager.menuMusik.click.play();
   contentContainer.innerHTML = "";
   contentContainer.style.visibility = "visible";
   contentContainer.innerHTML = func;
@@ -59,11 +73,11 @@ fullscreenBtns.forEach((btn) => {
 });
 
 //game music manager
-function manageGameAudio() {
-  audioManager.sounds.menu.pause();
-  audioManager.sounds.game.play();
-  audioManager.sounds.game.volume = 0.2;
-  audioManager.sounds.game.loop = true;
+function manageGameAudio(audioLibrary) {
+  audioManager.pauseGameAudios(audioLibrary);
+  audioManager.soundEffects.game.play();
+  audioManager.soundEffects.game.volume = 0.2;
+  audioManager.soundEffects.game.loop = true;
 }
 
 //toggle mute/unmute state
@@ -76,12 +90,19 @@ muteBtns.forEach((muteBtn) => {
     localStorage.setItem("audioMuted", audioManager.isMuted);
     updateAllIcons();
 
-    if (audioManager.isMuted) manageMuteAudios();
+    if (audioManager.isMuted)
+      manageMuteAudios(
+        audioManager.soundEffects,
+        audioManager.menuMusik,
+        audioManager.winLoseMusic,
+      );
     else {
       let screenId = event.currentTarget.parentElement.dataset.id;
 
-      if (screenId === "welcome") manageUnmuteAudioWelcomeScreen();
-      else if (screenId === "canvas") manageUnmuteAudioCanvas();
+      if (screenId === "welcome")
+        manageUnmuteAudioWelcomeScreen(audioManager.soundEffects);
+      else if (screenId === "canvas")
+        manageUnmuteAudioCanvas(audioManager.menuMusik);
     }
   });
 });
@@ -94,24 +115,28 @@ function updateAllIcons() {
   });
 }
 
-function manageUnmuteAudioWelcomeScreen() {
-  audioManager.sounds.game.pause();
-  audioManager.sounds.game.currentTime = 0;
-  audioManager.sounds.menu.play();
-  audioManager.sounds.menu.loop = true;
-  audioManager.sounds.menu.volume = 0.2;
+function manageUnmuteAudioWelcomeScreen(audioLibrary) {
+  audioManager.pauseGameAudios(audioLibrary);
+  if (!audioManager.isMuted) {
+    audioManager.menuMusik.menu.play();
+    audioManager.menuMusik.menu.loop = true;
+    audioManager.menuMusik.menu.volume = 0.2;
+  }
 }
 
-function manageUnmuteAudioCanvas() {
-  audioManager.sounds.menu.pause();
-  audioManager.sounds.menu.currentTime = 0;
-  audioManager.sounds.game.play();
-  audioManager.sounds.game.loop = true;
-  audioManager.sounds.game.volume = 0.2;
+function manageUnmuteAudioCanvas(audioLibrary) {
+  audioManager.pauseGameAudios(audioLibrary);
+  if (!audioManager.isMuted) {
+    audioManager.soundEffects.game.play();
+    audioManager.soundEffects.game.loop = true;
+    audioManager.soundEffects.game.volume = 0.2;
+  }
 }
 
-function manageMuteAudios() {
-  audioManager.pauseGameAudios();
+function manageMuteAudios(library1, library2, library3) {
+  audioManager.pauseGameAudios(library1);
+  audioManager.pauseGameAudios(library2);
+  audioManager.pauseGameAudios(library3);
 }
 
 //keyboard Events
@@ -130,5 +155,3 @@ document.addEventListener("keyup", (event) => {
   if (event.key === " ") keyboard.SPACE = false;
   if (event.key === "d") keyboard.THROW = false;
 });
-
-//

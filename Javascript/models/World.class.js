@@ -119,12 +119,17 @@ class World {
         //collision is acceptable just when pepe jump on the chickens, so from the top
         if (pepeFeet < chickenMiddle && this.character.speedY > 0) {
           enemy.die();
-          this.audioManager.sounds.hit.play();
+
+          if (!this.audioManager.isMuted)
+            this.audioManager.soundEffects.hit.play();
+
           // this.character.speedY = -8;
           // this.character.isJumping = true;
         } else if (!this.character.isInvincible && !enemy.isDead) {
           this.character.hit();
-          this.audioManager.sounds.hurt.play();
+
+          if (!this.audioManager.isMuted)
+            this.audioManager.soundEffects.hurt.play();
         }
       }
     });
@@ -135,7 +140,8 @@ class World {
       if (!bottle.isCollected && this.character.isColliding(bottle)) {
         bottle.collected();
         this.character.bottlesCollected++;
-        this.audioManager.sounds.bottles.play();
+        if (!this.audioManager.isMuted)
+          this.audioManager.soundEffects.bottles.play();
       }
     });
   }
@@ -145,7 +151,9 @@ class World {
       if (!coin.isCollected && this.character.isColliding(coin)) {
         coin.collected();
         this.character.coinsCollected++;
-        this.audioManager.sounds.coins.play();
+
+        if (!this.audioManager.isMuted)
+          this.audioManager.soundEffects.coins.play();
       }
     });
   }
@@ -158,7 +166,9 @@ class World {
       ) {
         this.level.endboss.hurt(damage);
         thrownBottle.hasHit = true;
-        this.audioManager.sounds.break.play();
+
+        if (!this.audioManager.isMuted)
+          this.audioManager.soundEffects.break.play();
       }
     });
   }
@@ -170,7 +180,8 @@ class World {
     ) {
       if (!this.character.isInvincible) {
         this.character.hit();
-        this.audioManager.sounds.hurt.play();
+        if (!this.audioManager.isMuted)
+          this.audioManager.soundEffects.hurt.play();
       }
     }
   }
@@ -241,20 +252,24 @@ class World {
   }
 
   applyWalkingSound() {
-    if (
-      (this.keyboard.RIGHT || this.keyboard.LEFT) &&
-      !this.character.isJumping
-    )
-      this.audioManager.sounds.walk.play();
-    else this.audioManager.sounds.walk.pause();
+    if (!this.audioManager.isMuted) {
+      if (
+        (this.keyboard.RIGHT || this.keyboard.LEFT) &&
+        !this.character.isJumping
+      )
+        this.audioManager.soundEffects.walk.play();
+      else this.audioManager.soundEffects.walk.pause();
+    }
   }
 
   applyBossSounds() {
     if (this.level.endboss.isDead) {
-      this.audioManager.sounds.bossDead.play();
-      this.level.endboss.isPlayingDeadSound = true;
-      return;
-    } else if (this.level.endboss.isAttacking)
-      this.audioManager.sounds.bossGrowl.play();
+      if (!this.audioManager.isMuted) {
+        this.audioManager.soundEffects.bossDead.play();
+        this.level.endboss.isPlayingDeadSound = true;
+        return;
+      }
+    } else if (this.level.endboss.isAttacking && !this.audioManager.isMuted)
+      this.audioManager.soundEffects.bossGrowl.play();
   }
 }

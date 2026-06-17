@@ -209,3 +209,12 @@ main {
   /* visibility: hidden; */
   background-color: #000000;
 }
+
+#win-lose-screen {
+  width: 720px;
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
