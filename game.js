@@ -46,6 +46,7 @@ function backToMenu(event) {
   let screenId = event.currentTarget.parentElement.dataset.id;
 
   if (screenId === "canvas") {
+    if (world) world.stopGame();
     manageMuteAudios(
       audioManager.soundEffects,
       audioManager.menuMusik,

@@ -17,6 +17,7 @@ class World {
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.audioManager = audioManager;
+    this.isGameRunning = true;
     this.setWorldForPepe();
     this.draw();
   }
@@ -26,6 +27,7 @@ class World {
   }
 
   draw() {
+    if (!this.isGameRunning) return;
     //clearing the canvas before drawing the next frame
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -271,5 +273,13 @@ class World {
       }
     } else if (this.level.endboss.isAttacking && !this.audioManager.isMuted)
       this.audioManager.soundEffects.bossGrowl.play();
+  }
+
+  stopGame() {
+    this.isGameRunning = false;
+
+    this.audioManager.pauseGameAudios(this.audioManager.soundEffects);
+    this.audioManager.pauseGameAudios(this.audioManager.menuMusik);
+    this.audioManager.pauseGameAudios(this.audioManager.winLoseMusic);
   }
 }
