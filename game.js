@@ -83,7 +83,10 @@ function showLoseScreen() {
 
 //side-Screen function
 function showRelevantContent(func) {
-  if (!audioManager.isMuted) audioManager.menuMusik.click.play();
+  if (!audioManager.isMuted) {
+    audioManager.menuMusik.click.currentTime = 0;
+    audioManager.menuMusik.click.play();
+  }
   contentContainer.innerHTML = "";
   contentContainer.style.visibility = "visible";
   contentContainer.innerHTML = func;
