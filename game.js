@@ -90,7 +90,10 @@ function showWinScreen() {
   winLoseScreen.innerHTML = renderWinLoseScreen();
   winLoseScreen.classList.remove("lose-background");
   winLoseScreen.classList.add("win-background");
-  if (!audioManager.isMuted) audioManager.winLoseMusic.win.play();
+  if (!audioManager.isMuted) {
+    audioManager.winLoseMusic.win.play();
+    audioManager.winLoseMusic.win.volume = 0.2;
+  }
 }
 
 function showLoseScreen() {
@@ -101,7 +104,10 @@ function showLoseScreen() {
   winLoseScreen.innerHTML = renderWinLoseScreen();
   winLoseScreen.classList.remove("win-background");
   winLoseScreen.classList.add("lose-background");
-  if (!audioManager.isMuted) audioManager.winLoseMusic.gameOver.play();
+  if (!audioManager.isMuted) {
+    audioManager.winLoseMusic.gameOver.play();
+    audioManager.winLoseMusic.gameOver.volume = 0.2;
+  }
 }
 
 //side-Screen function

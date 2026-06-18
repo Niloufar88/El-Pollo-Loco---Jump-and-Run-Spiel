@@ -11,13 +11,14 @@ class World {
   keyboard;
   camera_x = 0;
   worldEndX = this.level.level_end_x;
+  isGameRunning = true;
 
   constructor(canvas, keyboard, audioManager) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.audioManager = audioManager;
-    this.isGameRunning = true;
+
     this.setWorldForPepe();
     this.draw();
   }
@@ -43,9 +44,9 @@ class World {
 
     //Character
     this.character.updateCharacter();
-    this.pepeInLongIdleMode();
     this.character.drawOnCanvas(this.ctx, this.character);
     this.applyCharacterDeadSound();
+    this.pepeInLongIdleMode();
 
     //Chickens
     this.checkCollisionsWithChickens();
@@ -120,15 +121,10 @@ class World {
       let chickenMiddle = enemy.y + enemy.offsetY + enemy.collisionHeight / 2;
 
       if (this.character.isColliding(enemy)) {
-        //collision is acceptable just when pepe jump on the chickens, so from the top
         if (pepeFeet < chickenMiddle && this.character.speedY > 0) {
           enemy.die();
-
           if (!this.audioManager.isMuted)
             this.audioManager.soundEffects.hit.play();
-
-          // this.character.speedY = -8;
-          // this.character.isJumping = true;
         } else if (!this.character.isInvincible && !enemy.isDead) {
           this.character.hit();
 
@@ -278,24 +274,33 @@ class World {
         this.audioManager.soundEffects.bossDead.play();
         this.level.endboss.isPlayingDeadSound = true;
         setTimeout(() => {
+          this.level.endboss.isPlayingDeadSound = false;
           this.stopGame();
           showWinScreen();
         }, 1000);
         return;
       }
-    } else if (this.level.endboss.isAttacking && !this.audioManager.isMuted)
-      this.audioManager.soundEffects.bossGrowl.play();
+    } else if (this.level.endboss.isAttacking && !this.audioManager.isMuted) {
+      if (!this.level.endboss.isPlayingGrowlSound) {
+        this.audioManager.soundEffects.bossGrowl.play();
+        this.level.endboss.isPlayingGrowlSound = true;
+      } else {
+        this.level.endboss.isPlayingGrowlSound = false;
+      }
+    }
   }
 
   applyCharacterDeadSound() {
-    if (this.character.isDead) {
+    if (this.character.isDead && !this.character.playingDeathSound) {
       this.character.pepeLost = true;
       if (!this.audioManager.isMuted) {
         this.audioManager.soundEffects.pepeDead.play();
+        this.character.playingDeathSound = true;
         setTimeout(() => {
+          this.character.playingDeathSound = false;
           this.stopGame();
           showLoseScreen();
-        }, 500);
+        }, 1000);
         return;
       }
     }
@@ -303,11 +308,18 @@ class World {
 
   pepeInLongIdleMode() {
     if (this.character.longIdleAnimationPlaying && !this.audioManager.isMuted) {
-      this.audioManager.soundEffects.game.pause();
-      this.audioManager.soundEffects.game.currentTime = 0;
-      this.audioManager.soundEffects.snoring.currentTime = 0;
-      this.audioManager.soundEffects.snoring.play();
-      this.audioManager.soundEffects.snoring.volume = 0.3;
+      if (this.audioManager.soundEffects.snoring.paused) {
+        this.audioManager.soundEffects.game.pause();
+        this.audioManager.soundEffects.snoring.currentTime = 0;
+        this.audioManager.soundEffects.snoring.volume = 0.3;
+        this.audioManager.soundEffects.snoring.play();
+      } else if (!this.character.longIdleAnimationPlaying) {
+        if (!this.audioManager.soundEffects.snoring.paused) {
+          this.audioManager.soundEffects.snoring.pause();
+          this.audioManager.soundEffects.snoring.currentTime = 0;
+          // this.audioManager.soundEffects.game.play();
+        }
+      }
     }
   }
 

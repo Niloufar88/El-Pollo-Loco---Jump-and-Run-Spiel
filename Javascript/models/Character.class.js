@@ -23,7 +23,7 @@ class Character extends MovableObject {
     this.jumpSpeed = 70;
     this.deathSpeed = 100;
     this.hurtSpeed = 100;
-    this.londIdleSpeed = 150;
+    this.longIdleSpeed = 150;
 
     //jump
     this.speedY = 0;
@@ -48,6 +48,7 @@ class Character extends MovableObject {
 
     //state
     this.pepeLost = false;
+    this.playingDeathSound = false;
 
     //long Idle
     this.lastMovementTime = Date.now();
@@ -140,16 +141,26 @@ class Character extends MovableObject {
       this.jump();
 
     //movement
-    if (this.world.keyboard.RIGHT) this.moveRight();
-    if (this.world.keyboard.LEFT) this.moveLeft();
+    if (this.world.keyboard.RIGHT) {
+      this.longIdleAnimationPlaying = false;
+      this.moveRight();
+    }
+    if (this.world.keyboard.LEFT) {
+      this.longIdleAnimationPlaying = false;
+      this.moveLeft();
+    }
 
     // if Pepe is hurt
-    if (this.isHurt) this.playAnimation(this.PEPE_HURT, this.hurtSpeed);
+    if (this.isHurt) {
+      this.playAnimation(this.PEPE_HURT, this.hurtSpeed);
+      this.longIdleAnimationPlaying = false;
+    }
+
     //Jump
     else if (this.isPlayingJumpAnimation) {
       if (!this.isHurt) {
         this.playAnimation(this.PEPE_JUMP, this.jumpSpeed, true);
-
+        this.longIdleAnimationPlaying = false;
         if (
           this.currentImage >= this.PEPE_JUMP.length - 1 &&
           this.isOnGround()
@@ -162,10 +173,11 @@ class Character extends MovableObject {
       this.lastMovementTime = Date.now();
       this.longIdleAnimationPlaying = false;
     } else if (Date.now() - this.lastMovementTime >= 10000) {
-      this.playAnimation(this.PEPE_LONGIDLE, this.londIdleSpeed);
+      this.playAnimation(this.PEPE_LONGIDLE, this.longIdleSpeed);
       this.longIdleAnimationPlaying = true;
     } else {
       this.playAnimation(this.PEPE_IDLE, this.idleSpeed);
+      this.longIdleAnimationPlaying = false;
     }
 
     // calculate the camera-x position based on the character's x position
@@ -259,5 +271,9 @@ class Character extends MovableObject {
     this.coinsCollected = 0;
     this.pepeLost = false;
     this.isDead = false;
+
+    this.lastMovementTime = Date.now();
+    this.longIdleAnimationPlaying = false;
+    this.playingDeathSound = false;
   }
 }

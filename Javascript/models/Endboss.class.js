@@ -28,6 +28,7 @@ class Endboss extends MovableObject {
     this.isAttacking = false;
     this.isHurt = false;
     this.isPlayingDeadSound = false;
+    this.isPlayingGrwolSound = false;
     this.pepeWon = false;
 
     //health and damage
@@ -84,8 +85,13 @@ class Endboss extends MovableObject {
 
     let distance = Math.abs(this.x - character.x);
 
-    if (distance <= 300) this.isAttacking = true;
-    else this.isAttacking = false;
+    if (distance <= 300) {
+      this.isAttacking = true;
+      this.isPlayingGrwolSound = true;
+    } else {
+      this.isAttacking = false;
+      this.isPlayingGrwolSound = false;
+    }
 
     if (this.isHurt) this.playAnimation(this.BOSS_HURT, this.hurtSpeed);
     else if (this.isAttacking) {
