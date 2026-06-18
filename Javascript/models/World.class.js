@@ -170,8 +170,10 @@ class World {
         this.level.endboss.hurt(damage);
         thrownBottle.hasHit = true;
 
-        if (!this.audioManager.isMuted)
+        if (!this.audioManager.isMuted) {
+          this.audioManager.soundEffects.break.currentTime = 0;
           this.audioManager.soundEffects.break.play();
+        }
       }
     });
   }
@@ -240,7 +242,10 @@ class World {
         this.level.thrownBottles.push(
           new ThrowableBottles(bottleX, bottleY, bottleDirection),
         );
-
+        if (!this.audioManager.isMuted) {
+          this.audioManager.soundEffects.throw.currentTime = 0;
+          this.audioManager.soundEffects.throw.play();
+        }
         this.character.bottlesCollected--;
         this.keyboard.THROW = false;
         this.character.lastThrowTime = now;
