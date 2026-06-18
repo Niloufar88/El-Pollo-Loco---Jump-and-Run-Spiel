@@ -302,7 +302,7 @@ class World {
   }
 
   pepeInLongIdleMode() {
-    if (this.longIdleAnimationPlaying && !this.audioManager.isMuted) {
+    if (this.character.longIdleAnimationPlaying && !this.audioManager.isMuted) {
       this.audioManager.soundEffects.game.pause();
       this.audioManager.soundEffects.game.currentTime = 0;
       this.audioManager.soundEffects.snoring.currentTime = 0;

@@ -217,6 +217,8 @@ class Character extends MovableObject {
       this.isJumping = true;
       this.isPlayingJumpAnimation = true;
       this.currentImage = 0;
+      this.lastMovementTime = Date.now();
+      this.longIdleAnimationPlaying = false;
     }
   }
 
