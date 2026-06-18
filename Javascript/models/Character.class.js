@@ -221,4 +221,17 @@ class Character extends MovableObject {
     super.die();
     this.pepeLost = true;
   }
+
+  reset() {
+    this.x = 50;
+    this.y = 170;
+
+    this.isInvincible = false;
+    this.isHurt = false;
+    this.health = 100;
+    this.bottlesCollected = 0;
+    this.coinsCollected = 0;
+    this.pepeLost = false;
+    this.isDead = false;
+  }
 }

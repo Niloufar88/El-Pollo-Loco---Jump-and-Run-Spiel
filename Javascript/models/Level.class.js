@@ -68,4 +68,12 @@ class Level {
       );
     }
   }
+
+  reset() {
+    this.enemies = [];
+    this.bottles = [];
+    this.coins = [];
+    this.thrownBottles = [];
+    this.endboss.reset();
+  }
 }

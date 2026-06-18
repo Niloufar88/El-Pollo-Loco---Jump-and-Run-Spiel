@@ -110,4 +110,15 @@ class Endboss extends MovableObject {
         this.isHurt = false;
       }, 500);
   }
+
+  reset() {
+    this.x = 3200;
+    this.y = 40;
+
+    this.health = 100;
+    this.isDead = false;
+    this.isAttacking = false;
+    this.pepeWon = false;
+    this.isPlayingDeadSound = false;
+  }
 }
