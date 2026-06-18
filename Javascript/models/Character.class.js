@@ -20,9 +20,10 @@ class Character extends MovableObject {
     //Animation Speed
     this.walkSpeed = 100;
     this.idleSpeed = 150;
-    this.jumpSpeed = 60;
+    this.jumpSpeed = 70;
     this.deathSpeed = 100;
     this.hurtSpeed = 100;
+    this.londIdleSpeed = 150;
 
     //jump
     this.speedY = 0;
@@ -47,6 +48,10 @@ class Character extends MovableObject {
 
     //state
     this.pepeLost = false;
+
+    //long Idle
+    this.lastMovementTime = Date.now();
+    this.longIdleAnimationPlaying = false;
 
     //Image Array
     this.PEPE_IDLE = [
@@ -98,12 +103,26 @@ class Character extends MovableObject {
       "assets/img/pepe-character/hurt/H-42.png",
     ];
 
+    this.PEPE_LONGIDLE = [
+      "assets/img/pepe-character/long_idle/I-11.png",
+      "assets/img/pepe-character/long_idle/I-12.png",
+      "assets/img/pepe-character/long_idle/I-13.png",
+      "assets/img/pepe-character/long_idle/I-14.png",
+      "assets/img/pepe-character/long_idle/I-15.png",
+      "assets/img/pepe-character/long_idle/I-16.png",
+      "assets/img/pepe-character/long_idle/I-17.png",
+      "assets/img/pepe-character/long_idle/I-18.png",
+      "assets/img/pepe-character/long_idle/I-19.png",
+      "assets/img/pepe-character/long_idle/I-20.png",
+    ];
+
     this.loadImage(this.PEPE_IDLE[0]);
     this.loadImages(this.PEPE_IDLE);
     this.loadImages(this.PEPE_WALK);
     this.loadImages(this.PEPE_JUMP);
     this.loadImages(this.PEPE_DEAD);
     this.loadImages(this.PEPE_HURT);
+    this.loadImages(this.PEPE_LONGIDLE);
   }
 
   updateCharacter() {
@@ -140,6 +159,11 @@ class Character extends MovableObject {
       }
     } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
       this.playAnimation(this.PEPE_WALK, this.walkSpeed);
+      this.lastMovementTime = Date.now();
+      this.longIdleAnimationPlaying = false;
+    } else if (Date.now() - this.lastMovementTime >= 10000) {
+      this.playAnimation(this.PEPE_LONGIDLE, this.londIdleSpeed);
+      this.longIdleAnimationPlaying = true;
     } else {
       this.playAnimation(this.PEPE_IDLE, this.idleSpeed);
     }

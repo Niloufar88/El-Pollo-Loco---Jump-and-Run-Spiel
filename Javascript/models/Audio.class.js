@@ -64,6 +64,11 @@ class AudioManager {
       "assets/sounds/universfield-male-death-scream-horror-352706.mp3",
       this.soundEffects,
     );
+    this.load(
+      "snoring",
+      "assets/sounds/audiopapkin-male-snoring-297875.mp3",
+      this.soundEffects,
+    );
   }
 
   loadMenuMusik() {

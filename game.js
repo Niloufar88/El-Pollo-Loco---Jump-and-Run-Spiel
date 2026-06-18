@@ -39,7 +39,7 @@ function startGame() {
   winLoseScreen.style.display = "none";
   canvasContainer.style.display = "block";
 
-  if (world.isGameRunning) {
+  if (world) {
     world.stopGame();
     world.resetProperties();
   }
@@ -77,6 +77,7 @@ function backToMenu(event) {
       : null;
 
   contentContainer.innerHTML = "";
+  contentContainer.style.visibility = "hidden";
   startScreen.style.display = "flex";
   manageUnmuteAudioWelcomeScreen();
 }
