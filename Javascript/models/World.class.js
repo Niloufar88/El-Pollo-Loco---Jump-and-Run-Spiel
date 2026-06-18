@@ -313,12 +313,12 @@ class World {
         this.audioManager.soundEffects.snoring.currentTime = 0;
         this.audioManager.soundEffects.snoring.volume = 0.3;
         this.audioManager.soundEffects.snoring.play();
-      } else if (!this.character.longIdleAnimationPlaying) {
-        if (!this.audioManager.soundEffects.snoring.paused) {
-          this.audioManager.soundEffects.snoring.pause();
-          this.audioManager.soundEffects.snoring.currentTime = 0;
-          // this.audioManager.soundEffects.game.play();
-        }
+      }
+    } else if (!this.character.longIdleAnimationPlaying) {
+      if (!this.audioManager.soundEffects.snoring.paused) {
+        this.audioManager.soundEffects.snoring.pause();
+        this.audioManager.soundEffects.snoring.currentTime = 0;
+        this.audioManager.soundEffects.game.play();
       }
     }
   }

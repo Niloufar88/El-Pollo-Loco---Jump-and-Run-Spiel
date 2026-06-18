@@ -20,7 +20,7 @@ class Character extends MovableObject {
     //Animation Speed
     this.walkSpeed = 100;
     this.idleSpeed = 150;
-    this.jumpSpeed = 70;
+    this.jumpSpeed = 60;
     this.deathSpeed = 100;
     this.hurtSpeed = 100;
     this.longIdleSpeed = 150;
@@ -142,11 +142,9 @@ class Character extends MovableObject {
 
     //movement
     if (this.world.keyboard.RIGHT) {
-      this.longIdleAnimationPlaying = false;
       this.moveRight();
     }
     if (this.world.keyboard.LEFT) {
-      this.longIdleAnimationPlaying = false;
       this.moveLeft();
     }
 
@@ -161,6 +159,7 @@ class Character extends MovableObject {
       if (!this.isHurt) {
         this.playAnimation(this.PEPE_JUMP, this.jumpSpeed, true);
         this.longIdleAnimationPlaying = false;
+
         if (
           this.currentImage >= this.PEPE_JUMP.length - 1 &&
           this.isOnGround()
@@ -177,6 +176,7 @@ class Character extends MovableObject {
       this.longIdleAnimationPlaying = true;
     } else {
       this.playAnimation(this.PEPE_IDLE, this.idleSpeed);
+
       this.longIdleAnimationPlaying = false;
     }
 
