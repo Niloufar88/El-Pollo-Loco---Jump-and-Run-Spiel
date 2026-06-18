@@ -38,7 +38,29 @@ function startGame() {
   startScreen.style.display = "none";
   winLoseScreen.style.display = "none";
   canvasContainer.style.display = "block";
+
+  if (world.isGameRunning) {
+    world.stopGame();
+    world.resetProperties();
+  }
   gameInit();
+  if (!audioManager.isMuted) manageGameAudio();
+}
+
+function restartGame() {
+  if (world) world.stopGame();
+
+  managePauseAudios();
+
+  startScreen.style.display = "none";
+  winLoseScreen.style.display = "none";
+  canvasContainer.style.display = "block";
+
+  if (!world.isGameRunning) world.isGameRunning = true;
+
+  gameInit();
+  world.resetProperties();
+
   if (!audioManager.isMuted) manageGameAudio();
 }
 

@@ -69,11 +69,19 @@ class Level {
     }
   }
 
+  initLevel1() {
+    level1.generatingEnemies(15);
+    level1.generatingClouds(3);
+    level1.generateBottles(10);
+    level1.generateRandomCoins();
+  }
+
   reset() {
     this.enemies = [];
     this.bottles = [];
     this.coins = [];
     this.thrownBottles = [];
     this.endboss.reset();
+    this.initLevel1();
   }
 }

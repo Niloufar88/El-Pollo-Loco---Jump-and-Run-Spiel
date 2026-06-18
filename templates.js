@@ -59,7 +59,7 @@ function renderWinLoseScreen() {
             </button>
 
             <!-- RESTART GAME -->
-            <button id="restartGame-btn">Restart game</button>
+            <button id="restartGame-btn" onclick="restartGame()">Restart game</button>
           </div>
 
           <!-- CONFIG BUTTONS -->

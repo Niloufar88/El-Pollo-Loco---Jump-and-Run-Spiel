@@ -302,9 +302,10 @@ class World {
 
   stopGame() {
     this.isGameRunning = false;
+  }
 
-    // this.audioManager.pauseGameAudios(this.audioManager.soundEffects);
-    // this.audioManager.pauseGameAudios(this.audioManager.menuMusik);
-    // this.audioManager.pauseGameAudios(this.audioManager.winLoseMusic);
+  resetProperties() {
+    this.character.reset();
+    this.level.reset();
   }
 }
