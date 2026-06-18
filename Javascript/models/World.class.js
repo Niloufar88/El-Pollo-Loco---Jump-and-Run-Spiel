@@ -44,6 +44,7 @@ class World {
     //Character
     this.character.updateCharacter();
     this.character.drawOnCanvas(this.ctx, this.character);
+    this.applyCharacterDeadSound();
 
     //Chickens
     this.checkCollisionsWithChickens();
@@ -266,20 +267,39 @@ class World {
 
   applyBossSounds() {
     if (this.level.endboss.isDead && !this.level.endboss.isPlayingDeadSound) {
+      this.level.endboss.pepeWon = true;
       if (!this.audioManager.isMuted) {
         this.audioManager.soundEffects.bossDead.play();
         this.level.endboss.isPlayingDeadSound = true;
+        setTimeout(() => {
+          this.stopGame();
+          showWinScreen();
+        }, 1000);
         return;
       }
     } else if (this.level.endboss.isAttacking && !this.audioManager.isMuted)
       this.audioManager.soundEffects.bossGrowl.play();
   }
 
+  applyCharacterDeadSound() {
+    if (this.character.isDead) {
+      this.character.pepeLost = true;
+      if (!this.audioManager.isMuted) {
+        this.audioManager.soundEffects.pepeDead.play();
+        setTimeout(() => {
+          this.stopGame();
+          showLoseScreen();
+        }, 500);
+        return;
+      }
+    }
+  }
+
   stopGame() {
     this.isGameRunning = false;
 
-    this.audioManager.pauseGameAudios(this.audioManager.soundEffects);
-    this.audioManager.pauseGameAudios(this.audioManager.menuMusik);
-    this.audioManager.pauseGameAudios(this.audioManager.winLoseMusic);
+    // this.audioManager.pauseGameAudios(this.audioManager.soundEffects);
+    // this.audioManager.pauseGameAudios(this.audioManager.menuMusik);
+    // this.audioManager.pauseGameAudios(this.audioManager.winLoseMusic);
   }
 }

@@ -73,11 +73,12 @@ main {
 }
 
 .btns {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 50px;
-  padding: 20px 0 0 20px;
+  padding: 20px 20px 0;
 }
 
 #contents {
@@ -211,10 +212,25 @@ main {
 }
 
 #win-lose-screen {
-  width: 720px;
-  height: 480px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+}
+
+.win-background {
+  background-image: url("assets/img/You won, you lost/You Win A.png");
+  background-size: cover;
+  background-position: center center;
+}
+
+.lose-background {
+  background-image: url("assets/img/You won, you lost/Game Over.png");
+  background-size: cover;
+  background-position: center center;
 }

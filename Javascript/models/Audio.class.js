@@ -59,6 +59,11 @@ class AudioManager {
       this.soundEffects,
     );
     this.load("game", "assets/sounds/safari.mp3", this.soundEffects);
+    this.load(
+      "pepeDead",
+      "assets/sounds/universfield-male-death-scream-horror-352706.mp3",
+      this.soundEffects,
+    );
   }
 
   loadMenuMusik() {
@@ -97,8 +102,6 @@ class AudioManager {
     for (let key of Object.keys(audioLibrary)) {
       audioLibrary[key].pause();
       audioLibrary[key].currentTime = 0;
-
-      console.log(key);
     }
   }
 }

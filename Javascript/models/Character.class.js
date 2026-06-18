@@ -45,6 +45,9 @@ class Character extends MovableObject {
     //throwing Bottles
     this.lastThrowTime = 0;
 
+    //state
+    this.pepeLost = false;
+
     //Image Array
     this.PEPE_IDLE = [
       "assets/img/pepe-character/idle/I-1.png",
@@ -212,5 +215,10 @@ class Character extends MovableObject {
         this.isInvincible = false;
       }, this.invincibilityDuration);
     }
+  }
+
+  die() {
+    super.die();
+    this.pepeLost = true;
   }
 }
