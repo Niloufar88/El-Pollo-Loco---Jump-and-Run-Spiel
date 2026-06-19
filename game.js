@@ -16,6 +16,7 @@ const fullscreenBtns = document.querySelectorAll(".fullScreen-btn");
 const muteBtns = document.querySelectorAll(".audio-btn");
 const muteBtnImgs = document.querySelectorAll(".audio-btn img");
 const backBtn = document.querySelector(".back-btn");
+const touchBtns = document.querySelector(".touchBtns");
 
 let saveMutedState = localStorage.getItem("audioMuted");
 if (saveMutedState === null) audioManager.isMuted = true;
