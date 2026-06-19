@@ -17,16 +17,37 @@ const muteBtns = document.querySelectorAll(".audio-btn");
 const muteBtnImgs = document.querySelectorAll(".audio-btn img");
 const backBtn = document.querySelector(".back-btn");
 const touchBtns = document.querySelector(".touchBtns");
+const orientationOverlay = document.getElementById("orientationOverlay");
 
 let saveMutedState = localStorage.getItem("audioMuted");
 if (saveMutedState === null) audioManager.isMuted = true;
 else audioManager.isMuted = saveMutedState === "true";
 
 window.addEventListener("DOMContentLoaded", () => {
+  orientationCheckOnload();
   audioManager.loadAllSounds();
   winLoseScreen.style.display = "none";
   updateAllIcons();
 });
+
+//detecting orientation change
+window
+  .matchMedia("(orientation:landscape")
+  .addEventListener("change", (event) => {
+    const landscape = event.matches;
+
+    if (landscape) {
+      orientationOverlay.style.display = "none";
+    } else {
+      orientationOverlay.style.display = "flex";
+    }
+  });
+
+function orientationCheckOnload() {
+  const windowOrientation = window.matchMedia("(orientation:landscape").matches;
+  if (windowOrientation) orientationOverlay.style.display = "none";
+  else orientationOverlay.style.display = "flex";
+}
 
 function gameInit() {
   world = new World(canvas, keyboard, audioManager);
