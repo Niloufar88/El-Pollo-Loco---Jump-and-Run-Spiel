@@ -169,8 +169,7 @@ class World {
         thrownBottle.hasHit = true;
 
         if (!this.audioManager.isMuted) {
-          this.audioManager.soundEffects.break.currentTime = 0;
-          this.audioManager.soundEffects.break.play();
+          this.resetBeforePlay(this.audioManager.soundEffects.break);
         }
       }
     });
@@ -350,5 +349,6 @@ class World {
   resetProperties() {
     this.character.reset();
     this.level.reset();
+    this.isGameRunning = true;
   }
 }

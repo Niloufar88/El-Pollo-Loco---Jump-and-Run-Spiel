@@ -35,10 +35,7 @@ function gameInit() {
 //start Game handler
 function startGame() {
   managePauseAudios();
-  startScreen.style.display = "none";
-  winLoseScreen.style.display = "none";
-  canvasContainer.style.display = "block";
-
+  screenToggleBeforePlay();
   if (world) {
     world.stopGame();
     world.resetProperties();
@@ -48,20 +45,21 @@ function startGame() {
 }
 
 function restartGame() {
+  managePauseAudios();
   if (world) world.stopGame();
 
-  managePauseAudios();
+  screenToggleBeforePlay();
 
+  if (world) world.resetProperties();
+  gameInit();
+
+  if (!audioManager.isMuted) manageGameAudio();
+}
+
+function screenToggleBeforePlay() {
   startScreen.style.display = "none";
   winLoseScreen.style.display = "none";
   canvasContainer.style.display = "block";
-
-  if (!world.isGameRunning) world.isGameRunning = true;
-
-  gameInit();
-  world.resetProperties();
-
-  if (!audioManager.isMuted) manageGameAudio();
 }
 
 function backToMenu(event) {
