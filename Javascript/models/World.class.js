@@ -3,6 +3,7 @@ class World {
   healthBarPepe = new StatusBar();
   bottleBar = new StatusBar();
   coinBar = new StatusBar();
+  bossHealthBar = new StatusBar();
   audioManager;
   level = level1;
   img;
@@ -217,6 +218,19 @@ class World {
     );
   }
 
+  drawBossHealthBarOnCanvas() {
+    let distance = Math.abs(this.level.endboss.x - this.character.x);
+
+    if (distance <= 500) {
+      this.bossHealthBar.drawStatusBar(
+        this.ctx,
+        this.bossHealthBar.BOSS_HEALTH_BAR_IMAGES,
+        this.level.endboss.health,
+        400,
+      );
+    }
+  }
+
   drawBarsOnCanvas() {
     //pepe health bar
     this.drawPepeHealthBarOnCanvas();
@@ -226,12 +240,14 @@ class World {
 
     //collected Coins Bar
     this.drawCoinBarOnCanvas();
+
+    //Boss health bar
+    this.drawBossHealthBarOnCanvas();
   }
 
   throwableBottles() {
-    let now = Date.now();
     if (this.keyboard.THROW && this.character.bottlesCollected > 0) {
-      if (now - this.character.lastThrowTime > 500) {
+      if (Date.now() - this.character.lastThrowTime > 500) {
         let bottleDirection = this.character.otherDirection ? -1 : 1;
         let bottleX = this.character.x + this.character.offsetX + 50;
         let bottleY = this.character.y + this.character.offsetY + 50;
@@ -240,14 +256,18 @@ class World {
           new ThrowableBottles(bottleX, bottleY, bottleDirection),
         );
         if (!this.audioManager.isMuted) {
-          this.audioManager.soundEffects.throw.currentTime = 0;
-          this.audioManager.soundEffects.throw.play();
+          this.resetBeforePlay(this.audioManager.soundEffects.throw);
         }
         this.character.bottlesCollected--;
         this.keyboard.THROW = false;
-        this.character.lastThrowTime = now;
+        this.character.lastThrowTime = Date.now();
       }
     }
+  }
+
+  resetBeforePlay(soundName) {
+    soundName.currentTime = 0;
+    soundName.play();
   }
 
   filterThrownBottles() {

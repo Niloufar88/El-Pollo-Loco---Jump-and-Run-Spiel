@@ -35,6 +35,16 @@ class StatusBar extends DrawableObjects {
       "assets/img/statusbar/coin/100.png",
     ];
 
+    //Images Array for Boss Health Bar
+    this.BOSS_HEALTH_BAR_IMAGES = [
+      "assets/img/statusbar/boss/green0.png",
+      "assets/img/statusbar/boss/green20.png",
+      "assets/img/statusbar/boss/green40.png",
+      "assets/img/statusbar/boss/green60.png",
+      "assets/img/statusbar/boss/green80.png",
+      "assets/img/statusbar/boss/green100.png",
+    ];
+
     //loading pepe health bar Images in ImageCache
     this.loadImage(this.PEPE_HEALTH_BAR_IMAGES[5]);
     this.loadImages(this.PEPE_HEALTH_BAR_IMAGES);
@@ -46,6 +56,10 @@ class StatusBar extends DrawableObjects {
     //loading coins bar images in ImageCache
     this.loadImage(this.COINS_BAR_IMAGES[0]);
     this.loadImages(this.COINS_BAR_IMAGES);
+
+    //loading Boss Health bar Images in ImageCache
+    this.loadImage(this.BOSS_HEALTH_BAR_IMAGES[0]);
+    this.loadImages(this.BOSS_HEALTH_BAR_IMAGES);
   }
 
   // can be used for Boss and Character
