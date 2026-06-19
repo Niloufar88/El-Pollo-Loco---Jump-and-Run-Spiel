@@ -231,3 +231,18 @@ document.addEventListener("keyup", (event) => {
   if (event.key === " ") keyboard.SPACE = false;
   if (event.key === "d") keyboard.THROW = false;
 });
+
+//keyboardEvents for touch buttons
+document.addEventListener("touchstart", (event) => {
+  if (event.target.id === "left-button") keyboard.LEFT = true;
+  if (event.target.id === "right-button") keyboard.RIGHT = true;
+  if (event.target.id === "up-button") keyboard.UP = true;
+  if (event.target.id === "throw-button") keyboard.THROW = true;
+});
+
+document.addEventListener("touchend", (event) => {
+  if (event.target.id === "left-button") keyboard.LEFT = false;
+  if (event.target.id === "right-button") keyboard.RIGHT = false;
+  if (event.target.id === "up-button") keyboard.UP = false;
+  if (event.target.id === "throw-button") keyboard.THROW = false;
+});
