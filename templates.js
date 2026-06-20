@@ -1,3 +1,7 @@
+/**
+ * Renders the "How to Play" content section.
+ * @returns HTML DOM Elements
+ */
 function renderHowToPlayContent() {
   return `
             <h3 class="header">HOW TO PLAY</h3>
@@ -16,6 +20,10 @@ function renderHowToPlayContent() {
     `;
 }
 
+/**
+ * Renders the "Controls" content section.
+ * @returns HTML DOM Element
+ */
 function renderControlsContent() {
   return `
   <h3 class="header">CONTROLS</h3>
@@ -31,6 +39,10 @@ function renderControlsContent() {
   `;
 }
 
+/**
+ * Renders the "Impressum" content section.
+ * @returns HTML DOM Element
+ */
 function renderImpressumContent() {
   return `
   <h3 class="header">IMPRESSUM</h3>
@@ -47,33 +59,3 @@ function renderImpressumContent() {
           </div>
   `;
 }
-
-// function renderWinLoseScreen() {
-//   return `
-
-//   <div class="btns">
-//           <!-- GAME BUTTONS -->
-//           <div id="gameBtns" data-id="win-lose-game-btn">
-//             <!-- BACK TO MENU -->
-//             <button id="backToMenu-btn" onclick="backToMenu(event)">
-//               Back to Menu
-//             </button>
-
-//             <!-- RESTART GAME -->
-//             <button id="restartGame-btn" onclick="restartGame()">Restart game</button>
-//           </div>
-
-//           <!-- CONFIG BUTTONS -->
-//           <div class="configBtns" data-id="win-lose-config-btn">
-//             <!-- MUTE BUTTON -->
-//             <button class="audio-btn" aria-label="audio-button">
-//               <img src="assets/Icons/volume-xmark-solid.png" alt="audio-btn" />
-//             </button>
-//             <!-- FULLSCREEN BUTTON -->
-//             <button class="fullScreen-btn" aria-label="fullscreen-button">
-//               <i class="fa-solid fa-expand"></i>
-//             </button>
-//           </div>
-//         </div>
-//   `;
-// }

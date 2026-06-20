@@ -1,10 +1,10 @@
-// Canvas Variables
+//canvas related variables
 const canvas = document.getElementById("myCanvas");
 let world;
 let keyboard = new Keyboard();
 let audioManager = new AudioManager();
 
-//Screens and Buttons Variables
+//DOM Elements Variables
 const startGameBtn = document.getElementById("startGame-btn");
 const startScreen = document.getElementById("start-screen");
 const winLoseScreen = document.getElementById("win-lose-screen");
@@ -20,10 +20,16 @@ const backBtn = document.querySelector(".back-btn");
 const touchBtns = document.querySelector(".touchBtns");
 const orientationOverlay = document.getElementById("orientationOverlay");
 
+/**
+ * @variable {boolean}
+ */
 let saveMutedState = localStorage.getItem("audioMuted");
 if (saveMutedState === null) audioManager.isMuted = true;
 else audioManager.isMuted = saveMutedState === "true";
 
+/**
+ * @addEventListener for DOMContentLoaded to initialize the game and set the initial state of the screens,audio and update the mute button icons
+ */
 window.addEventListener("DOMContentLoaded", () => {
   orientationCheckOnload();
   audioManager.loadAllSounds();
@@ -32,7 +38,9 @@ window.addEventListener("DOMContentLoaded", () => {
   updateAllIcons();
 });
 
-//detecting orientation change
+/**
+ * @matchMedia and @addEventListener for orientation change detection to accordingly display the overlay or hide it.
+ */
 window
   .matchMedia("(orientation:landscape)")
   .addEventListener("change", (event) => {
@@ -44,6 +52,9 @@ window
     }
   });
 
+/**
+ * @function orientationCheckOnload to check the orientation of the device on page load and display or hide the overlay accordingly.
+ */
 function orientationCheckOnload() {
   const windowOrientation = window.matchMedia(
     "(orientation:landscape)",
@@ -52,12 +63,17 @@ function orientationCheckOnload() {
   else orientationOverlay.style.display = "flex";
 }
 
+/**
+ * @function gameInit to initialize the world object and start the game loop by calling the draw method.
+ */
 function gameInit() {
   world = new World(canvas, keyboard, audioManager);
   world.draw();
 }
 
-//start Game handler
+/**
+ * @function startGame to manage AudioPause, toggle the screens acoordingly, check the screen size to display touch buttons or not, if the game has entruppted calls the @method stopGame and @method resetProperties, then calls @function gameInit and manage game audio if not muted.
+ */
 function startGame() {
   managePauseAudios();
   screenToggleBeforePlay();
@@ -71,25 +87,35 @@ function startGame() {
   if (!audioManager.isMuted) manageGameAudio();
 }
 
+/**
+ * @function restartGame responsible to restart the game by making sure all audios are paused, calls the @method stopGame and @method resetProperties if the game is already running, toggle the screens acoordingly, check the screen size to display touch buttons or not, then calls @function gameInit and manage game audio if not muted.
+ */
 function restartGame() {
   managePauseAudios();
-  if (world) world.stopGame();
+  if (world) {
+    world.stopGame();
+    world.resetProperties();
+  }
   screenToggleBeforePlay();
   if (window.matchMedia("(width<=1023px)").matches)
     touchBtns.style.display = "flex";
-  if (world) world.resetProperties();
   gameInit();
   if (!audioManager.isMuted) manageGameAudio();
 }
 
+/**
+ * @function screenToggleBeforePlay responsible for toggling the screens before starting or restarting the game, it hides the start screen and win/lose screen and shows the canvas container.
+ */
 function screenToggleBeforePlay() {
   startScreen.style.display = "none";
   winLoseScreen.style.display = "none";
   canvasContainer.style.display = "block";
-  // if (window.matchMedia("(max-width:1023px)").matches)
-  //   touchBtns.style.display = "flex";
 }
 
+/**
+ * @function backToMenu executes when back button clicked, checks the parent element's data-id to determine which screen is currently active, to toggles the screens accordingly, and  if the game is running it calls the @method stopGame, and pause all audios by calling @function managePauseAudios and @function manageUnmuteAudioWelcomeScreen to unmute the welcome screen music if not muted.
+ * @param {Event} event
+ */
 function backToMenu(event) {
   let screenId = event.currentTarget.parentElement.dataset.id;
   if (world) world.stopGame();
@@ -106,6 +132,9 @@ function backToMenu(event) {
   manageUnmuteAudioWelcomeScreen();
 }
 
+/**
+ * @function showWinScreen  responsible for toggling the screens accordingly when the game ends, it hides the canvas container and start screen, shows the win/lose screen with the relevant image, and manages the audios by calling @function managePauseAudios to pause all audios and play the relevant win or lose music if not muted.
+ */
 function showWinScreen() {
   canvasContainer.style.display = "none";
   if (touchBtns) touchBtns.style.display = "none";
@@ -119,6 +148,9 @@ function showWinScreen() {
   }
 }
 
+/**
+ * @function showLoseScreen responsible for toggling the screens accordingly when the game ends, it hides the canvas container and start screen, shows the win/lose screen with the relevant image, and manages the audios by calling @function managePauseAudios to pause all audios and play the relevant win or lose music if not muted.
+ */
 function showLoseScreen() {
   canvasContainer.style.display = "none";
   if (touchBtns) touchBtns.style.display = "none";
@@ -132,7 +164,11 @@ function showLoseScreen() {
   }
 }
 
-//side-Screen function
+/**
+ * @function  showRelevantContent to show the relevant content of the clicked button.
+ * @param {Function} func - The function to execute and display its content accordingly and manage the audio by playing the click sound effect if not muted.
+ */
+
 function showRelevantContent(func) {
   if (!audioManager.isMuted) {
     audioManager.menuMusik.click.currentTime = 0;
@@ -144,7 +180,9 @@ function showRelevantContent(func) {
   contentContainer.style.padding = "24px";
 }
 
-//fullscreen handler
+/**
+ * @addEventListener for the fullscreen buttons to toggle the fullscreen mode on and off when clicked.
+ */
 fullscreenBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
     if (!document.fullscreenElement) {
@@ -155,7 +193,9 @@ fullscreenBtns.forEach((btn) => {
   });
 });
 
-//game music manager
+/**
+ * @function manageGameAudio responsible for managing the game audio by playing the game music and setting its volume and loop properties if not muted.
+ */
 function manageGameAudio() {
   if (!audioManager.isMuted) {
     audioManager.soundEffects.game.play();
@@ -164,7 +204,9 @@ function manageGameAudio() {
   }
 }
 
-//toggle mute/unmute state
+/**
+ * @addEventListener for the mute buttons to toggle the mute/unmute state of the game audio when clicked, and save the current state into localStorage and then updating the mute icons and by detecting data set id of the parent element of the clicked button manage to play relevant audios.
+ */
 muteBtns.forEach((muteBtn) => {
   muteBtn.addEventListener("click", (event) => {
     audioManager.isMuted = !audioManager.isMuted;
@@ -180,6 +222,9 @@ muteBtns.forEach((muteBtn) => {
   });
 });
 
+/**
+ * @function updateAllIcons responsible for updating the mute button icons based on the current mute state which has been stored in localstorage.
+ */
 function updateAllIcons() {
   muteBtnImgs.forEach((img) => {
     img.src = audioManager.isMuted
@@ -188,6 +233,9 @@ function updateAllIcons() {
   });
 }
 
+/**
+ * @function manageUnmuteAudioWelcomeScreen responsible for managing to play the audio when is not muted and set the loop to true and volume.
+ */
 function manageUnmuteAudioWelcomeScreen() {
   if (!audioManager.isMuted) {
     audioManager.menuMusik.menu.play();
@@ -196,6 +244,9 @@ function manageUnmuteAudioWelcomeScreen() {
   }
 }
 
+/**
+ * @function manageUnmuteAudioCanvas responsible for managing to play the audio when is not muted and set the loop to true and volume.
+ */
 function manageUnmuteAudioCanvas() {
   if (!audioManager.isMuted) {
     audioManager.soundEffects.game.play();
@@ -204,6 +255,9 @@ function manageUnmuteAudioCanvas() {
   }
 }
 
+/**
+ * @function manageUnmuteAudioWinLose responsible for managing to play the audio when is not muted by detecting the current screen class and play the relevant music and set its volume.
+ */
 function manageUnmuteAudioWinLose() {
   if (!audioManager.isMuted) {
     if (winloseScreen.classList.contains("win-background")) {
@@ -216,13 +270,18 @@ function manageUnmuteAudioWinLose() {
   }
 }
 
+/**
+ * @function managePauseAudios responsible for pausing all game audios by calling @method pauseGameAudios of the audioManager for each category of audios.
+ */
 function managePauseAudios() {
   audioManager.pauseGameAudios(audioManager.soundEffects);
   audioManager.pauseGameAudios(audioManager.menuMusik);
   audioManager.pauseGameAudios(audioManager.winLoseMusic);
 }
 
-//keyboard Events
+/**
+ * @addEventListener for keyboard events to set set keyboard properties to true when the relevant keys are pressed down.
+ */
 document.addEventListener("keydown", (event) => {
   if (event.key === "ArrowLeft") keyboard.LEFT = true;
   if (event.key === "ArrowRight") keyboard.RIGHT = true;
@@ -231,6 +290,9 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "d") keyboard.THROW = true;
 });
 
+/**
+ * @addEventListener for keyboard events to set set keyboard properties to false when the relevant keys are released.
+ */
 document.addEventListener("keyup", (event) => {
   if (event.key === "ArrowLeft") keyboard.LEFT = false;
   if (event.key === "ArrowRight") keyboard.RIGHT = false;
@@ -239,13 +301,19 @@ document.addEventListener("keyup", (event) => {
   if (event.key === "d") keyboard.THROW = false;
 });
 
-//keyboardEvents for touch buttons
+/**
+ * @addEventListener for touch events to set keyboard properties to true when the relevant buttons are touched.
+ */
 document.addEventListener("touchstart", (event) => {
   if (event.target.id === "left-button") keyboard.LEFT = true;
   if (event.target.id === "right-button") keyboard.RIGHT = true;
   if (event.target.id === "up-button") keyboard.UP = true;
   if (event.target.id === "throw-button") keyboard.THROW = true;
 });
+
+/**
+ * @addEventListener for touch events to set keyboard properties to false when the relevant buttons are released.
+ */
 
 document.addEventListener("touchend", (event) => {
   if (event.target.id === "left-button") keyboard.LEFT = false;
