@@ -289,16 +289,16 @@ class World {
   applyBossSounds() {
     if (this.level.endboss.isDead && !this.level.endboss.isPlayingDeadSound) {
       this.level.endboss.pepeWon = true;
+      this.level.endboss.isPlayingDeadSound = true;
       if (!this.audioManager.isMuted) {
         this.audioManager.soundEffects.bossDead.play();
-        this.level.endboss.isPlayingDeadSound = true;
-        setTimeout(() => {
-          this.level.endboss.isPlayingDeadSound = false;
-          this.stopGame();
-          showWinScreen();
-        }, 1000);
-        return;
       }
+      setTimeout(() => {
+        this.level.endboss.isPlayingDeadSound = false;
+        this.stopGame();
+        showWinScreen();
+      }, 1000);
+      return;
     } else if (this.level.endboss.isAttacking && !this.audioManager.isMuted) {
       if (!this.level.endboss.isPlayingGrowlSound) {
         this.audioManager.soundEffects.bossGrowl.play();
@@ -312,16 +312,16 @@ class World {
   applyCharacterDeadSound() {
     if (this.character.isDead && !this.character.playingDeathSound) {
       this.character.pepeLost = true;
+      this.character.playingDeathSound = true;
       if (!this.audioManager.isMuted) {
         this.audioManager.soundEffects.pepeDead.play();
-        this.character.playingDeathSound = true;
-        setTimeout(() => {
-          this.character.playingDeathSound = false;
-          this.stopGame();
-          showLoseScreen();
-        }, 1000);
-        return;
       }
+      setTimeout(() => {
+        this.character.playingDeathSound = false;
+        this.stopGame();
+        showLoseScreen();
+      }, 1000);
+      return;
     }
   }
 

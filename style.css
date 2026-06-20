@@ -60,19 +60,26 @@ main {
 }
 
 .start-screen {
-  background-image: url("assets//img//9_intro_outro_screens/start/startscreen_1.png");
-  background-size: cover;
-  background-position: center center;
   width: 720px;
   height: 480px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  /* position: relative; */
+  gap: 25px;
+  position: relative;
+}
+
+.start-screen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .btns {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -82,6 +89,10 @@ main {
 }
 
 #contents {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   visibility: hidden;
   background-color: white;
   width: 65%;
@@ -96,7 +107,7 @@ main {
 
 #gameBtns {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   gap: 16px;
 }
@@ -137,6 +148,9 @@ main {
 }
 
 .configBtns {
+  position: absolute;
+  top: 20px;
+  right: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -222,28 +236,28 @@ main {
 }
 
 #win-lose-screen {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  position: relative;
+  width: 720px;
+  height: 480px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
 }
 
-.win-background {
-  background-image: url("assets/img/You won, you lost/You Win A.png");
-  background-size: cover;
-  background-position: center center;
+#win-lose-screen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.lose-background {
-  background-image: url("assets/img/You won, you lost/Game Over.png");
-  background-size: cover;
-  background-position: center center;
-}
+/* .win-background img {
+  content: "assets/img/You won, you lost/You Win A.png";
+} */
+
+/* .lose-background img {
+  content: "assets/img/You won, you lost/Game Over.png";
+} */
 
 .touchBtns {
   position: absolute;
@@ -336,5 +350,100 @@ main {
 
   #orientationOverlay {
     display: none;
+  }
+}
+
+@media screen and (max-width: 1023px) and (min-width: 768px) {
+  header h1 {
+    font-size: 36px;
+  }
+  main {
+    width: 85vw;
+    height: auto;
+    aspect-ratio: 3/2;
+  }
+  .start-screen {
+    width: 100%;
+    height: 100%;
+  }
+
+  #contents .content-text ul li {
+    line-height: 24px;
+  }
+
+  #win-lose-screen {
+    width: 100%;
+    height: 100%;
+  }
+  .touchBtns {
+    display: flex;
+    gap: 200px;
+  }
+  #gameBtns button {
+    font-size: 13px;
+  }
+  .btns {
+    padding-left: 35px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  body {
+    padding-top: 30px;
+    justify-content: flex-start;
+    gap: 30px;
+  }
+  header h1 {
+    font-size: 24px;
+  }
+  main {
+    width: auto;
+    height: 320px;
+    aspect-ratio: 3/2;
+  }
+  .start-screen {
+    /* width: auto; */
+    height: 90%;
+  }
+
+  #win-lose-screen {
+    width: auto;
+    height: 90%;
+  }
+
+  #gameBtns button {
+    font-size: 12px;
+    padding: 8px;
+  }
+  .configBtns {
+    right: -80px;
+  }
+
+  .configBtns button {
+    width: 35px;
+    height: 35px;
+    font-size: 12px;
+  }
+
+  .btns {
+    position: absolute;
+    top: 0;
+    left: 20px;
+    /* padding-top: 30px; */
+    width: 80%;
+    flex-wrap: wrap;
+  }
+  .touchBtns {
+    gap: 250px;
+  }
+  .touchBtns button {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  #myCanvas {
+    width: 100%;
+    height: 100%;
   }
 }

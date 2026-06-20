@@ -50,6 +50,7 @@ function renderImpressumContent() {
 
 function renderWinLoseScreen() {
   return `
+ 
   <div class="btns">
           <!-- GAME BUTTONS -->
           <div id="gameBtns" data-id="win-lose-game-btn">

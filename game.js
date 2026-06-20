@@ -8,6 +8,7 @@ let audioManager = new AudioManager();
 const startGameBtn = document.getElementById("startGame-btn");
 const startScreen = document.getElementById("start-screen");
 const winLoseScreen = document.getElementById("win-lose-screen");
+const winLoseImg = winLoseScreen.querySelector(".win-lose-img");
 const canvasContainer = document.getElementById("canvas-container");
 const howToPlayBtn = document.getElementById("howToPlay-btn");
 const contentContainer = document.getElementById("contents");
@@ -27,12 +28,13 @@ window.addEventListener("DOMContentLoaded", () => {
   orientationCheckOnload();
   audioManager.loadAllSounds();
   winLoseScreen.style.display = "none";
+  if (touchBtns) touchBtns.style.display = "none";
   updateAllIcons();
 });
 
 //detecting orientation change
 window
-  .matchMedia("(orientation:landscape")
+  .matchMedia("(orientation:landscape)")
   .addEventListener("change", (event) => {
     const landscape = event.matches;
 
@@ -44,7 +46,9 @@ window
   });
 
 function orientationCheckOnload() {
-  const windowOrientation = window.matchMedia("(orientation:landscape").matches;
+  const windowOrientation = window.matchMedia(
+    "(orientation:landscape)",
+  ).matches;
   if (windowOrientation) orientationOverlay.style.display = "none";
   else orientationOverlay.style.display = "flex";
 }
@@ -58,6 +62,7 @@ function gameInit() {
 function startGame() {
   managePauseAudios();
   screenToggleBeforePlay();
+
   if (world) {
     world.stopGame();
     world.resetProperties();
@@ -82,6 +87,8 @@ function screenToggleBeforePlay() {
   startScreen.style.display = "none";
   winLoseScreen.style.display = "none";
   canvasContainer.style.display = "block";
+  if (window.matchMedia("(max-width:1023px)").matches)
+    touchBtns.style.display = "flex";
 }
 
 function backToMenu(event) {
@@ -95,7 +102,7 @@ function backToMenu(event) {
     : screenId === "win-lose-game-btn"
       ? (winLoseScreen.style.display = "none")
       : null;
-
+  if (touchBtns) touchBtns.style.display = "none";
   contentContainer.innerHTML = "";
   contentContainer.style.visibility = "hidden";
   startScreen.style.display = "flex";
@@ -104,12 +111,16 @@ function backToMenu(event) {
 
 function showWinScreen() {
   canvasContainer.style.display = "none";
+  if (touchBtns) touchBtns.style.display = "none";
   startScreen.style.display = "none";
   managePauseAudios();
   winLoseScreen.style.display = "flex";
-  winLoseScreen.innerHTML = renderWinLoseScreen();
-  winLoseScreen.classList.remove("lose-background");
-  winLoseScreen.classList.add("win-background");
+
+  winLoseScreen.insertAdjacentHTML("beforeend", renderWinLoseScreen());
+  winLoseImg.src = "assets/img/You won, you lost/You Win A.png";
+  // winLoseScreen.classList.remove("lose-background");
+  // winLoseScreen.classList.add("win-background");
+
   if (!audioManager.isMuted) {
     audioManager.winLoseMusic.win.play();
     audioManager.winLoseMusic.win.volume = 0.2;
@@ -118,12 +129,16 @@ function showWinScreen() {
 
 function showLoseScreen() {
   canvasContainer.style.display = "none";
+  if (touchBtns) touchBtns.style.display = "none";
   startScreen.style.display = "none";
   managePauseAudios();
   winLoseScreen.style.display = "flex";
-  winLoseScreen.innerHTML = renderWinLoseScreen();
-  winLoseScreen.classList.remove("win-background");
-  winLoseScreen.classList.add("lose-background");
+
+  winLoseScreen.insertAdjacentHTML("beforeend", renderWinLoseScreen());
+  winLoseImg.src = "assets/img/You won, you lost/Game Over.png";
+  // winLoseScreen.classList.remove("win-background");
+  // winLoseScreen.classList.add("lose-background");
+
   if (!audioManager.isMuted) {
     audioManager.winLoseMusic.gameOver.play();
     audioManager.winLoseMusic.gameOver.volume = 0.2;
@@ -143,15 +158,23 @@ function showRelevantContent(func) {
 }
 
 //fullscreen handler
-fullscreenBtns.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    if (!document.fullscreenElement) {
+
+document.addEventListener("click", (event) => {
+  if (event.target.closest(".fullScreen-btn")) {
+    if (!document.fullscreenElement)
       document.documentElement.requestFullscreen();
-    } else {
-      document.exitFullscreen();
-    }
-  });
+    else document.exitFullscreen();
+  }
 });
+// fullscreenBtns.forEach((btn) => {
+//   btn.addEventListener("click", () => {
+//     if (!document.fullscreenElement) {
+//       document.documentElement.requestFullscreen();
+//     } else {
+//       document.exitFullscreen();
+//     }
+//   });
+// });
 
 //game music manager
 function manageGameAudio() {
@@ -164,10 +187,8 @@ function manageGameAudio() {
 }
 
 //toggle mute/unmute state
-muteBtns.forEach((muteBtn) => {
-  muteBtn.addEventListener("click", (event) => {
-    console.log(event.currentTarget.parentElement.dataset.id);
-
+document.addEventListener("click", (event) => {
+  if (event.target.closest(".audio-btn")) {
     audioManager.isMuted = !audioManager.isMuted;
 
     localStorage.setItem("audioMuted", audioManager.isMuted);
@@ -179,9 +200,15 @@ muteBtns.forEach((muteBtn) => {
 
       if (screenId === "welcome") manageUnmuteAudioWelcomeScreen();
       else if (screenId === "canvas") manageUnmuteAudioCanvas();
+      else if (screenId === "win-lose-config-btn") manageUnmuteAudioWinLose();
     }
-  });
+  }
 });
+// muteBtns.forEach((muteBtn) => {
+//   muteBtn.addEventListener("click", (event) => {
+//     console.log(event.currentTarget.parentElement.dataset.id);
+//   });
+// });
 
 function updateAllIcons() {
   muteBtnImgs.forEach((img) => {
@@ -206,6 +233,18 @@ function manageUnmuteAudioCanvas() {
     audioManager.soundEffects.game.play();
     audioManager.soundEffects.game.loop = true;
     audioManager.soundEffects.game.volume = 0.2;
+  }
+}
+
+function manageUnmuteAudioWinLose() {
+  if (!audioManager.isMuted) {
+    if (winloseScreen.classList.contains("win-background")) {
+      audioManager.winLoseMusic.win.play();
+      audioManager.winLoseMusic.win.volume = 0.2;
+    } else if (winloseScreen.classList.contains("lose-background")) {
+      audioManager.winLoseMusic.lose.play();
+      audioManager.winLoseMusic.lose.volume = 0.2;
+    }
   }
 }
 
