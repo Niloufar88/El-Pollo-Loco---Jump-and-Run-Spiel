@@ -421,6 +421,7 @@ main {
     padding: 4px;
     letter-spacing: 0;
     text-transform: none;
+    min-width: 65px;
   }
 
   .configBtns {

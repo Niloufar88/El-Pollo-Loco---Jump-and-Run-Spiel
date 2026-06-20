@@ -68,8 +68,6 @@ class DrawableObjects {
         object.height,
       );
     }
-    this.drawCollisionBox(ctx, object);
-    this.drawCollisionBoxWithOffset(ctx, object);
   }
 
   /**
