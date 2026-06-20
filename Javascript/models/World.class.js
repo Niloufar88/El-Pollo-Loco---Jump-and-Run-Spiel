@@ -19,7 +19,6 @@ class World {
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.audioManager = audioManager;
-
     this.setWorldForPepe();
     this.draw();
   }
@@ -30,69 +29,13 @@ class World {
 
   draw() {
     if (!this.isGameRunning) return;
-    //clearing the canvas before drawing the next frame
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-    //Camera
     this.ctx.save();
     this.ctx.translate(this.camera_x, 0);
-
-    //draw Background Layers on canvas
-    this.drawInLoop(this.level.backgroundObjects, 3);
-
-    //draw Clouds on canvas
-    this.drawInLoop(this.level.clouds, 3);
-
-    //Character
-    this.character.updateCharacter();
-    this.character.drawOnCanvas(this.ctx, this.character);
-    this.applyCharacterDeadSound();
-    this.pepeInLongIdleMode();
-
-    //Chickens
-    this.checkCollisionsWithChickens();
-    this.level.enemies.forEach((enemy) => {
-      enemy.update();
-      enemy.drawOnCanvas(this.ctx, enemy);
-    });
-    this.applyWalkingSound();
-
-    //Bottles
-    this.checkCollisionBottles();
-    this.level.bottles.forEach((bottle) => {
-      bottle.updateBottle();
-      if (!bottle.isCollected) bottle.drawOnCanvas(this.ctx, bottle);
-    });
-
-    //throwable Bottles
-    this.throwableBottles();
-    this.level.thrownBottles.forEach((thrownBottle) => {
-      thrownBottle.throwUpdate();
-      thrownBottle.drawOnCanvas(this.ctx, thrownBottle);
-    });
-
-    //Coins
-    this.checkCollisionsCoins();
-    this.level.coins.forEach((coin) => {
-      coin.updateCoins();
-      if (!coin.isCollected) coin.drawOnCanvas(this.ctx, coin);
-    });
-
-    //Endboss
-    this.level.endboss.update(this.character);
-    this.level.endboss.drawOnCanvas(this.ctx, this.level.endboss);
-    this.checkCollisionWithBoss(this.level.endboss.damage);
-    this.filterThrownBottles();
-    this.CheckPepeCollisionWithBoss();
-    this.applyBossSounds();
-
-    //camera reset
+    this.drawBgAndCloudsOnCanvas();
+    this.gameObjectsLogics();
     this.ctx.restore();
-
-    //======== draw Statusbars ========
     this.drawBarsOnCanvas();
-    //=================================
-
     let self = this;
     requestAnimationFrame(() => self.draw());
     this.level.enemies = this.level.enemies.filter((enemy) => !enemy.remove);
@@ -113,6 +56,72 @@ class World {
     });
   }
 
+  drawBgAndCloudsOnCanvas() {
+    //draw Background Layers on canvas
+    this.drawInLoop(this.level.backgroundObjects, 3);
+
+    //draw Clouds on canvas
+    this.drawInLoop(this.level.clouds, 3);
+  }
+
+  characterLogic() {
+    this.character.updateCharacter();
+    this.character.drawOnCanvas(this.ctx, this.character);
+    this.applyCharacterDeadSound();
+    this.pepeInLongIdleMode();
+  }
+
+  chickenLogic() {
+    this.checkCollisionsWithChickens();
+    this.level.enemies.forEach((enemy) => {
+      enemy.update();
+      enemy.drawOnCanvas(this.ctx, enemy);
+    });
+    this.applyWalkingSound();
+  }
+
+  bottlesLogic() {
+    this.checkCollisionBottles();
+    this.level.bottles.forEach((bottle) => {
+      bottle.updateBottle();
+      if (!bottle.isCollected) bottle.drawOnCanvas(this.ctx, bottle);
+    });
+  }
+
+  throwableBottlesLogic() {
+    this.throwableBottles();
+    this.level.thrownBottles.forEach((thrownBottle) => {
+      thrownBottle.throwUpdate();
+      thrownBottle.drawOnCanvas(this.ctx, thrownBottle);
+    });
+  }
+
+  coinsLogic() {
+    this.checkCollisionsCoins();
+    this.level.coins.forEach((coin) => {
+      coin.updateCoins();
+      if (!coin.isCollected) coin.drawOnCanvas(this.ctx, coin);
+    });
+  }
+
+  endbossLogic() {
+    this.level.endboss.update(this.character);
+    this.level.endboss.drawOnCanvas(this.ctx, this.level.endboss);
+    this.checkCollisionWithBoss(this.level.endboss.damage);
+    this.filterThrownBottles();
+    this.checkPepeCollisionWithBoss();
+    this.applyBossSounds();
+  }
+
+  gameObjectsLogics() {
+    this.characterLogic();
+    this.chickenLogic();
+    this.bottlesLogic();
+    this.throwableBottlesLogic();
+    this.coinsLogic();
+    this.endbossLogic();
+  }
+
   checkCollisionsWithChickens() {
     this.level.enemies.forEach((enemy) => {
       let pepeFeet =
@@ -120,7 +129,6 @@ class World {
         this.character.offsetY +
         this.character.collisionHeight;
       let chickenMiddle = enemy.y + enemy.offsetY + enemy.collisionHeight / 2;
-
       if (this.character.isColliding(enemy)) {
         if (pepeFeet < chickenMiddle && this.character.speedY > 0) {
           enemy.die();
@@ -128,7 +136,6 @@ class World {
             this.audioManager.soundEffects.hit.play();
         } else if (!this.character.isInvincible && !enemy.isDead) {
           this.character.hit();
-
           if (!this.audioManager.isMuted)
             this.audioManager.soundEffects.hurt.play();
         }
@@ -152,7 +159,6 @@ class World {
       if (!coin.isCollected && this.character.isColliding(coin)) {
         coin.collected();
         this.character.coinsCollected++;
-
         if (!this.audioManager.isMuted)
           this.audioManager.soundEffects.coins.play();
       }
@@ -167,7 +173,6 @@ class World {
       ) {
         this.level.endboss.hurt(damage);
         thrownBottle.hasHit = true;
-
         if (!this.audioManager.isMuted) {
           this.resetBeforePlay(this.audioManager.soundEffects.break);
         }
@@ -175,7 +180,7 @@ class World {
     });
   }
 
-  CheckPepeCollisionWithBoss() {
+  checkPepeCollisionWithBoss() {
     if (
       this.level.endboss.isColliding(this.character) &&
       !this.character.isDead

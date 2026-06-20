@@ -37,7 +37,6 @@ window
   .matchMedia("(orientation:landscape)")
   .addEventListener("change", (event) => {
     const landscape = event.matches;
-
     if (landscape) {
       orientationOverlay.style.display = "none";
     } else {
@@ -62,7 +61,6 @@ function gameInit() {
 function startGame() {
   managePauseAudios();
   screenToggleBeforePlay();
-
   if (world) {
     world.stopGame();
     world.resetProperties();
@@ -74,12 +72,9 @@ function startGame() {
 function restartGame() {
   managePauseAudios();
   if (world) world.stopGame();
-
   screenToggleBeforePlay();
-
   if (world) world.resetProperties();
   gameInit();
-
   if (!audioManager.isMuted) manageGameAudio();
 }
 
@@ -93,10 +88,8 @@ function screenToggleBeforePlay() {
 
 function backToMenu(event) {
   let screenId = event.currentTarget.parentElement.dataset.id;
-
   if (world) world.stopGame();
   managePauseAudios();
-
   screenId === "canvas"
     ? (canvasContainer.style.display = "none")
     : screenId === "win-lose-game-btn"
@@ -115,12 +108,7 @@ function showWinScreen() {
   startScreen.style.display = "none";
   managePauseAudios();
   winLoseScreen.style.display = "flex";
-
-  winLoseScreen.insertAdjacentHTML("beforeend", renderWinLoseScreen());
   winLoseImg.src = "assets/img/You won, you lost/You Win A.png";
-  // winLoseScreen.classList.remove("lose-background");
-  // winLoseScreen.classList.add("win-background");
-
   if (!audioManager.isMuted) {
     audioManager.winLoseMusic.win.play();
     audioManager.winLoseMusic.win.volume = 0.2;
@@ -133,12 +121,7 @@ function showLoseScreen() {
   startScreen.style.display = "none";
   managePauseAudios();
   winLoseScreen.style.display = "flex";
-
-  winLoseScreen.insertAdjacentHTML("beforeend", renderWinLoseScreen());
   winLoseImg.src = "assets/img/You won, you lost/Game Over.png";
-  // winLoseScreen.classList.remove("win-background");
-  // winLoseScreen.classList.add("lose-background");
-
   if (!audioManager.isMuted) {
     audioManager.winLoseMusic.gameOver.play();
     audioManager.winLoseMusic.gameOver.volume = 0.2;
@@ -158,27 +141,18 @@ function showRelevantContent(func) {
 }
 
 //fullscreen handler
-
-document.addEventListener("click", (event) => {
-  if (event.target.closest(".fullScreen-btn")) {
-    if (!document.fullscreenElement)
+fullscreenBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
-    else document.exitFullscreen();
-  }
+    } else {
+      document.exitFullscreen();
+    }
+  });
 });
-// fullscreenBtns.forEach((btn) => {
-//   btn.addEventListener("click", () => {
-//     if (!document.fullscreenElement) {
-//       document.documentElement.requestFullscreen();
-//     } else {
-//       document.exitFullscreen();
-//     }
-//   });
-// });
 
 //game music manager
 function manageGameAudio() {
-  // managePauseAudios();
   if (!audioManager.isMuted) {
     audioManager.soundEffects.game.play();
     audioManager.soundEffects.game.volume = 0.2;
@@ -187,28 +161,20 @@ function manageGameAudio() {
 }
 
 //toggle mute/unmute state
-document.addEventListener("click", (event) => {
-  if (event.target.closest(".audio-btn")) {
+muteBtns.forEach((muteBtn) => {
+  muteBtn.addEventListener("click", (event) => {
     audioManager.isMuted = !audioManager.isMuted;
-
     localStorage.setItem("audioMuted", audioManager.isMuted);
     updateAllIcons();
-
     if (audioManager.isMuted) managePauseAudios();
     else {
       let screenId = event.currentTarget.parentElement.dataset.id;
-
       if (screenId === "welcome") manageUnmuteAudioWelcomeScreen();
       else if (screenId === "canvas") manageUnmuteAudioCanvas();
       else if (screenId === "win-lose-config-btn") manageUnmuteAudioWinLose();
     }
-  }
+  });
 });
-// muteBtns.forEach((muteBtn) => {
-//   muteBtn.addEventListener("click", (event) => {
-//     console.log(event.currentTarget.parentElement.dataset.id);
-//   });
-// });
 
 function updateAllIcons() {
   muteBtnImgs.forEach((img) => {
@@ -219,7 +185,6 @@ function updateAllIcons() {
 }
 
 function manageUnmuteAudioWelcomeScreen() {
-  // managePauseAudios();
   if (!audioManager.isMuted) {
     audioManager.menuMusik.menu.play();
     audioManager.menuMusik.menu.loop = true;
@@ -228,7 +193,6 @@ function manageUnmuteAudioWelcomeScreen() {
 }
 
 function manageUnmuteAudioCanvas() {
-  // managePauseAudios();
   if (!audioManager.isMuted) {
     audioManager.soundEffects.game.play();
     audioManager.soundEffects.game.loop = true;

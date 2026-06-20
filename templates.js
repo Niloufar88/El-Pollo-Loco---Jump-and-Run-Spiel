@@ -48,32 +48,32 @@ function renderImpressumContent() {
   `;
 }
 
-function renderWinLoseScreen() {
-  return `
- 
-  <div class="btns">
-          <!-- GAME BUTTONS -->
-          <div id="gameBtns" data-id="win-lose-game-btn">
-            <!-- BACK TO MENU -->
-            <button id="backToMenu-btn" onclick="backToMenu(event)">
-              Back to Menu
-            </button>
+// function renderWinLoseScreen() {
+//   return `
 
-            <!-- RESTART GAME -->
-            <button id="restartGame-btn" onclick="restartGame()">Restart game</button>
-          </div>
+//   <div class="btns">
+//           <!-- GAME BUTTONS -->
+//           <div id="gameBtns" data-id="win-lose-game-btn">
+//             <!-- BACK TO MENU -->
+//             <button id="backToMenu-btn" onclick="backToMenu(event)">
+//               Back to Menu
+//             </button>
 
-          <!-- CONFIG BUTTONS -->
-          <div class="configBtns" data-id="win-lose-config-btn">
-            <!-- MUTE BUTTON -->
-            <button class="audio-btn" aria-label="audio-button">
-              <img src="assets/Icons/volume-xmark-solid.png" alt="audio-btn" />
-            </button>
-            <!-- FULLSCREEN BUTTON -->
-            <button class="fullScreen-btn" aria-label="fullscreen-button">
-              <i class="fa-solid fa-expand"></i>
-            </button>
-          </div>
-        </div>
-  `;
-}
+//             <!-- RESTART GAME -->
+//             <button id="restartGame-btn" onclick="restartGame()">Restart game</button>
+//           </div>
+
+//           <!-- CONFIG BUTTONS -->
+//           <div class="configBtns" data-id="win-lose-config-btn">
+//             <!-- MUTE BUTTON -->
+//             <button class="audio-btn" aria-label="audio-button">
+//               <img src="assets/Icons/volume-xmark-solid.png" alt="audio-btn" />
+//             </button>
+//             <!-- FULLSCREEN BUTTON -->
+//             <button class="fullScreen-btn" aria-label="fullscreen-button">
+//               <i class="fa-solid fa-expand"></i>
+//             </button>
+//           </div>
+//         </div>
+//   `;
+// }

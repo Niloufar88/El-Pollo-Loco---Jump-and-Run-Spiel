@@ -128,38 +128,18 @@ class Character extends MovableObject {
 
   updateCharacter() {
     this.applyGravity();
-    // check if Pepe is dead
     if (this.isDead) {
       this.playAnimation(this.PEPE_DEAD, this.deathSpeed, true);
       return;
     }
-
-    if (
-      (this.world.keyboard.SPACE || this.world.keyboard.UP) &&
-      this.isOnGround()
-    )
-      this.jump();
-
-    //movement
-    if (this.world.keyboard.RIGHT) {
-      this.moveRight();
-    }
-    if (this.world.keyboard.LEFT) {
-      this.moveLeft();
-    }
-
-    // if Pepe is hurt
+    this.movements();
     if (this.isHurt) {
       this.playAnimation(this.PEPE_HURT, this.hurtSpeed);
       this.longIdleAnimationPlaying = false;
-    }
-
-    //Jump
-    else if (this.isPlayingJumpAnimation) {
+    } else if (this.isPlayingJumpAnimation) {
       if (!this.isHurt) {
         this.playAnimation(this.PEPE_JUMP, this.jumpSpeed, true);
         this.longIdleAnimationPlaying = false;
-
         if (
           this.currentImage >= this.PEPE_JUMP.length - 1 &&
           this.isOnGround()
@@ -179,9 +159,21 @@ class Character extends MovableObject {
 
       this.longIdleAnimationPlaying = false;
     }
-
-    // calculate the camera-x position based on the character's x position
     this.cameraPosition();
+  }
+
+  movements() {
+    if (
+      (this.world.keyboard.SPACE || this.world.keyboard.UP) &&
+      this.isOnGround()
+    )
+      this.jump();
+    if (this.world.keyboard.RIGHT) {
+      this.moveRight();
+    }
+    if (this.world.keyboard.LEFT) {
+      this.moveLeft();
+    }
   }
 
   cameraPosition() {
@@ -240,7 +232,6 @@ class Character extends MovableObject {
     this.lastHitTime = Date.now();
     this.isInvincible = true;
     this.isHurt = true;
-
     if (this.health < 0) {
       this.health = 0;
       this.die();
@@ -263,7 +254,6 @@ class Character extends MovableObject {
   reset() {
     this.x = 50;
     this.y = 170;
-
     this.isInvincible = false;
     this.isHurt = false;
     this.health = 100;
@@ -271,7 +261,6 @@ class Character extends MovableObject {
     this.coinsCollected = 0;
     this.pepeLost = false;
     this.isDead = false;
-
     this.lastMovementTime = Date.now();
     this.longIdleAnimationPlaying = false;
     this.playingDeathSound = false;
