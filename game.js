@@ -61,6 +61,8 @@ function gameInit() {
 function startGame() {
   managePauseAudios();
   screenToggleBeforePlay();
+  if (window.matchMedia("(width<=1023px)").matches)
+    touchBtns.style.display = "flex";
   if (world) {
     world.stopGame();
     world.resetProperties();
@@ -73,6 +75,8 @@ function restartGame() {
   managePauseAudios();
   if (world) world.stopGame();
   screenToggleBeforePlay();
+  if (window.matchMedia("(width<=1023px)").matches)
+    touchBtns.style.display = "flex";
   if (world) world.resetProperties();
   gameInit();
   if (!audioManager.isMuted) manageGameAudio();
@@ -82,8 +86,8 @@ function screenToggleBeforePlay() {
   startScreen.style.display = "none";
   winLoseScreen.style.display = "none";
   canvasContainer.style.display = "block";
-  if (window.matchMedia("(max-width:1023px)").matches)
-    touchBtns.style.display = "flex";
+  // if (window.matchMedia("(max-width:1023px)").matches)
+  //   touchBtns.style.display = "flex";
 }
 
 function backToMenu(event) {
@@ -108,7 +112,7 @@ function showWinScreen() {
   startScreen.style.display = "none";
   managePauseAudios();
   winLoseScreen.style.display = "flex";
-  winLoseImg.src = "assets/img/You won, you lost/You Win A.png";
+  winLoseImg.src = "assets/img/You won A.png";
   if (!audioManager.isMuted) {
     audioManager.winLoseMusic.win.play();
     audioManager.winLoseMusic.win.volume = 0.2;
@@ -121,7 +125,7 @@ function showLoseScreen() {
   startScreen.style.display = "none";
   managePauseAudios();
   winLoseScreen.style.display = "flex";
-  winLoseImg.src = "assets/img/You won, you lost/Game Over.png";
+  winLoseImg.src = "assets/img/Game over A.png";
   if (!audioManager.isMuted) {
     audioManager.winLoseMusic.gameOver.play();
     audioManager.winLoseMusic.gameOver.volume = 0.2;

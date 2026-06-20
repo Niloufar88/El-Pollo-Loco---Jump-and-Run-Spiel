@@ -20,13 +20,14 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   /* gap: 20px; */
   height: 100vh;
   font-family: "Luckiest Guy";
   /* position: relative; */
 }
 
-/* body::before {
+body::before {
   content: "";
   position: absolute;
   top: 0;
@@ -39,7 +40,7 @@ body {
   background-position: center;
   filter: blur(5px) brightness(0.8);
   opacity: 0.85;
-} */
+}
 
 header {
   display: flex;
@@ -105,6 +106,11 @@ main {
   gap: 16px;
 }
 
+.content-text ul li {
+  list-style-type: none;
+  line-height: 28px;
+}
+
 #gameBtns {
   display: flex;
   justify-content: flex-start;
@@ -124,11 +130,6 @@ main {
   border-color: #ffc300;
   border-width: 3px;
   font-family: "Luckiest Guy";
-}
-
-.content-text ul li {
-  list-style-type: none;
-  line-height: 28px;
 }
 
 #gameBtns button:nth-child(1) {
@@ -389,34 +390,41 @@ main {
 
 @media screen and (max-width: 767px) {
   body {
-    padding-top: 30px;
+    height: 100vh;
+    /* padding-top: 30px; */
     justify-content: flex-start;
     gap: 30px;
   }
+
   header h1 {
     font-size: 24px;
   }
   main {
     width: auto;
-    height: 320px;
+    height: 78vh;
     aspect-ratio: 3/2;
   }
   .start-screen {
-    /* width: auto; */
-    height: 90%;
+    width: auto;
+    height: 100%;
   }
 
   #win-lose-screen {
     width: auto;
-    height: 90%;
+    height: 100%;
   }
-
+  #gameBtns {
+    gap: 8px;
+  }
   #gameBtns button {
     font-size: 12px;
-    padding: 8px;
+    padding: 4px;
+    letter-spacing: 0;
+    text-transform: none;
   }
+
   .configBtns {
-    right: -80px;
+    right: -60px;
   }
 
   .configBtns button {
@@ -428,22 +436,49 @@ main {
   .btns {
     position: absolute;
     top: 0;
-    left: 20px;
+    padding-top: 10px;
+    /* left: 20px; */
     /* padding-top: 30px; */
     width: 80%;
     flex-wrap: wrap;
   }
   .touchBtns {
-    gap: 250px;
+    gap: 180px;
+    bottom: -25px;
   }
   .touchBtns button {
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
+    width: 35px;
+    height: 35px;
+    font-size: 14px;
   }
 
   #myCanvas {
     width: 100%;
     height: 100%;
+  }
+  .canvas-btns {
+    top: 8px;
+    gap: 4px;
+  }
+  .canvas-btns button {
+    width: 30px;
+    height: 30px;
+  }
+
+  #contents {
+    width: 70%;
+    height: 70%;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  #contents .header {
+    font-size: 16px;
+  }
+
+  .content-text ul li {
+    list-style-type: none;
+    line-height: 12px;
+    font-size: 14px;
   }
 }
