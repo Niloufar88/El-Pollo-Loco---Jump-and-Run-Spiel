@@ -143,7 +143,6 @@ function showWinScreen() {
   winLoseScreen.style.display = "flex";
   winLoseImg.src = "assets/img/You won A.png";
   winLoseImg.alt = "win";
-  // winLoseScreen.setAttribute("id", "win");
   if (!audioManager.isMuted) {
     audioManager.winLoseMusic.win.play();
     audioManager.winLoseMusic.win.volume = 0.2;
@@ -161,7 +160,6 @@ function showLoseScreen() {
   winLoseScreen.style.display = "flex";
   winLoseImg.src = "assets/img/Game over A.png";
   winLoseImg.alt = "lose";
-  // winLoseScreen.setAttribute("id", "lose");
   if (!audioManager.isMuted) {
     audioManager.winLoseMusic.gameOver.play();
     audioManager.winLoseMusic.gameOver.volume = 0.2;
