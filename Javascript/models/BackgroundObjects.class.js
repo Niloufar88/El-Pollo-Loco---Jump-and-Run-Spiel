@@ -2,7 +2,7 @@
  * @class BackgroundObjects
  * represents the background elements in the game.
  * @extends MovableObject
- * @param {string} imagePath - The path to the image used for the background object.
+ * @param {string} imagePath
  */
 class BackgroundObjects extends MovableObject {
   constructor(imagePath) {

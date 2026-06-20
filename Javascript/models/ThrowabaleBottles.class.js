@@ -1,7 +1,9 @@
-class ThrowableBottles extends MovableObject {
-  //state
-  // hasThrown = false;
+/**
+ * @class ThrowableBottles
+ * @extends MovableObject
+ */
 
+class ThrowableBottles extends MovableObject {
   constructor(x, y, direction) {
     super(x, y);
 
@@ -38,6 +40,9 @@ class ThrowableBottles extends MovableObject {
     this.loadImages(this.THROWABLE_BOTTLE_IMAGES);
   }
 
+  /**
+   * @method throwUpdate - plays the animation based on x and y postion and gravity.
+   */
   throwUpdate() {
     this.playAnimation(this.THROWABLE_BOTTLE_IMAGES, this.rotationSpeed);
     this.x += this.speedX;

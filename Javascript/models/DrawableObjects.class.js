@@ -1,6 +1,6 @@
 /**
  * @class DrawableObjects
- * responsible for all the drawbale objects in the game.
+ * responsible for all the drawable objects in the game.
  */
 
 class DrawableObjects {
@@ -20,7 +20,7 @@ class DrawableObjects {
 
   /**
    * @method loadImage - to load a single image into the imageCache and set it as the current image
-   * @param {String} path - The path of the image to load
+   * @param {String} path
    */
   loadImage(path) {
     this.img = new Image();
@@ -43,7 +43,7 @@ class DrawableObjects {
 
   /**
    * @method drawObjectsOnCanvas - Draws multiple objects on the canvas
-   * @param {Array} objects - An array of objects to be drawn
+   * @param {Array} objects
    */
   drawObjectsOnCanvas(objects) {
     objects.forEach((obj) => {
@@ -53,8 +53,8 @@ class DrawableObjects {
 
   /**
    * @method drawOnCanvas - Draws a single object on the canvas
-   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
-   * @param {Object} object - The object to be drawn
+   * @param {CanvasRenderingContext2D} ctx
+   * @param {Object} object
    */
   drawOnCanvas(ctx, object) {
     if (object.otherDirection) {
@@ -74,8 +74,8 @@ class DrawableObjects {
 
   /**
    * @method flipImage - flips the image when character is facing the other direction
-   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
-   * @param {Object} object - The object to be drawn
+   * @param {CanvasRenderingContext2D} ctx
+   * @param {Object} object
    */
   flipImage(ctx, object) {
     ctx.save();
@@ -87,8 +87,8 @@ class DrawableObjects {
 
   /**
    * @method drawCollisionBox - Draws a border for an object on the canvas based on its real position and size
-   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
-   * @param {Object} object - The object to be drawn
+   * @param {CanvasRenderingContext2D} ctx
+   * @param {Object} object
    */
   drawCollisionBox(ctx, object) {
     ctx.strokeStyle = "red";
@@ -98,8 +98,8 @@ class DrawableObjects {
 
   /**
    * @method drawCollisionBoxWithOffset - Draws a border for an object on the canvas based on its collision box position and size
-   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
-   * @param {Object} object - The object to be drawn
+   * @param {CanvasRenderingContext2D} ctx
+   * @param {Object} object
    */
   drawCollisionBoxWithOffset(ctx, object) {
     let boxX = object.x + (object.offsetX || 0);
@@ -112,7 +112,7 @@ class DrawableObjects {
 
   /**
    * @method isColliding - Checks if this object is colliding with another object
-   * @param {Object} other - The other object to check collision with
+   * @param {Object} other
    * @returns {boolean} - True if the objects are colliding, false otherwise
    */
   isColliding(other) {

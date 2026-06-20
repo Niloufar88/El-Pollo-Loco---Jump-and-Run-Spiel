@@ -1,3 +1,16 @@
+/**
+ * @class Endboss
+ * represents the final boss in the game, a giant chicken.
+ * @extends MovableObject
+ * @property {number} health - The health of the endboss.
+ * @property {number} damage - the damage which reduces endboss health when hit by the bottles.
+ * @property {boolean} isAttacking - Sets true if the endboss is currently attacking and false when not.
+ * @property {boolean} isHurt - Sets true if the endboss is currently hurt and false when not.
+ * @property {boolean} isPlayingDeadSound - Sets true if the death sound is currently playing and false when not.
+ * @property {boolean} isPlayingGrwolSound - Sets true if the growl sound is currently playing and false when not.
+ * @property {boolean} pepeWon - Sets true if the player has won against the endboss and false when not.
+ */
+
 class Endboss extends MovableObject {
   constructor(imagePath) {
     super();
@@ -77,6 +90,10 @@ class Endboss extends MovableObject {
     this.loadImages(this.BOSS_DEAD);
   }
 
+  /**
+   * @method update - updates endboss state to execute accordingly animations and movements.
+   * @param {Object} character - The main character in the game, used to determine endboss actions.
+   */
   update(character) {
     if (this.isDead) {
       this.playAnimation(this.BOSS_DEAD, this.deadSpeed, true);
@@ -98,12 +115,19 @@ class Endboss extends MovableObject {
       this.playAnimation(this.BOSS_ALERT, this.alertSpeed);
   }
 
-  isAttacking(player) {}
-
+  /**
+   * @method moveTowardsPlayer - moves the endboss towards the player when attacking.
+   * @param {Object} player - The main character in the game, used to determine endboss movements.
+   */
   moveTowardsPlayer(player) {
     if (player.x < this.x) this.x -= this.speedX;
   }
 
+  /**
+ * @method hurt - by hiting with bottles will the health of endboss reduces.
+ * @param {Number} damage 
+ 
+ */
   hurt(damage) {
     if (this.isDead) return;
     this.health -= damage;
@@ -116,6 +140,9 @@ class Endboss extends MovableObject {
       }, 500);
   }
 
+  /**
+   * @method reset - reset all the properties to the initial state.
+   */
   reset() {
     this.x = 3200;
     this.y = 40;

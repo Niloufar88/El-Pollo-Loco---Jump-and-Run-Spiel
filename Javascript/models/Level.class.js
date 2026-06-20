@@ -1,3 +1,8 @@
+/**
+ * @class Level
+ * initialize the level with enemies, clouds, background objects, bottles, coins and thrown bottles.
+ */
+
 class Level {
   enemies;
   clouds;
@@ -25,24 +30,44 @@ class Level {
     this.thrownBottles = thrownBottles;
   }
 
+  /**
+   * @method generatingEnemies - to generate enemies in the world.
+   * @param {Number} count
+   */
   generatingEnemies(count) {
     for (let i = 0; i < count; i++) {
       this.enemies.push(new Chicken());
     }
   }
 
+  /**
+   * @method generatingClouds - to generate clouds in the world.
+   * @param {Number} count
+   */
   generatingClouds(count) {
     for (let i = 0; i < count; i++) {
       this.clouds.push(new Clouds());
     }
   }
 
+  /**
+   * @method generateBottles - to generate bottles in the world.
+   * @param {Number} count
+   */
   generateBottles(count) {
     for (let i = 0; i < count; i++) {
       this.bottles.push(new Bottle());
     }
   }
 
+  /**
+   * @method generateRandomCoinColumns - to generate columns of coins in the world.
+   * @param {Number} baseX - The base X position for the column.
+   * @param {Number} startY - The starting Y position for the column.
+   * @param {Number} gap - The gap between each coin in the column.
+   * @param {Number} count - The number of coins in the column.
+   * @returns {Array} - An array of Coin objects.
+   */
   generateRandomCoinColumns(baseX, startY, gap, count) {
     let columns = [];
 
@@ -53,6 +78,9 @@ class Level {
     return columns;
   }
 
+  /**
+   * @method generateRandomCoins - to generate random coins in the world.
+   */
   generateRandomCoins() {
     let segCount = 8;
     let segWidth = 3200 / segCount;
@@ -69,6 +97,9 @@ class Level {
     }
   }
 
+  /**
+   * @method initLevel1 - to initialize the first level with enemies, clouds, bottles and coins.
+   */
   initLevel1() {
     level1.generatingEnemies(15);
     level1.generatingClouds(3);
@@ -76,6 +107,9 @@ class Level {
     level1.generateRandomCoins();
   }
 
+  /**
+   * @method reset - to reset the level to its initial state.
+   */
   reset() {
     this.enemies = [];
     this.bottles = [];

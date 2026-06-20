@@ -1,3 +1,8 @@
+/**
+ * @class StatusBar
+ * responsible for drawing the status bars for health, bottles, coins and boss health
+ */
+
 class StatusBar extends DrawableObjects {
   barWidth = 200;
   barHeight = 50;
@@ -62,7 +67,14 @@ class StatusBar extends DrawableObjects {
     this.loadImages(this.BOSS_HEALTH_BAR_IMAGES);
   }
 
-  // can be used for Boss and Character
+  /**
+   * @method resolveImageIndexForHealthBars
+   * based on the health percentage of the character or boss, get the corresponding image from the images array
+   * @param {Array} images
+   * @param {Number} health
+   * @returns {HTMLImageElement} the image corresponding to the health percentage
+   */
+
   resolveImageIndexForHealthBars(images, health) {
     if (health === 100) return (this.img = this.imageCache[images[5]]);
     if (health >= 80) return (this.img = this.imageCache[images[4]]);
@@ -72,22 +84,29 @@ class StatusBar extends DrawableObjects {
     else return (this.img = this.imageCache[images[0]]);
   }
 
-  //draw health Bar for Character
+  /**
+   * @method drawStatusBar - draws the health bar for the character or boss based on the health percentage
+   * @param {CanvasRenderingContext2D} ctx
+   * @param {Array} images
+   * @param {Number} health
+   * @param {Number} barX
+   */
   drawStatusBar(ctx, images, health, barX) {
-    // based on Health Percentage of Character/Boss get the img
     let barImg = this.resolveImageIndexForHealthBars(images, health);
-
-    //Position and size of the Statusbar
-
     let barY = 0;
-
-    // draw the status bar
     ctx.drawImage(barImg, barX, barY, this.barWidth, this.barHeight);
   }
 
+  /**
+   * @method resolveImageIndexForCollectables
+   * based on the collected number, get the corresponding image from the images array
+   * @param {Array} images
+   * @param {Number} maxNumber
+   * @param {Number} collectable
+   * @returns {HTMLImageElement} the image corresponding to the collected number
+   */
   resolveImageIndexForCollectables(images, maxNumber, collectable) {
     let barPercentage = (collectable / maxNumber) * 100;
-
     if (barPercentage === 100) return (this.img = this.imageCache[images[5]]);
     if (barPercentage >= 80) return (this.img = this.imageCache[images[4]]);
     if (barPercentage >= 60) return (this.img = this.imageCache[images[3]]);
@@ -96,18 +115,21 @@ class StatusBar extends DrawableObjects {
     else return (this.img = this.imageCache[images[0]]);
   }
 
+  /**
+   * @method drawCollectableBar - draws the collectable bar based on the collected number
+   * @param {CanvasRenderingContext2D} ctx
+   * @param {Array} images
+   * @param {Number} maxNumber
+   * @param {Number} collectable
+   * @param {Number} barY
+   */
   drawCollectableBar(ctx, images, maxNumber, collectable, barY) {
-    //based on collected number get the img
     let barImg = this.resolveImageIndexForCollectables(
       images,
       maxNumber,
       collectable,
     );
-
-    //Position the status bar
     let barX = 10;
-
-    //draw the status bar
     ctx.drawImage(barImg, barX, barY, this.barWidth, this.barHeight);
   }
 }

@@ -20,8 +20,8 @@ class CollectableObjects extends DrawableObjects {
 
   /**
    * @method playAnimation - Plays the animation for the collectable object.
-   * @param {Array} images - An array of image paths for the animation frames.
-   * @param {number} speed - The speed at which the animation frames should change.
+   * @param {Array} images
+   * @param {number} speed
    */
   playAnimation(images, speed) {
     let now = Date.now();

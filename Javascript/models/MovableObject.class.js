@@ -1,3 +1,13 @@
+/**
+ * @class MovableObject
+ * responsible for all objects that can move and have animations
+ * @extends DrawableObjects
+ * @property {boolean} isDead - indicates if the object is dead
+ * @property {boolean} otherDirection - indicates if the object is facing the other direction
+ * @property {number} health - the health of the object
+ * @property {string} lastAnimationType - the last animation type played
+ */
+
 class MovableObject extends DrawableObjects {
   speedX = 0.15;
 
@@ -9,7 +19,14 @@ class MovableObject extends DrawableObjects {
   //Animation
   lastAnimationType = null;
 
-  //play Animation
+  /**
+   * @method playAnimation
+   * plays the animation based on the provided images and speed
+   * @param {Array} images
+   * @param {Number} speed
+   * @param {Boolean} oneTime
+   */
+
   playAnimation(images, speed, oneTime = false) {
     if (this.lastAnimationType !== images) {
       this.currentImage = 0;
@@ -31,10 +48,17 @@ class MovableObject extends DrawableObjects {
     }
   }
 
+  /**
+   * @method moveLeft
+   * moves the object to the left
+   */
   moveLeft() {
     this.x -= this.speedX;
   }
 
+  /**
+   * @method die - sets the property to true , if the Object is dead.
+   */
   die() {
     this.isDead = true;
   }
