@@ -142,6 +142,8 @@ function showWinScreen() {
   managePauseAudios();
   winLoseScreen.style.display = "flex";
   winLoseImg.src = "assets/img/You won A.png";
+  winLoseImg.alt = "win";
+  // winLoseScreen.setAttribute("id", "win");
   if (!audioManager.isMuted) {
     audioManager.winLoseMusic.win.play();
     audioManager.winLoseMusic.win.volume = 0.2;
@@ -158,6 +160,8 @@ function showLoseScreen() {
   managePauseAudios();
   winLoseScreen.style.display = "flex";
   winLoseImg.src = "assets/img/Game over A.png";
+  winLoseImg.alt = "lose";
+  // winLoseScreen.setAttribute("id", "lose");
   if (!audioManager.isMuted) {
     audioManager.winLoseMusic.gameOver.play();
     audioManager.winLoseMusic.gameOver.volume = 0.2;
@@ -260,12 +264,12 @@ function manageUnmuteAudioCanvas() {
  */
 function manageUnmuteAudioWinLose() {
   if (!audioManager.isMuted) {
-    if (winloseScreen.classList.contains("win-background")) {
+    if (winLoseImg.alt.includes("win")) {
       audioManager.winLoseMusic.win.play();
       audioManager.winLoseMusic.win.volume = 0.2;
-    } else if (winloseScreen.classList.contains("lose-background")) {
-      audioManager.winLoseMusic.lose.play();
-      audioManager.winLoseMusic.lose.volume = 0.2;
+    } else if (winLoseImg.alt.includes("lose")) {
+      audioManager.winLoseMusic.gameOver.play();
+      audioManager.winLoseMusic.gameOver.volume = 0.2;
     }
   }
 }
