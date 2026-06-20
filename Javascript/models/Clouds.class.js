@@ -1,3 +1,8 @@
+/**
+ * @class Clouds
+ * @extends MovableObject
+ * @constructor - Initializes the cloud's position, size, and image.
+ */
 class Clouds extends MovableObject {
   constructor() {
     super();
@@ -12,6 +17,9 @@ class Clouds extends MovableObject {
     this.updatePosition();
   }
 
+  /**
+   * @method updatePosition - Updates the cloud's position by moving it left across the screen.
+   */
   updatePosition() {
     this.moveLeft();
   }

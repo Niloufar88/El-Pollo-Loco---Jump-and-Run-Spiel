@@ -1,3 +1,9 @@
+/**
+ * @class Chicken - Represents a chicken enemy in the game.
+ * @extends MovableObject
+ * @constructor to sets properties such as position, size, speed and animation frames speed.
+ */
+
 class Chicken extends MovableObject {
   constructor() {
     super();
@@ -46,6 +52,9 @@ class Chicken extends MovableObject {
     this.moveLeft();
   }
 
+  /**
+   * @method update - Updates chicken state by checking if the @property {boolean} isDead is true or false.
+   */
   update() {
     if (this.isDead) this.playAnimation([this.CHICKEN_DEAD], this.deadSpeed);
     if (!this.isDead) {
@@ -54,12 +63,13 @@ class Chicken extends MovableObject {
     }
   }
 
+  /**
+   * @method die - chekcs if the chicken is already dead, and extends the die Method from MovabaleObjects.
+   */
   die() {
     if (this.isDead) return;
-
     super.die();
     this.speedX = 0;
-
     setTimeout(() => {
       this.remove = true;
     }, 500);

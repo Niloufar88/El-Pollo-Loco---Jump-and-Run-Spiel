@@ -1,3 +1,9 @@
+/**
+ * @class Coin
+ * @extends CollectableObjects
+ * @constructor - Initializes the coin's position, size, animation, and state.
+ */
+
 class Coin extends CollectableObjects {
   constructor() {
     super();
@@ -30,6 +36,9 @@ class Coin extends CollectableObjects {
     this.loadImages(this.COIN_IMAGES);
   }
 
+  /**
+   * @method updateCoins - Updates the coin's animation based on the state of @property {boolean}  isCollected.
+   */
   updateCoins() {
     if (!this.isCollected) {
       this.playAnimation(this.COIN_IMAGES, this.animationSpeed);

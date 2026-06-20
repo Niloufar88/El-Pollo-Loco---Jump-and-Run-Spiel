@@ -1,3 +1,23 @@
+/**
+ * @class Character 
+ * represents the main character in the game, Pepe.
+ * @extends MovableObject
+ * @constructor Creates a new instance of the Character class.
+ * @property {number} health - The health of the character.
+ * @property {number} bottlesCollected - The number of bottles collected by the character.
+ * @property {number} coinsCollected - The number of coins collected by the character.
+ * @property {boolean} isHurt - Sets true if the character is currently hurt and false when not.
+ * @property {boolean} isJumping - Sets true if the @method jump is active and false when not.
+ * @property {boolean} isInvincible - Sets true if the character is currently invincible and false when not.
+ * @property {boolean} pepeLost - Sets true if the character has lost the game and false when not.
+ * @property {boolean} longIdleAnimationPlaying - Sets true if the long idle animation is playing and false when not.
+ * @property {number} invincibilityDuration - The duration (in milliseconds) for which the character remains invincible after being hit.
+ * @property {number} lastHitTime - The timestamp of the last time the character was hit, used to manage invincibility timing.
+ * @property {number} lastThrowTime - The timestamp of the last time the character threw a bottle, used to manage throwing cooldown.
+ * @property {boolean} playingDeathSound - Sets true if the death sound is currently playing and false when not.
+
+ */
+
 class Character extends MovableObject {
   world;
   constructor() {
@@ -117,6 +137,9 @@ class Character extends MovableObject {
       "assets/img/pepe-character/long_idle/I-20.png",
     ];
 
+    /**
+     * @method loadImages - Loads the images to imageCache Object for the character's animations using the loadImages method inherited from MovableObject.
+     */
     this.loadImage(this.PEPE_IDLE[0]);
     this.loadImages(this.PEPE_IDLE);
     this.loadImages(this.PEPE_WALK);
@@ -126,6 +149,9 @@ class Character extends MovableObject {
     this.loadImages(this.PEPE_LONGIDLE);
   }
 
+  /**
+   * @method updateCharacter - Updates the character's state based on the properties of the character if they are true or false and accordingly executes animations.
+   */
   updateCharacter() {
     this.applyGravity();
     if (this.isDead) {
@@ -162,6 +188,9 @@ class Character extends MovableObject {
     this.cameraPosition();
   }
 
+  /**
+   * @method movements - checks for the keyboard inputs and accordingly let the movement to be executed.
+   */
   movements() {
     if (
       (this.world.keyboard.SPACE || this.world.keyboard.UP) &&
@@ -176,12 +205,18 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * @method cameraPosition - calculates the camera-x position based on the character's x position and updates the world.camera_x property.
+   */
   cameraPosition() {
     if (this.x >= this.world.worldEndX - this.world.canvas.width + 100)
       this.world.camera_x = -this.world.worldEndX + this.world.canvas.width;
     else this.world.camera_x = -this.x + 100;
   }
 
+  /**
+   * @method moveRight - Moves the character to the right and updates the otherDirection property.
+   */
   moveRight() {
     if (this.x + this.width >= this.world.worldEndX) {
       this.x = this.world.worldEndX - this.width;
@@ -190,12 +225,18 @@ class Character extends MovableObject {
     this.otherDirection = false;
   }
 
+  /**
+   * @method moveLeft - Moves the character to the left and updates the otherDirection property.
+   */
   moveLeft() {
     if (this.x <= -100) this.x = -100;
     this.x -= this.speedX;
     this.otherDirection = true;
   }
 
+  /**
+   * @method applyGravity - by applying @property {number} speedY and @property {number} gravity to the character's y position, simulates the effect of gravity on the character.
+   */
   applyGravity() {
     this.y += this.speedY;
     this.speedY += this.gravity;
@@ -207,14 +248,23 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * @method isAboveGround - Checks if the character is above the ground level and returns a {boolean} value.
+   */
   isAboveGround() {
     return this.y < this.ground;
   }
 
+  /**
+   * @method isOnGround - Checks if the character is on the ground level and returns a {boolean} value.
+   */
   isOnGround() {
     return this.y >= this.ground;
   }
 
+  /**
+   * @method jump - setting accordingly related to jump animation properties to true so the animation can be startet.
+   */
   jump() {
     if (this.isOnGround()) {
       this.speedY = -20;
@@ -226,6 +276,9 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * * @method hit - checks for some health, lastHitTime and isInvincible to execute accordingly if the character should lose health or not.
+   */
   hit() {
     if (this.isInvincible) return;
     this.health -= 10;
@@ -239,18 +292,23 @@ class Character extends MovableObject {
       setTimeout(() => {
         this.isHurt = false;
       }, 500);
-
       setTimeout(() => {
         this.isInvincible = false;
       }, this.invincibilityDuration);
     }
   }
 
+  /**
+   * @method die - Sets the character's state to dead and updates the pepeLost property.
+   */
   die() {
     super.die();
     this.pepeLost = true;
   }
 
+  /**
+   * @method reset - Resets the character's properties to their initial values, so the game can start in a clean state.
+   */
   reset() {
     this.x = 50;
     this.y = 170;

@@ -1,3 +1,9 @@
+/**
+ * @class Bottle
+ * Represents a bottle object in the game that can be collected by the player.
+ * @extends CollectableObjects
+ */
+
 class Bottle extends CollectableObjects {
   constructor() {
     super();
@@ -33,6 +39,10 @@ class Bottle extends CollectableObjects {
     this.updateBottle();
   }
 
+  /**
+   * @method updateBottle
+   * Updates the bottle's animation based on the @property {boolean} isCollected.
+   */
   updateBottle() {
     if (!this.isCollected)
       this.playAnimation(this.BOTTLE_IMAGES, this.rotationSpeed);

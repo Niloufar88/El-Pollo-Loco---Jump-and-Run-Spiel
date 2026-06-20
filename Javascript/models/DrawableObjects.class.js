@@ -1,3 +1,8 @@
+/**
+ * @class DrawableObjects
+ * responsible for all the drawbale objects in the game.
+ */
+
 class DrawableObjects {
   //Position and size
   x;
@@ -13,14 +18,20 @@ class DrawableObjects {
   currentImage = 0;
   lastFrameTime = 0;
 
-  //a Method to load a single image into the imageCache and set it as the current image
+  /**
+   * @method loadImage - to load a single image into the imageCache and set it as the current image
+   * @param {String} path - The path of the image to load
+   */
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
     this.imageCache[path] = this.img;
   }
 
-  //a Method to load an Array of images into the imageCache
+  /**
+   * @method loadImages - a Method to load an Array of images into the imageCache
+   * @param {Array} images
+   */
   loadImages(images) {
     images.forEach((path) => {
       let img = new Image();
@@ -30,14 +41,21 @@ class DrawableObjects {
     });
   }
 
-  //draw mehrere Objekte auf Canvas
+  /**
+   * @method drawObjectsOnCanvas - Draws multiple objects on the canvas
+   * @param {Array} objects - An array of objects to be drawn
+   */
   drawObjectsOnCanvas(objects) {
     objects.forEach((obj) => {
       this.drawOnCanvas(this.ctx, obj);
     });
   }
 
-  // draw einzelnes Objekt auf Canvas
+  /**
+   * @method drawOnCanvas - Draws a single object on the canvas
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
+   * @param {Object} object - The object to be drawn
+   */
   drawOnCanvas(ctx, object) {
     if (object.otherDirection) {
       this.flipImage(ctx, object);
@@ -54,7 +72,11 @@ class DrawableObjects {
     this.drawCollisionBoxWithOffset(ctx, object);
   }
 
-  //wenn Character andere Richtung schaut, wird das Bild gespiegelt
+  /**
+   * @method flipImage - flips the image when character is facing the other direction
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
+   * @param {Object} object - The object to be drawn
+   */
   flipImage(ctx, object) {
     ctx.save();
     ctx.translate(object.x + object.width, object.y);
@@ -63,14 +85,22 @@ class DrawableObjects {
     ctx.restore();
   }
 
-  // draw a border for an Object on canvas based on real Postion and size
+  /**
+   * @method drawCollisionBox - Draws a border for an object on the canvas based on its real position and size
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
+   * @param {Object} object - The object to be drawn
+   */
   drawCollisionBox(ctx, object) {
     ctx.strokeStyle = "red";
     ctx.lineWidth = 2;
     ctx.strokeRect(object.x, object.y, object.width, object.height);
   }
 
-  //draw a border for an Object on canvas based on Collision Box Position and size
+  /**
+   * @method drawCollisionBoxWithOffset - Draws a border for an object on the canvas based on its collision box position and size
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
+   * @param {Object} object - The object to be drawn
+   */
   drawCollisionBoxWithOffset(ctx, object) {
     let boxX = object.x + (object.offsetX || 0);
     let boxY = object.y + (object.offsetY || 0);
@@ -80,7 +110,11 @@ class DrawableObjects {
     ctx.strokeRect(boxX, boxY, object.collisionWidth, object.collisionHeight);
   }
 
-  //the Method to check if two objects are colliding
+  /**
+   * @method isColliding - Checks if this object is colliding with another object
+   * @param {Object} other - The other object to check collision with
+   * @returns {boolean} - True if the objects are colliding, false otherwise
+   */
   isColliding(other) {
     let thisLeft = this.x + (this.offsetX || 0);
     let thisRight = thisLeft + (this.collisionWidth || this.width);
