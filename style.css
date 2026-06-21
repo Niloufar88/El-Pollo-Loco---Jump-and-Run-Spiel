@@ -391,17 +391,17 @@ main {
 @media screen and (max-width: 767px) {
   body {
     height: 100vh;
-    /* padding-top: 30px; */
+    padding-top: 0;
     justify-content: flex-start;
-    gap: 30px;
+    gap: 0;
   }
 
   header h1 {
-    font-size: 24px;
+    display: none;
   }
   main {
     width: auto;
-    height: 78vh;
+    height: 100vh;
     aspect-ratio: 3/2;
   }
   .start-screen {
@@ -413,6 +413,10 @@ main {
     width: auto;
     height: 100%;
   }
+  #win-lose-screen img {
+    width: 93%;
+    height: 100%;
+  }
   #gameBtns {
     gap: 8px;
   }
@@ -421,7 +425,7 @@ main {
     padding: 4px;
     letter-spacing: 0;
     text-transform: none;
-    min-width: 65px;
+    min-width: 86px;
   }
 
   .configBtns {
@@ -432,6 +436,10 @@ main {
     width: 35px;
     height: 35px;
     font-size: 12px;
+  }
+
+  .configBtns button:nth-child(2) {
+    display: none;
   }
 
   .btns {
@@ -445,7 +453,7 @@ main {
   }
   .touchBtns {
     gap: 180px;
-    bottom: -25px;
+    bottom: -5px;
   }
   .touchBtns button {
     width: 35px;
