@@ -52,6 +52,12 @@ window
     }
   });
 
+window.matchMedia("(width<=1023px)").addEventListener("change", (event) => {
+  const smallScreen = event.matches;
+  if (smallScreen) controlsBtn.style.display = "none";
+  else controlsBtn.style.display = "block";
+});
+
 /**
  * @function orientationCheckOnload to check the orientation of the device on page load and display or hide the overlay accordingly.
  */
@@ -129,7 +135,17 @@ function backToMenu(event) {
   contentContainer.innerHTML = "";
   contentContainer.style.visibility = "hidden";
   startScreen.style.display = "flex";
+  // hideControlsButton();
   manageUnmuteAudioWelcomeScreen();
+}
+
+/**
+ * @function hideControlsButton responsible for hiding the controls button on smaller screens by checking the screen width using matchMedia.
+ */
+function hideControlsButton() {
+  if (window.matchMedia("(width<=1023px)").matches)
+    controlsBtn.style.display = "none";
+  else controlsBtn.style.display = "block";
 }
 
 /**
