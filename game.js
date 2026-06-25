@@ -19,6 +19,7 @@ const muteBtnImgs = document.querySelectorAll(".audio-btn img");
 const backBtn = document.querySelector(".back-btn");
 const touchBtns = document.querySelector(".touchBtns");
 const orientationOverlay = document.getElementById("orientationOverlay");
+const contentModal = document.querySelector(".modal-content");
 
 /**
  * @variable {boolean}
@@ -56,6 +57,13 @@ window.matchMedia("(width<=1023px)").addEventListener("change", (event) => {
   const smallScreen = event.matches;
   if (smallScreen) controlsBtn.style.display = "none";
   else controlsBtn.style.display = "block";
+});
+
+contentModal.addEventListener("click", (event) => {
+  if (event.target === contentModal) {
+    contentModal.style.display = "none";
+    contentContainer.innerHTML = "";
+  }
 });
 
 /**
@@ -193,7 +201,7 @@ function showRelevantContent(func) {
     audioManager.menuMusik.click.play();
   }
   contentContainer.innerHTML = "";
-  contentContainer.style.visibility = "visible";
+  contentModal.style.display = "flex";
   contentContainer.innerHTML = func;
   contentContainer.style.padding = "24px";
 }
