@@ -53,7 +53,7 @@ class Character extends MovableObject {
     this.isPlayingJumpAnimation = false;
 
     //Collision
-    this.health = 100;
+    this.health = 50;
     this.isHurt = false;
     this.isInvincible = false;
     this.lastHitTime = 0;
