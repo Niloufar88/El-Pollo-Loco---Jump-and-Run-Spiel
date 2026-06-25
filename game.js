@@ -1,10 +1,8 @@
-//canvas related variables
 const canvas = document.getElementById("myCanvas");
 let world;
 let keyboard = new Keyboard();
 let audioManager = new AudioManager();
 
-//DOM Elements Variables
 const startGameBtn = document.getElementById("startGame-btn");
 const startScreen = document.getElementById("start-screen");
 const winLoseScreen = document.getElementById("win-lose-screen");
@@ -21,12 +19,7 @@ const touchBtns = document.querySelector(".touchBtns");
 const orientationOverlay = document.getElementById("orientationOverlay");
 const contentModal = document.querySelector(".modal-content");
 
-/**
- * @variable {boolean}
- */
 let saveMutedState = localStorage.getItem("audioMuted");
-if (saveMutedState === null) audioManager.isMuted = true;
-else audioManager.isMuted = saveMutedState === "true";
 
 /**
  * @addEventListener for DOMContentLoaded to initialize the game and set the initial state of the screens,audio and update the mute button icons
@@ -37,9 +30,18 @@ window.addEventListener("DOMContentLoaded", () => {
   winLoseScreen.style.display = "none";
   if (touchBtns) touchBtns.style.display = "none";
   updateAllIcons();
+  manageLocalstorage();
   keyboard.setupTouchControls();
   checkInnerWidth();
 });
+
+/**
+ * @function manageLocalstorage to check the localStorage for the audioMuted state and set the audioManager.isMuted accordingly.
+ */
+function manageLocalstorage() {
+  if (saveMutedState === null) audioManager.isMuted = true;
+  else audioManager.isMuted = saveMutedState === "true";
+}
 
 /**
  * @matchMedia and @addEventListener for orientation change detection to accordingly display the overlay or hide it.
@@ -244,9 +246,17 @@ function showRelevantContent(func) {
  * @addEventListener for the fullscreen buttons to toggle the fullscreen mode on and off when clicked.
  */
 fullscreenBtns.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
+  btn.addEventListener("click", (event) => {
+    let screenId = event.currentTarget.parentElement.dataset.id;
+    if (screenId === "welcome" && !document.fullscreenElement) {
+      startScreen.requestFullscreen();
+    } else if (screenId === "canvas" && !document.fullscreenElement) {
+      canvasContainer.requestFullscreen();
+    } else if (
+      screenId === "win-lose-config-btn" &&
+      !document.fullscreenElement
+    ) {
+      winLoseScreen.requestFullscreen();
     } else {
       document.exitFullscreen();
     }
@@ -360,31 +370,3 @@ document.addEventListener("keyup", (event) => {
   if (event.key === " ") keyboard.SPACE = false;
   if (event.key === "d") keyboard.THROW = false;
 });
-
-/**
- * @function touchButtons - define the touch Buttons
- */
-
-function touchButtons() {
-  const leftButton = document.getElementById("left-button");
-  const rightButton = document.getElementById("right-button");
-  const upButton = document.getElementById("up-button");
-  const throwButton = document.getElementById("throw-button");
-
-  return { leftButton, rightButton, upButton, throwButton };
-}
-
-/**
- * @function leftBtnTouchHandler - handle the touch events for the left button
- */
-
-function leftBtnTouchHandler(leftButton) {
-  leftButton.addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    keyboard.LEFT = true;
-  });
-  leftButton.addEventListener("touchend", (e) => {
-    e.preventDefault();
-    keyboard.LEFT = false;
-  });
-}
