@@ -37,6 +37,7 @@ window.addEventListener("DOMContentLoaded", () => {
   winLoseScreen.style.display = "none";
   if (touchBtns) touchBtns.style.display = "none";
   updateAllIcons();
+  keyboard.setupTouchControls();
 });
 
 /**
@@ -53,12 +54,15 @@ window
     }
   });
 
-window.matchMedia("(width<=1023px)").addEventListener("change", (event) => {
+window.matchMedia("(max-width:1023px)").addEventListener("change", (event) => {
   const smallScreen = event.matches;
   if (smallScreen) controlsBtn.style.display = "none";
   else controlsBtn.style.display = "block";
 });
 
+/**
+ * @addEventListener for closing the modal by clicking outside of the content area.
+ */
 contentModal.addEventListener("click", (event) => {
   if (event.target === contentModal) {
     contentModal.style.display = "none";
@@ -83,6 +87,7 @@ function orientationCheckOnload() {
 function gameInit() {
   world = new World(canvas, keyboard, audioManager);
   world.draw();
+  keyboard.setupTouchControls();
 }
 
 /**
@@ -91,7 +96,7 @@ function gameInit() {
 function startGame() {
   managePauseAudios();
   screenToggleBeforePlay();
-  if (window.matchMedia("(width<=1023px)").matches)
+  if (window.matchMedia("(max-width:1023px)").matches)
     touchBtns.style.display = "flex";
   if (world) {
     world.stopGame();
@@ -328,22 +333,29 @@ document.addEventListener("keyup", (event) => {
 });
 
 /**
- * @addEventListener for touch events to set keyboard properties to true when the relevant buttons are touched.
+ * @function touchButtons - define the touch Buttons
  */
-document.addEventListener("touchstart", (event) => {
-  if (event.target.id === "left-button") keyboard.LEFT = true;
-  if (event.target.id === "right-button") keyboard.RIGHT = true;
-  if (event.target.id === "up-button") keyboard.UP = true;
-  if (event.target.id === "throw-button") keyboard.THROW = true;
-});
+
+function touchButtons() {
+  const leftButton = document.getElementById("left-button");
+  const rightButton = document.getElementById("right-button");
+  const upButton = document.getElementById("up-button");
+  const throwButton = document.getElementById("throw-button");
+
+  return { leftButton, rightButton, upButton, throwButton };
+}
 
 /**
- * @addEventListener for touch events to set keyboard properties to false when the relevant buttons are released.
+ * @function leftBtnTouchHandler - handle the touch events for the left button
  */
 
-document.addEventListener("touchend", (event) => {
-  if (event.target.id === "left-button") keyboard.LEFT = false;
-  if (event.target.id === "right-button") keyboard.RIGHT = false;
-  if (event.target.id === "up-button") keyboard.UP = false;
-  if (event.target.id === "throw-button") keyboard.THROW = false;
-});
+function leftBtnTouchHandler(leftButton) {
+  leftButton.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keyboard.LEFT = true;
+  });
+  leftButton.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keyboard.LEFT = false;
+  });
+}
