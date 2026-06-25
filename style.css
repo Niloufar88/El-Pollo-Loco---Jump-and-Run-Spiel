@@ -512,22 +512,3 @@ main {
     line-height: 18px;
   }
 }
-
-/* @media only screen and (max-width: 720px) {
-  #myCanvas {
-    width: 100%;
-  }
-  .start-screen {
-    width: 100%;
-  }
-}
-
-@media only screen and (max-height: 480px) {
-  #mCanvas {
-    height: 100vh;
-  }
-
-  .start-screen {
-    height: 100vh;
-  }
-} */
