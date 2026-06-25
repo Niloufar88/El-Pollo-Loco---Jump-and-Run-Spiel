@@ -48,12 +48,14 @@ function renderImpressumContent() {
   <h3 class="header">IMPRESSUM</h3>
             <div class="content-text">
               <ul>
-                <li>"⭐ Graphics: Developer Akademie Assets"</li>
-                <li>"⭐ Sound Effects: Freesound.org / Mixkit.co /",
-        "Pixabay.com"</li>
-                <li>"⭐ Music: Safari Theme from opengameart.org"</li>
-                <li>"⭐ Game Programming: Niloufar"</li>
-                <li>"⭐ © 2026 - El Pollo Loco Project"</li>
+              <h3> IMPRESSUM </h3>
+                <li>⭐ Niloufar Shirvani</li>
+                <li>⭐ Omid Siedlung 20/72 </li>
+                <li>⭐ 16897 Teheran</li>
+                <h3> CONTACT </h3>
+                <li>⭐ Telephone: +98 912 3272389</li>
+                <li>⭐ Email: niloufar88@hotmail.com</li>
+                <li>⭐ © 2026 - El Pollo Loco Project</li>
               </ul>
             </div>
           </div>
