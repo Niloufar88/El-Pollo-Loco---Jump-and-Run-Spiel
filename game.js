@@ -38,6 +38,7 @@ window.addEventListener("DOMContentLoaded", () => {
   if (touchBtns) touchBtns.style.display = "none";
   updateAllIcons();
   keyboard.setupTouchControls();
+  checkInnerWidth();
 });
 
 /**
@@ -54,11 +55,23 @@ window
     }
   });
 
-window.matchMedia("(max-width:1023px)").addEventListener("change", (event) => {
-  const smallScreen = event.matches;
-  if (smallScreen) controlsBtn.style.display = "none";
-  else controlsBtn.style.display = "block";
+/**
+ * @addEventListener to run the function on resize.
+ */
+window.addEventListener("resize", () => {
+  checkInnerWidth();
 });
+
+/**
+ * @function checkInnerWidth to check the inner width of the window to hide or show the controls button accordingly.
+ */
+function checkInnerWidth() {
+  const screenWidth = window.innerWidth;
+  let isMobile = screenWidth <= 1023;
+
+  if (isMobile) controlsBtn.style.display = "none";
+  else controlsBtn.style.display = "block";
+}
 
 /**
  * @addEventListener for closing the modal by clicking outside of the content area.
@@ -116,7 +129,7 @@ function restartGame() {
     world.resetProperties();
   }
   screenToggleBeforePlay();
-  if (window.matchMedia("(width<=1023px)").matches)
+  if (window.matchMedia("(max-width:1023px)").matches)
     touchBtns.style.display = "flex";
   gameInit();
   if (!audioManager.isMuted) manageGameAudio();
@@ -146,7 +159,7 @@ function backToMenu(event) {
       : null;
   if (touchBtns) touchBtns.style.display = "none";
   contentContainer.innerHTML = "";
-  contentContainer.style.visibility = "hidden";
+  contentModal.style.display = "none";
   startScreen.style.display = "flex";
   // hideControlsButton();
   manageUnmuteAudioWelcomeScreen();
@@ -156,7 +169,7 @@ function backToMenu(event) {
  * @function hideControlsButton responsible for hiding the controls button on smaller screens by checking the screen width using matchMedia.
  */
 function hideControlsButton() {
-  if (window.matchMedia("(width<=1023px)").matches)
+  if (window.matchMedia("(max-width:1023px)").matches)
     controlsBtn.style.display = "none";
   else controlsBtn.style.display = "block";
 }
@@ -208,7 +221,7 @@ function showRelevantContent(func) {
   contentContainer.innerHTML = "";
   contentModal.style.display = "flex";
   contentContainer.innerHTML = func;
-  contentContainer.style.padding = "24px";
+  contentContainer.style.padding = "20px";
 }
 
 /**

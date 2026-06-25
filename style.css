@@ -21,10 +21,9 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  /* gap: 20px; */
+
   height: 100vh;
   font-family: "Luckiest Guy";
-  /* position: relative; */
 }
 
 body::before {
@@ -87,6 +86,17 @@ main {
   align-items: center;
   gap: 50px;
   padding: 20px 20px 0;
+  z-index: 100;
+}
+
+.modal-content {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 #contents {
@@ -94,10 +104,9 @@ main {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  visibility: hidden;
   background-color: white;
   width: 65%;
-  height: 55%;
+  height: 60%;
   border-radius: 16px;
   display: flex;
   flex-direction: column;
@@ -109,6 +118,12 @@ main {
 .content-text ul li {
   list-style-type: none;
   line-height: 28px;
+}
+
+.content-text h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+  margin-top: 4px;
 }
 
 #gameBtns {
@@ -163,7 +178,7 @@ main {
   cursor: pointer;
   width: 40px;
   height: 40px;
-  /* background-color: #ffc300; */
+
   background-color: white;
   font-size: 16px;
   padding: 6px;
@@ -182,10 +197,6 @@ main {
   height: 100%;
 }
 
-/* .configBtns .unaudio-btn {
-  display: none;
-} */
-
 .canvas-container {
   display: none;
   position: absolute;
@@ -199,8 +210,6 @@ main {
   position: absolute;
   top: 20px;
   right: 20px;
-  /* width: 100%;
-  height: 100%; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -212,7 +221,6 @@ main {
   cursor: pointer;
   width: 40px;
   height: 40px;
-  /* background-color: #ffc300; */
   background-color: white;
   font-size: 16px;
   padding: 6px;
@@ -232,7 +240,6 @@ main {
   left: 0;
   width: 100%;
   height: 100%;
-  /* visibility: hidden; */
   background-color: #000000;
 }
 
@@ -252,14 +259,6 @@ main {
   object-fit: cover;
 }
 
-/* .win-background img {
-  content: "assets/img/You won, you lost/You Win A.png";
-} */
-
-/* .lose-background img {
-  content: "assets/img/You won, you lost/Game Over.png";
-} */
-
 .touchBtns {
   position: absolute;
   bottom: 10px;
@@ -276,7 +275,6 @@ main {
   cursor: pointer;
   width: 50px;
   height: 50px;
-  /* background-color: #ffc300; */
   background-color: white;
   font-size: 24px;
   padding: 6px;
@@ -335,6 +333,10 @@ main {
   color: #000;
 }
 
+.d-none {
+  display: none;
+}
+
 @keyframes rotate {
   0% {
     transform: rotate(0deg);
@@ -343,6 +345,22 @@ main {
     transform: rotate(90deg);
   }
 }
+
+/*
+
+*/
+
+/* body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+#myCanvas {
+  background-color: #000000;
+  display: block;
+} */
 
 @media screen and (min-width: 1024px) {
   .touchBtns {
@@ -354,7 +372,7 @@ main {
   }
 }
 
-@media screen and (max-width: 1023px) and (min-width: 768px) {
+@media screen and (max-width: 1023px) {
   header h1 {
     font-size: 36px;
   }
@@ -446,8 +464,7 @@ main {
     position: absolute;
     top: 0;
     padding-top: 10px;
-    /* left: 20px; */
-    /* padding-top: 30px; */
+
     width: 80%;
     flex-wrap: wrap;
   }
@@ -474,6 +491,10 @@ main {
     height: 30px;
   }
 
+  .canvas-btns button:nth-child(2) {
+    display: none;
+  }
+
   #contents {
     width: 70%;
     height: 70%;
@@ -485,9 +506,28 @@ main {
     font-size: 16px;
   }
 
-  .content-text ul li {
+  #contents .content-text ul li {
     list-style-type: none;
-    line-height: 12px;
     font-size: 14px;
+    line-height: 18px;
   }
 }
+
+/* @media only screen and (max-width: 720px) {
+  #myCanvas {
+    width: 100%;
+  }
+  .start-screen {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-height: 480px) {
+  #mCanvas {
+    height: 100vh;
+  }
+
+  .start-screen {
+    height: 100vh;
+  }
+} */
