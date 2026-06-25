@@ -1,8 +1,3 @@
-/**
- * @class World
- * responsible for managing the game world, including all game objects, their interactions, and rendering.
- */
-
 class World {
   character = new Character();
   healthBarPepe = new StatusBar();
@@ -44,7 +39,12 @@ class World {
     this.ctx.save();
     this.ctx.translate(this.camera_x, 0);
     this.drawBgAndCloudsOnCanvas();
-    this.gameObjectsLogics();
+    this.characterLogic();
+    this.chickenLogic();
+    this.bottlesLogic();
+    this.throwableBottlesLogic();
+    this.coinsLogic();
+    this.endbossLogic();
     this.ctx.restore();
     this.drawBarsOnCanvas();
     let self = this;
@@ -144,18 +144,6 @@ class World {
     this.filterThrownBottles();
     this.checkPepeCollisionWithBoss();
     this.applyBossSounds();
-  }
-
-  /**
-   * @method gameObjectsLogics - calls all the logic methods for different game objects in the world.
-   */
-  gameObjectsLogics() {
-    this.characterLogic();
-    this.chickenLogic();
-    this.bottlesLogic();
-    this.throwableBottlesLogic();
-    this.coinsLogic();
-    this.endbossLogic();
   }
 
   /**
@@ -288,8 +276,7 @@ class World {
    */
   drawBossHealthBarOnCanvas() {
     let distance = Math.abs(this.level.endboss.x - this.character.x);
-
-    if (distance <= 500) {
+    if (distance <= 700) {
       this.bossHealthBar.drawStatusBar(
         this.ctx,
         this.bossHealthBar.BOSS_HEALTH_BAR_IMAGES,
@@ -303,16 +290,9 @@ class World {
    * @method drawBarsOnCanvas - responsible to draw all bars on canvas
    */
   drawBarsOnCanvas() {
-    //pepe health bar
     this.drawPepeHealthBarOnCanvas();
-
-    //collected bottles bar
     this.drawBottleBarOnCanvas();
-
-    //collected Coins Bar
     this.drawCoinBarOnCanvas();
-
-    //Boss health bar
     this.drawBossHealthBarOnCanvas();
   }
 
@@ -321,7 +301,7 @@ class World {
    */
   throwableBottles() {
     if (this.keyboard.THROW && this.character.bottlesCollected > 0) {
-      if (Date.now() - this.character.lastThrowTime > 500) {
+      if (Date.now() - this.character.lastThrowTime > 1000) {
         let bottleDirection = this.character.otherDirection ? -1 : 1;
         let bottleX = this.character.x + this.character.offsetX + 50;
         let bottleY = this.character.y + this.character.offsetY + 50;
@@ -372,7 +352,6 @@ class World {
 
   /**
    * @method applyBossSounds - checks for the state of boss and acoordingly play dead or growl sound.
-   * @returns {Boolean} - sets different properties of endboss true or false.
    */
   applyBossSounds() {
     if (this.level.endboss.isDead && !this.level.endboss.isPlayingDeadSound) {
@@ -383,7 +362,7 @@ class World {
       }
       setTimeout(() => {
         this.level.endboss.isPlayingDeadSound = false;
-        this.stopGame();
+        stopGame();
         showWinScreen();
       }, 1000);
       return;
@@ -409,7 +388,7 @@ class World {
       }
       setTimeout(() => {
         this.character.playingDeathSound = false;
-        this.stopGame();
+        stopGame();
         showLoseScreen();
       }, 1000);
       return;
@@ -434,21 +413,5 @@ class World {
         this.audioManager.soundEffects.game.play();
       }
     }
-  }
-
-  /**
-   * @method stopGame - stops the game loop by setting the @property {boolean} isGameRunning to false.
-   */
-  stopGame() {
-    this.isGameRunning = false;
-  }
-
-  /**
-   * @method resetProperties - resets the properties of the world to their initial state, allowing the game to be restarted without refreshing the page.
-   */
-  resetProperties() {
-    this.character.reset();
-    this.level.reset();
-    this.isGameRunning = true;
   }
 }

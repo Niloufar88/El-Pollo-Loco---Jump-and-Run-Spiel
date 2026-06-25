@@ -30,7 +30,7 @@ class Endboss extends MovableObject {
     //Animation Speed
     this.alertSpeed = 250;
     this.walkSpeed = 100;
-    this.attackSpeed = 150;
+    this.attackSpeed = 100;
     this.hurtSpeed = 150;
     this.deadSpeed = 150;
 
@@ -100,7 +100,7 @@ class Endboss extends MovableObject {
       return;
     }
     let distance = Math.abs(this.x - character.x);
-    if (distance <= 300) {
+    if (distance <= 500) {
       this.isAttacking = true;
       this.isPlayingGrwolSound = true;
     } else {
@@ -111,7 +111,7 @@ class Endboss extends MovableObject {
     else if (this.isAttacking) {
       this.playAnimation(this.BOSS_ATTACK, this.attackSpeed);
       this.moveTowardsPlayer(character);
-    } else if (distance <= 500)
+    } else if (distance <= 700)
       this.playAnimation(this.BOSS_ALERT, this.alertSpeed);
   }
 

@@ -112,8 +112,8 @@ function startGame() {
   if (window.matchMedia("(max-width:1023px)").matches)
     touchBtns.style.display = "flex";
   if (world) {
-    world.stopGame();
-    world.resetProperties();
+    stopGame();
+    resetProperties();
   }
   gameInit();
   if (!audioManager.isMuted) manageGameAudio();
@@ -125,14 +125,30 @@ function startGame() {
 function restartGame() {
   managePauseAudios();
   if (world) {
-    world.stopGame();
-    world.resetProperties();
+    stopGame();
+    resetProperties();
   }
   screenToggleBeforePlay();
   if (window.matchMedia("(max-width:1023px)").matches)
     touchBtns.style.display = "flex";
   gameInit();
   if (!audioManager.isMuted) manageGameAudio();
+}
+
+/**
+ * @function resetProperties - reset game properties to their initial state.
+ */
+function resetProperties() {
+  world.character.reset();
+  world.level.reset();
+  world.isGameRunning = true;
+}
+
+/**
+ * @function stopGame - sets game loop flag to false to stop the game loop.
+ */
+function stopGame() {
+  world.isGameRunning = false;
 }
 
 /**
@@ -150,7 +166,7 @@ function screenToggleBeforePlay() {
  */
 function backToMenu(event) {
   let screenId = event.currentTarget.parentElement.dataset.id;
-  if (world) world.stopGame();
+  if (world) stopGame();
   managePauseAudios();
   screenId === "canvas"
     ? (canvasContainer.style.display = "none")
