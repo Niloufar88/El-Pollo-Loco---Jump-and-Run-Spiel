@@ -1,12 +1,3 @@
-/**
- * @class AudioManager 
- * responsible for managing all game audio including sound effects, menu music, and win/lose music.
- * @property {Object} soundEffects 
- * @property {Object} menuMusik 
- * @property {Object} winLoseMusic 
- * @property {boolean} isMuted 
- 
- */
 class AudioManager {
   soundEffects = {};
   menuMusik = {};
@@ -31,36 +22,15 @@ class AudioManager {
    * @method loadSoundEffects Loads all sound effects into the soundEffects library.
    */
   loadSoundEffects() {
-    this.load(
-      "walk",
-      "assets/sounds/u_3x9ga8wevj-walking-sound-effect-272246.mp3",
-      this.soundEffects,
-    );
-    this.load(
-      "bottles",
-      "assets/sounds/glass_bottle_open.mp3",
-      this.soundEffects,
-    );
-    this.load(
-      "coins",
-      "assets/sounds/freesound_crunchpixstudio-drop-collect-384918.mp3",
-      this.soundEffects,
-    );
-    this.load(
-      "hurt",
-      "assets/sounds/mixkit-ow-exclamation-of-pain-2204.wav",
-      this.soundEffects,
-    );
-    this.load(
-      "break",
-      "assets/sounds/mixkit-glass-break-with-hammer-thud-759.wav",
-      this.soundEffects,
-    );
-    this.load(
-      "throw",
-      "assets/sounds/mixkit-quick-rope-throw-730.mp3",
-      this.soundEffects,
-    );
+    this.loadBossSounds();
+    this.loadCollectablesSounds();
+    this.loadCharcaterSounds();
+  }
+
+  /**
+   * @method loadBossSounds Loads all boss-related sound effects into the soundEffects library.
+   */
+  loadBossSounds() {
     this.load(
       "hit",
       "assets/sounds/mixkit-wood-hard-hit-2182.wav",
@@ -77,6 +47,38 @@ class AudioManager {
       this.soundEffects,
     );
     this.load("game", "assets/sounds/safari.mp3", this.soundEffects);
+  }
+
+  /**
+   * @method loadCollectablesSounds Loads all collectable-related sound effects into the soundEffects library.
+   */
+  loadCollectablesSounds() {
+    this.load(
+      "bottles",
+      "assets/sounds/glass_bottle_open.mp3",
+      this.soundEffects,
+    );
+    this.load(
+      "coins",
+      "assets/sounds/freesound_crunchpixstudio-drop-collect-384918.mp3",
+      this.soundEffects,
+    );
+    this.load(
+      "break",
+      "assets/sounds/mixkit-glass-break-with-hammer-thud-759.wav",
+      this.soundEffects,
+    );
+    this.load(
+      "throw",
+      "assets/sounds/mixkit-quick-rope-throw-730.mp3",
+      this.soundEffects,
+    );
+  }
+
+  /**
+   * @method loadCharcaterSounds Loads all character-related sound effects into the soundEffects library.
+   */
+  loadCharcaterSounds() {
     this.load(
       "pepeDead",
       "assets/sounds/universfield-male-death-scream-horror-352706.mp3",
@@ -85,6 +87,16 @@ class AudioManager {
     this.load(
       "snoring",
       "assets/sounds/audiopapkin-male-snoring-297875.mp3",
+      this.soundEffects,
+    );
+    this.load(
+      "hurt",
+      "assets/sounds/mixkit-ow-exclamation-of-pain-2204.wav",
+      this.soundEffects,
+    );
+    this.load(
+      "walk",
+      "assets/sounds/u_3x9ga8wevj-walking-sound-effect-272246.mp3",
       this.soundEffects,
     );
   }
