@@ -1,54 +1,34 @@
-/**
- * @class Endboss
- * represents the final boss in the game, a giant chicken.
- * @extends MovableObject
- * @property {number} health - The health of the endboss.
- * @property {number} damage - the damage which reduces endboss health when hit by the bottles.
- * @property {boolean} isAttacking - Sets true if the endboss is currently attacking and false when not.
- * @property {boolean} isHurt - Sets true if the endboss is currently hurt and false when not.
- * @property {boolean} isPlayingDeadSound - Sets true if the death sound is currently playing and false when not.
- * @property {boolean} isPlayingGrwolSound - Sets true if the growl sound is currently playing and false when not.
- * @property {boolean} pepeWon - Sets true if the player has won against the endboss and false when not.
- */
-
 class Endboss extends MovableObject {
   constructor(imagePath) {
     super();
 
-    //Position
     this.x = 3200;
     this.y = 40;
     this.width = 400;
     this.height = 400;
 
-    //offset size
     this.collisionWidth = 320;
     this.collisionHeight = 320;
     this.offsetX = (this.width - this.collisionWidth) / 2;
     this.offsetY = (this.height - this.collisionHeight) / 2;
 
-    //Animation Speed
     this.alertSpeed = 250;
     this.walkSpeed = 100;
     this.attackSpeed = 100;
     this.hurtSpeed = 150;
     this.deadSpeed = 150;
 
-    //speed
     this.speedX = 1;
 
-    //state
     this.isAttacking = false;
     this.isHurt = false;
     this.isPlayingDeadSound = false;
     this.isPlayingGrwolSound = false;
     this.pepeWon = false;
 
-    //health and damage
     this.health = 100;
     this.damage = 10;
 
-    //Image Arrays
     this.BOSS_ALERT = [
       "assets/img/enemies/boss chicken/2_alert/G5.png",
       "assets/img/enemies/boss chicken/2_alert/G6.png",
@@ -99,6 +79,21 @@ class Endboss extends MovableObject {
       this.playAnimation(this.BOSS_DEAD, this.deadSpeed, true);
       return;
     }
+    this.isAttackingPlayer(character);
+    let distance = Math.abs(this.x - character.x);
+    if (this.isHurt) this.playAnimation(this.BOSS_HURT, this.hurtSpeed);
+    else if (this.isAttacking) {
+      this.playAnimation(this.BOSS_ATTACK, this.attackSpeed);
+      this.moveTowardsPlayer(character);
+    } else if (distance <= 700)
+      this.playAnimation(this.BOSS_ALERT, this.alertSpeed);
+  }
+
+  /**
+   * @function isAttackingPlayer - checks if the endboss is within attacking range of the player.
+   * @param {Object} character
+   */
+  isAttackingPlayer(character) {
     let distance = Math.abs(this.x - character.x);
     if (distance <= 500) {
       this.isAttacking = true;
@@ -107,12 +102,6 @@ class Endboss extends MovableObject {
       this.isAttacking = false;
       this.isPlayingGrwolSound = false;
     }
-    if (this.isHurt) this.playAnimation(this.BOSS_HURT, this.hurtSpeed);
-    else if (this.isAttacking) {
-      this.playAnimation(this.BOSS_ATTACK, this.attackSpeed);
-      this.moveTowardsPlayer(character);
-    } else if (distance <= 700)
-      this.playAnimation(this.BOSS_ALERT, this.alertSpeed);
   }
 
   /**

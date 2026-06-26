@@ -1,8 +1,3 @@
-/**
- * @class ThrowableBottles
- * @extends MovableObject
- */
-
 class ThrowableBottles extends MovableObject {
   constructor(x, y, direction) {
     super(x, y);
@@ -14,7 +9,7 @@ class ThrowableBottles extends MovableObject {
     this.height = 60;
 
     this.speedX = 7 * direction; // 10
-    this.speedY = -10; //-25
+    this.speedY = -12; //-25
 
     this.gravity = 0.2; //1.2
 
