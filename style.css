@@ -112,8 +112,8 @@ main {
   z-index: 100;
 }
 
-.modal-content {
-  display: none;
+#modal-content {
+  /* display: none; */
   position: absolute;
   top: 0;
   left: 0;
@@ -136,6 +136,7 @@ main {
   justify-content: center;
   align-items: center;
   gap: 16px;
+  padding: 20px;
 }
 
 .content-text ul li {
@@ -362,9 +363,9 @@ main {
   color: #000;
 }
 
-.hidden {
-  display: none;
-}
+/* #modal-content.hidden {
+  visibility: hidden;
+} */
 
 .flex {
   display: flex;

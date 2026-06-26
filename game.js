@@ -83,21 +83,9 @@ function checkInnerWidth() {
 contentModal.addEventListener("click", (event) => {
   if (event.target === contentModal) {
     contentContainer.innerHTML = "";
-    contentModal.style.display = "none";
+    contentModal.close();
   }
 });
-
-function showRelevantContent(func) {
-  if (!audioManager.isMuted) {
-    audioManager.menuMusik.click.currentTime = 0;
-    audioManager.menuMusik.click.play();
-  }
-
-  contentContainer.innerHTML = "";
-  contentModal.style.display = "flex";
-  contentContainer.style.padding = "20px";
-  contentContainer.innerHTML = func;
-}
 
 gameBtns.forEach((btn) => {
   btn.addEventListener("click", (event) => {
@@ -120,8 +108,20 @@ gameBtns.forEach((btn) => {
 
 function closeContentArea() {
   contentContainer.innerHTML = "";
-  contentModal.style.display = "none";
+  contentModal.close();
   activeButton = null;
+}
+
+function showRelevantContent(func) {
+  if (!audioManager.isMuted) {
+    audioManager.menuMusik.click.currentTime = 0;
+    audioManager.menuMusik.click.play();
+  }
+
+  contentContainer.innerHTML = "";
+  contentModal.show();
+  // contentContainer.style.padding = "20px";
+  contentContainer.innerHTML = func;
 }
 
 /**
@@ -205,7 +205,7 @@ function backToMenu(event) {
       : null;
   if (touchBtns) touchBtns.style.display = "none";
   contentContainer.innerHTML = "";
-  contentModal.style.display = "none";
+  contentModal.close();
   startScreen.style.display = "flex";
   // hideControlsButton();
   manageUnmuteAudioWelcomeScreen();
