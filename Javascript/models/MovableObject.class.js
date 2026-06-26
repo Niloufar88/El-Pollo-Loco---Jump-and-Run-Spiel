@@ -1,22 +1,10 @@
-/**
- * @class MovableObject
- * responsible for all objects that can move and have animations
- * @extends DrawableObjects
- * @property {boolean} isDead - indicates if the object is dead
- * @property {boolean} otherDirection - indicates if the object is facing the other direction
- * @property {number} health - the health of the object
- * @property {string} lastAnimationType - the last animation type played
- */
-
 class MovableObject extends DrawableObjects {
   speedX = 0.15;
 
-  //states
   isDead = false;
   otherDirection = false;
   health;
 
-  //Animation
   lastAnimationType = null;
 
   /**

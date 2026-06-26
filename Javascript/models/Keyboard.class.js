@@ -1,8 +1,3 @@
-/**
- * @class Keyboard
- * the initial values are false. they will be change during teh game.
- */
-
 class Keyboard {
   LEFT = false;
   RIGHT = false;
@@ -92,17 +87,13 @@ class Keyboard {
 
   setupTouchControls() {
     if (this.listenersAdded) return;
-
     const { leftButton, rightButton, upButton, throwButton } =
       this.touchButtons();
-
     if (!leftButton || !rightButton || !upButton || !throwButton) return;
-
     this.leftBtnTouchHandler(leftButton);
     this.rightBtnTouchHandler(rightButton);
     this.jumpBtnTouchHandler(upButton);
     this.throwBtnTouchHandler(throwButton);
-
     this.listenersAdded = true;
   }
 }

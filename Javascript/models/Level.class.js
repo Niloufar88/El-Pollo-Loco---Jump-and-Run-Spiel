@@ -1,8 +1,3 @@
-/**
- * @class Level
- * initialize the level with enemies, clouds, background objects, bottles, coins and thrown bottles.
- */
-
 class Level {
   enemies;
   clouds;
