@@ -19,7 +19,8 @@ const backBtn = document.querySelector(".back-btn");
 const touchBtns = document.querySelector(".touchBtns");
 const orientationOverlay = document.getElementById("orientationOverlay");
 const contentModal = document.querySelector(".modal-content");
-
+const gameBtns = document.querySelectorAll(".game-btns");
+let activeButton = null;
 let saveMutedState = localStorage.getItem("audioMuted");
 
 /**
@@ -85,6 +86,43 @@ contentModal.addEventListener("click", (event) => {
     contentModal.style.display = "none";
   }
 });
+
+function showRelevantContent(func) {
+  if (!audioManager.isMuted) {
+    audioManager.menuMusik.click.currentTime = 0;
+    audioManager.menuMusik.click.play();
+  }
+
+  contentContainer.innerHTML = "";
+  contentModal.style.display = "flex";
+  contentContainer.style.padding = "20px";
+  contentContainer.innerHTML = func;
+}
+
+gameBtns.forEach((btn) => {
+  btn.addEventListener("click", (event) => {
+    let contentId = event.currentTarget.dataset.id;
+    let clickedButton = event.currentTarget;
+    if (activeButton === clickedButton) {
+      closeContentArea();
+      return;
+    }
+    if (contentId === "how-to-play") {
+      showRelevantContent(renderHowToPlayContent());
+    } else if (contentId === "controls") {
+      showRelevantContent(renderControlsContent());
+    } else if (contentId === "impressum") {
+      showRelevantContent(renderImpressumContent());
+    }
+    activeButton = clickedButton;
+  });
+});
+
+function closeContentArea() {
+  contentContainer.innerHTML = "";
+  contentModal.style.display = "none";
+  activeButton = null;
+}
 
 /**
  * @function gameInit to initialize the world object and start the game loop by calling the draw method.
@@ -221,17 +259,28 @@ function showLoseScreen() {
  * @param {Function} func - The function to execute and display its content accordingly and manage the audio by playing the click sound effect if not muted.
  */
 
-function showRelevantContent(func) {
-  if (!audioManager.isMuted) {
-    audioManager.menuMusik.click.currentTime = 0;
-    audioManager.menuMusik.click.play();
-  }
+// function showRelevantContent(func) {
+//   if (!audioManager.isMuted) {
+//     audioManager.menuMusik.click.currentTime = 0;
+//     audioManager.menuMusik.click.play();
+//   }
 
-  contentContainer.innerHTML = "";
-  contentModal.style.display = "flex";
-  contentContainer.style.padding = "20px";
-  contentContainer.innerHTML = func;
-}
+//   contentContainer.innerHTML = "";
+//   contentModal.style.display = "flex";
+//   contentContainer.style.padding = "20px";
+//   contentContainer.innerHTML = func;
+// }
+
+// howToPlayBtn.addEventListener("click", (event) => {
+//   console.log(event.currentTarget.dataset.id);
+// });
+
+// function showHowToPlayContent(event) {
+//   // console.log(event.target.dataset.id);
+//   const contentId = event.currentTarget.dataset.id;
+
+//   // contentContainer.innerHTML = "";
+// }
 
 /**
  * @addEventListener for the fullscreen buttons to toggle the fullscreen mode on and off when clicked.

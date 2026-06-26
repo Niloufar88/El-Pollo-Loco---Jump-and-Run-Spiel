@@ -52,29 +52,22 @@
           <!-- GAME BUTTONS -->
           <div id="gameBtns">
             <!-- START GAME BUTTON -->
-            <button id="startGame-btn" onclick="startGame()">Start Game</button>
+            <button id="startGame-btn" class="game-btns" onclick="startGame()">
+              Start Game
+            </button>
 
             <!-- HOW TO PLAY -->
-            <button
-              id="howToPlay-btn"
-              onclick="showRelevantContent(renderHowToPlayContent())"
-            >
+            <button id="howToPlay-btn" data-id="how-to-play" class="game-btns">
               How to Play
             </button>
 
             <!-- CONTROLS -->
-            <button
-              id="controls-btn"
-              onclick="showRelevantContent(renderControlsContent())"
-            >
+            <button id="controls-btn" data-id="controls" class="game-btns">
               Controls
             </button>
 
             <!-- IMPRESSUM -->
-            <button
-              id="credits-btn"
-              onclick="showRelevantContent(renderImpressumContent())"
-            >
+            <button id="credits-btn" data-id="impressum" class="game-btns">
               Impressum
             </button>
           </div>
