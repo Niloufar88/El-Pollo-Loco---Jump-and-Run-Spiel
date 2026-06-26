@@ -1,8 +1,3 @@
-/**
- * @class StatusBar
- * responsible for drawing the status bars for health, bottles, coins and boss health
- */
-
 class StatusBar extends DrawableObjects {
   barWidth = 200;
   barHeight = 50;
@@ -10,7 +5,6 @@ class StatusBar extends DrawableObjects {
   constructor() {
     super();
 
-    //Images Array for Pepe Health bar
     this.PEPE_HEALTH_BAR_IMAGES = [
       "assets/img/statusbar/health/0.png",
       "assets/img/statusbar/health/20.png",
@@ -20,7 +14,6 @@ class StatusBar extends DrawableObjects {
       "assets/img/statusbar/health/100.png",
     ];
 
-    //Images Array for collecting Bottles
     this.BOTTLES_BAR_IMAGES = [
       "assets/img/statusbar/bottle/0.png",
       "assets/img/statusbar/bottle/20.png",
@@ -30,7 +23,6 @@ class StatusBar extends DrawableObjects {
       "assets/img/statusbar/bottle/100.png",
     ];
 
-    //Images Array for collecting Coins
     this.COINS_BAR_IMAGES = [
       "assets/img/statusbar/coin/0.png",
       "assets/img/statusbar/coin/20.png",
@@ -40,7 +32,6 @@ class StatusBar extends DrawableObjects {
       "assets/img/statusbar/coin/100.png",
     ];
 
-    //Images Array for Boss Health Bar
     this.BOSS_HEALTH_BAR_IMAGES = [
       "assets/img/statusbar/boss/green0.png",
       "assets/img/statusbar/boss/green20.png",
@@ -50,19 +41,15 @@ class StatusBar extends DrawableObjects {
       "assets/img/statusbar/boss/green100.png",
     ];
 
-    //loading pepe health bar Images in ImageCache
     this.loadImage(this.PEPE_HEALTH_BAR_IMAGES[5]);
     this.loadImages(this.PEPE_HEALTH_BAR_IMAGES);
 
-    //loading bottles bar images in ImageCache
     this.loadImage(this.BOTTLES_BAR_IMAGES[0]);
     this.loadImages(this.BOTTLES_BAR_IMAGES);
 
-    //loading coins bar images in ImageCache
     this.loadImage(this.COINS_BAR_IMAGES[0]);
     this.loadImages(this.COINS_BAR_IMAGES);
 
-    //loading Boss Health bar Images in ImageCache
     this.loadImage(this.BOSS_HEALTH_BAR_IMAGES[0]);
     this.loadImages(this.BOSS_HEALTH_BAR_IMAGES);
   }

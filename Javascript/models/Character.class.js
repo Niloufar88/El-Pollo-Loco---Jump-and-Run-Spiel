@@ -1,43 +1,20 @@
-/**
- * @class Character 
- * represents the main character in the game, Pepe.
- * @extends MovableObject
- * @constructor Creates a new instance of the Character class.
- * @property {number} health - The health of the character.
- * @property {number} bottlesCollected - The number of bottles collected by the character.
- * @property {number} coinsCollected - The number of coins collected by the character.
- * @property {boolean} isHurt - Sets true if the character is currently hurt and false when not.
- * @property {boolean} isJumping - Sets true if the @method jump is active and false when not.
- * @property {boolean} isInvincible - Sets true if the character is currently invincible and false when not.
- * @property {boolean} pepeLost - Sets true if the character has lost the game and false when not.
- * @property {boolean} longIdleAnimationPlaying - Sets true if the long idle animation is playing and false when not.
- * @property {number} invincibilityDuration - The duration (in milliseconds) for which the character remains invincible after being hit.
- * @property {number} lastHitTime - The timestamp of the last time the character was hit, used to manage invincibility timing.
- * @property {number} lastThrowTime - The timestamp of the last time the character threw a bottle, used to manage throwing cooldown.
- * @property {boolean} playingDeathSound - Sets true if the death sound is currently playing and false when not.
-
- */
-
 class Character extends MovableObject {
   world;
   constructor() {
     super();
-    //Position and Size
+
     this.x = 50;
     this.y = 170;
     this.width = 120;
     this.height = 250;
 
-    //Position and Size for Collision Box
     this.collisionWidth = 80;
     this.collisionHeight = 140;
     this.offsetX = (this.width - this.collisionWidth) / 2;
     this.offsetY = 100;
 
-    //speed
     this.speedX = 2;
 
-    //Animation Speed
     this.walkSpeed = 100;
     this.idleSpeed = 150;
     this.jumpSpeed = 60;
@@ -45,36 +22,29 @@ class Character extends MovableObject {
     this.hurtSpeed = 100;
     this.longIdleSpeed = 150;
 
-    //jump
     this.speedY = 0;
     this.gravity = 0.8;
     this.ground = 170;
     this.isJumping = false;
     this.isPlayingJumpAnimation = false;
 
-    //Collision
-    this.health = 50;
+    this.health = 60;
     this.isHurt = false;
     this.isInvincible = false;
     this.lastHitTime = 0;
     this.invincibilityDuration = 1500;
 
-    //collectables
     this.bottlesCollected = 0;
     this.coinsCollected = 0;
 
-    //throwing Bottles
     this.lastThrowTime = 0;
 
-    //state
     this.pepeLost = false;
     this.playingDeathSound = false;
 
-    //long Idle
     this.lastMovementTime = Date.now();
     this.longIdleAnimationPlaying = false;
 
-    //Image Array
     this.PEPE_IDLE = [
       "assets/img/pepe-character/idle/I-1.png",
       "assets/img/pepe-character/idle/I-2.png",
@@ -159,33 +129,66 @@ class Character extends MovableObject {
       return;
     }
     this.movements();
-    if (this.isHurt) {
-      this.playAnimation(this.PEPE_HURT, this.hurtSpeed);
-      this.longIdleAnimationPlaying = false;
-    } else if (this.isPlayingJumpAnimation) {
-      if (!this.isHurt) {
-        this.playAnimation(this.PEPE_JUMP, this.jumpSpeed, true);
-        this.longIdleAnimationPlaying = false;
-        if (
-          this.currentImage >= this.PEPE_JUMP.length - 1 &&
-          this.isOnGround()
-        ) {
-          this.isPlayingJumpAnimation = false;
-        }
-      }
-    } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-      this.playAnimation(this.PEPE_WALK, this.walkSpeed);
-      this.lastMovementTime = Date.now();
-      this.longIdleAnimationPlaying = false;
-    } else if (Date.now() - this.lastMovementTime >= 10000) {
-      this.playAnimation(this.PEPE_LONGIDLE, this.longIdleSpeed);
-      this.longIdleAnimationPlaying = true;
-    } else {
-      this.playAnimation(this.PEPE_IDLE, this.idleSpeed);
-
-      this.longIdleAnimationPlaying = false;
-    }
+    this.chechingStates();
     this.cameraPosition();
+  }
+
+  /**
+   * @method playingJump - responsible to play jump and sets it at the end to false.
+   */
+  playingJump() {
+    this.playAnimation(this.PEPE_JUMP, this.jumpSpeed, true);
+    this.longIdleAnimationPlaying = false;
+    if (this.currentImage >= this.PEPE_JUMP.length - 1 && this.isOnGround()) {
+      this.isPlayingJumpAnimation = false;
+    }
+  }
+
+  /**
+   * @method playingHurt - responsible to play hurt and sets longIdle state to false.
+   */
+  playingHurt() {
+    this.playAnimation(this.PEPE_HURT, this.hurtSpeed);
+    this.longIdleAnimationPlaying = false;
+  }
+
+  /**
+   * @method playingWalk - responsible to play walk and sets longIdle state to false.
+   */
+  playingWalk() {
+    this.playAnimation(this.PEPE_WALK, this.walkSpeed);
+    this.lastMovementTime = Date.now();
+    this.longIdleAnimationPlaying = false;
+  }
+
+  /**
+   * @method playingLongIdle - responsible to play long idle and sets longIdle state to true.
+   */
+  playingLongIdle() {
+    this.playAnimation(this.PEPE_LONGIDLE, this.longIdleSpeed);
+    this.longIdleAnimationPlaying = true;
+  }
+
+  /**
+   * @method playingIdle - responsible to play idle and sets longIdle state to false.
+   */
+  playingIdle() {
+    this.playAnimation(this.PEPE_IDLE, this.idleSpeed);
+    this.longIdleAnimationPlaying = false;
+  }
+
+  /**
+   * @method chechingStates - checks all the states and execute accordingly the method.
+   */
+  chechingStates() {
+    if (this.isHurt) this.playingHurt();
+    else if (this.isPlayingJumpAnimation) {
+      if (!this.isHurt) this.playingJump();
+    } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT)
+      this.playingWalk();
+    else if (Date.now() - this.lastMovementTime >= 10000)
+      this.playingLongIdle();
+    else this.playingIdle();
   }
 
   /**
@@ -197,12 +200,8 @@ class Character extends MovableObject {
       this.isOnGround()
     )
       this.jump();
-    if (this.world.keyboard.RIGHT) {
-      this.moveRight();
-    }
-    if (this.world.keyboard.LEFT) {
-      this.moveLeft();
-    }
+    if (this.world.keyboard.RIGHT) this.moveRight();
+    if (this.world.keyboard.LEFT) this.moveLeft();
   }
 
   /**
@@ -240,7 +239,6 @@ class Character extends MovableObject {
   applyGravity() {
     this.y += this.speedY;
     this.speedY += this.gravity;
-
     if (this.y >= this.ground) {
       this.y = this.ground;
       this.speedY = 0;
@@ -277,14 +275,11 @@ class Character extends MovableObject {
   }
 
   /**
-   * * @method hit - checks for some health, lastHitTime and isInvincible to execute accordingly if the character should lose health or not.
+   * @method hit - checks for some health, lastHitTime and isInvincible to execute accordingly if the character should lose health or not.
    */
   hit() {
     if (this.isInvincible) return;
-    this.health -= 10;
-    this.lastHitTime = Date.now();
-    this.isInvincible = true;
-    this.isHurt = true;
+    this.hitFlags();
     if (this.health < 0) {
       this.health = 0;
       this.die();
@@ -296,6 +291,16 @@ class Character extends MovableObject {
         this.isInvincible = false;
       }, this.invincibilityDuration);
     }
+  }
+
+  /**
+   * @method hitFlags - responsible to set the flags for the character when it gets hit.
+   */
+  hitFlags() {
+    this.health -= 10;
+    this.lastHitTime = Date.now();
+    this.isInvincible = true;
+    this.isHurt = true;
   }
 
   /**
