@@ -28,13 +28,13 @@ let saveMutedState = localStorage.getItem("audioMuted");
  */
 window.addEventListener("DOMContentLoaded", () => {
   checkOrientation();
+  checkDevice();
   audioManager.loadAllSounds();
   winLoseScreen.style.display = "none";
   if (touchBtns) touchBtns.style.display = "none";
   updateAllIcons();
   manageLocalstorage();
   keyboard.setupTouchControls();
-  checkInnerWidth();
 });
 
 /**
@@ -49,7 +49,7 @@ function manageLocalstorage() {
  * @addEventListener to run the function on resize.
  */
 window.addEventListener("resize", () => {
-  checkInnerWidth();
+  checkDevice();
   checkOrientation();
 });
 
@@ -67,14 +67,37 @@ function checkOrientation() {
   }
 }
 
+function isTouchDevice() {
+  return (
+    !window.matchMedia("(hover: none)").matches ||
+    window.matchMedia("(pointer: coarse)").matches
+  );
+}
+
+function isSmallScreen() {
+  return window.innerWidth <= 1023;
+}
+
 /**
- * @function checkInnerWidth to check the inner width of the window to hide or show the controls button accordingly.
+ * @function checkDevice to check the inner width of the window to hide or show the controls button accordingly.
  */
-function checkInnerWidth() {
-  const screenWidth = window.innerWidth;
-  let isMobile = screenWidth <= 1023;
-  if (isMobile) controlsBtn.style.display = "none";
-  else controlsBtn.style.display = "block";
+function checkDevice() {
+  const isSmallScreen = window.innerWidth <= 1023;
+  const isTouch =
+    !window.matchMedia("(hover: none)").matches ||
+    window.matchMedia("(pointer: coarse)").matches;
+
+  if (isSmallScreen || isTouch) {
+    controlsBtn.style.display = "none";
+    // if (touchBtns) touchBtns.style.display = "flex";
+  } else {
+    controlsBtn.style.display = "block";
+    // if (touchBtns) touchBtns.style.display = "none";
+  }
+
+  // let isMobile = screenWidth <= 1023;
+  // if (isMobile) controlsBtn.style.display = "none";
+  // else controlsBtn.style.display = "block";
 }
 
 /**
@@ -139,8 +162,8 @@ function gameInit() {
 function startGame() {
   managePauseAudios();
   screenToggleBeforePlay();
-  if (window.matchMedia("(max-width:1023px)").matches)
-    touchBtns.style.display = "flex";
+  checkDevice();
+  if (isSmallScreen() || isTouchDevice()) touchBtns.style.display = "flex";
   if (world) {
     stopGame();
     resetProperties();
@@ -159,8 +182,10 @@ function restartGame() {
     resetProperties();
   }
   screenToggleBeforePlay();
-  if (window.matchMedia("(max-width:1023px)").matches)
-    touchBtns.style.display = "flex";
+  checkDevice();
+  if (isSmallScreen() || isTouchDevice()) touchBtns.style.display = "flex";
+  // if (window.matchMedia("(max-width:1023px)").matches)
+  //   touchBtns.style.display = "flex";
   gameInit();
   if (!audioManager.isMuted) manageGameAudio();
 }
@@ -207,7 +232,6 @@ function backToMenu(event) {
   contentContainer.innerHTML = "";
   contentModal.close();
   startScreen.style.display = "flex";
-  // hideControlsButton();
   manageUnmuteAudioWelcomeScreen();
 }
 

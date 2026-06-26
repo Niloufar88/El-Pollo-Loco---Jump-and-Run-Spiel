@@ -299,6 +299,9 @@ main {
   align-items: center;
   gap: 400px;
   width: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
 }
 
 .touchBtns button {

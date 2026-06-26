@@ -17,13 +17,13 @@ class Character extends MovableObject {
 
     this.walkSpeed = 100;
     this.idleSpeed = 150;
-    this.jumpSpeed = 60;
+    this.jumpSpeed = 100; // 60
     this.deathSpeed = 100;
     this.hurtSpeed = 100;
     this.longIdleSpeed = 150;
 
     this.speedY = 0;
-    this.gravity = 0.6; //0.8
+    this.gravity = 0.3; //0.8
     this.ground = 170;
     this.isJumping = false;
     this.isPlayingJumpAnimation = false;
@@ -265,7 +265,7 @@ class Character extends MovableObject {
    */
   jump() {
     if (this.isOnGround()) {
-      this.speedY = -20;
+      this.speedY = -15;
       this.isJumping = true;
       this.isPlayingJumpAnimation = true;
       this.currentImage = 0;
