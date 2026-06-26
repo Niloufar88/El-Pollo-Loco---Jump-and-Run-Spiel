@@ -84,7 +84,7 @@ function isSmallScreen() {
 function checkDevice() {
   const isSmallScreen = window.innerWidth <= 1023;
   const isTouch =
-    !window.matchMedia("(hover: none)").matches ||
+    window.matchMedia("(hover: none)").matches ||
     window.matchMedia("(pointer: coarse)").matches;
 
   if (isSmallScreen || isTouch) {
@@ -94,10 +94,6 @@ function checkDevice() {
     controlsBtn.style.display = "block";
     // if (touchBtns) touchBtns.style.display = "none";
   }
-
-  // let isMobile = screenWidth <= 1023;
-  // if (isMobile) controlsBtn.style.display = "none";
-  // else controlsBtn.style.display = "block";
 }
 
 /**
