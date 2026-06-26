@@ -61,7 +61,6 @@ class Keyboard {
       this.LEFT = false;
       leftButton.releasePointerCapture(e.pointerId);
     });
-
     leftButton.addEventListener("pointercancel", (e) => {
       this.LEFT = false;
       leftButton.releasePointerCapture(e.pointerId);
