@@ -151,10 +151,7 @@ class World {
    */
   checkCollisionsWithChickens() {
     this.level.enemies.forEach((enemy) => {
-      let pepeFeet =
-        this.character.y +
-        this.character.offsetY +
-        this.character.collisionHeight;
+      let pepeFeet = this.character.pepeFeetValue();
       let chickenMiddle = enemy.y + enemy.offsetY + enemy.collisionHeight / 2;
       if (this.character.isColliding(enemy)) {
         if (pepeFeet < chickenMiddle && this.character.speedY > 0) {
@@ -162,12 +159,18 @@ class World {
           if (!this.audioManager.isMuted)
             this.audioManager.soundEffects.hit.play();
         } else if (!this.character.isInvincible && !enemy.isDead) {
-          this.character.hit();
-          if (!this.audioManager.isMuted)
-            this.audioManager.soundEffects.hurt.play();
+          this.chickenCollisionEffects();
         }
       }
     });
+  }
+
+  /**
+   * @method chickenCollisionEffects - handles sounds effects and hit method by character on collision
+   */
+  chickenCollisionEffects() {
+    this.character.hit();
+    if (!this.audioManager.isMuted) this.audioManager.soundEffects.hurt.play();
   }
 
   /**
@@ -308,14 +311,20 @@ class World {
         this.level.thrownBottles.push(
           new ThrowableBottles(bottleX, bottleY, bottleDirection),
         );
-        if (!this.audioManager.isMuted) {
+        if (!this.audioManager.isMuted)
           this.resetBeforePlay(this.audioManager.soundEffects.throw);
-        }
-        this.character.bottlesCollected--;
-        this.keyboard.THROW = false;
-        this.character.lastThrowTime = Date.now();
+        this.setFlagsBack();
       }
     }
+  }
+
+  /**
+   * @method setFlagsBack - responsible for setting the flags back after throwing a bottle.
+   */
+  setFlagsBack() {
+    this.character.bottlesCollected--;
+    this.keyboard.THROW = false;
+    this.character.lastThrowTime = Date.now();
   }
 
   /**
@@ -360,19 +369,33 @@ class World {
       if (!this.audioManager.isMuted) {
         this.audioManager.soundEffects.bossDead.play();
       }
-      setTimeout(() => {
-        this.level.endboss.isPlayingDeadSound = false;
-        stopGame();
-        showWinScreen();
-      }, 1000);
+      this.settingTimeout();
       return;
     } else if (this.level.endboss.isAttacking && !this.audioManager.isMuted) {
-      if (!this.level.endboss.isPlayingGrowlSound) {
-        this.audioManager.soundEffects.bossGrowl.play();
-        this.level.endboss.isPlayingGrowlSound = true;
-      } else {
-        this.level.endboss.isPlayingGrowlSound = false;
-      }
+      this.toggleGrowlSound();
+    }
+  }
+
+  /**
+   * @method settingTimeout - sets a timeout to stop the game and show the win screen after the boss is defeated.
+   */
+  settingTimeout() {
+    setTimeout(() => {
+      this.level.endboss.isPlayingDeadSound = false;
+      stopGame();
+      showWinScreen();
+    }, 1000);
+  }
+
+  /**
+   * @method toggleGrowlSound - checks if the growl sound is already playing and toggles it accordingly.
+   */
+  toggleGrowlSound() {
+    if (!this.level.endboss.isPlayingGrowlSound) {
+      this.audioManager.soundEffects.bossGrowl.play();
+      this.level.endboss.isPlayingGrowlSound = true;
+    } else {
+      this.level.endboss.isPlayingGrowlSound = false;
     }
   }
 

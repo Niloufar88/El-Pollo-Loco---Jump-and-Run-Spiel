@@ -23,7 +23,7 @@ class Character extends MovableObject {
     this.longIdleSpeed = 150;
 
     this.speedY = 0;
-    this.gravity = 0.8;
+    this.gravity = 0.6; //0.8
     this.ground = 170;
     this.isJumping = false;
     this.isPlayingJumpAnimation = false;
@@ -301,6 +301,15 @@ class Character extends MovableObject {
     this.lastHitTime = Date.now();
     this.isInvincible = true;
     this.isHurt = true;
+  }
+
+  /**
+   * @method pepeFeetValue - Calculates and returns the y-coordinate of the character's feet.
+   * @returns {Number} The y-coordinate of the character's feet.
+   */
+  pepeFeetValue() {
+    let pepeFeet = this.y + this.offsetY + this.collisionHeight;
+    return pepeFeet;
   }
 
   /**
