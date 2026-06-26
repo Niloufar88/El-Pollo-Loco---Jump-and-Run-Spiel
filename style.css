@@ -18,12 +18,12 @@ body {
   padding-top: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
-
   height: 100vh;
   font-family: "Luckiest Guy";
+  gap: 50px;
 }
 
 body::before {
@@ -55,13 +55,36 @@ header h1 {
 
 main {
   position: relative;
-  width: 720px;
-  height: 480px;
+  display: flex;
+  justify-content: center;
+  width: 80%;
+  height: 80vh;
+
+  /* width: 720px;
+  height: 480px; */
+}
+
+:fullscreen::backdrop {
+  background-color: transparent;
+}
+
+:fullscreen body {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background: transparent;
+}
+
+:fullscreen body::before {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background: transparent;
 }
 
 .start-screen {
-  width: 720px;
-  height: 480px;
+  /* width: 720px;
+  height: 480px; */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -72,7 +95,7 @@ main {
 
 .start-screen img {
   width: 100%;
-  height: 100%;
+  height: 95%;
   object-fit: cover;
 }
 
@@ -236,27 +259,32 @@ main {
 
 #myCanvas {
   position: absolute;
-  top: 0;
-  left: 0;
+  /* top: 0;
+  left: 0; */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
-  background-color: #000000;
+  /* background-color: #000000; */
 }
 
 #win-lose-screen {
+  background: transparent;
   position: relative;
-  width: 720px;
-  height: 480px;
+  /* width: 720px;
+  height: 480px; */
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  /* justify-content: flex-start; */
+  justify-content: center;
   align-items: center;
 }
 
 #win-lose-screen img {
-  width: 90%;
-  height: 90%;
-  object-fit: cover;
+  width: 80%;
+  height: 85%;
+  /* object-fit: cover; */
 }
 
 .touchBtns {
@@ -269,6 +297,7 @@ main {
   justify-content: space-between;
   align-items: center;
   gap: 400px;
+  width: 100%;
 }
 
 .touchBtns button {
@@ -337,6 +366,14 @@ main {
   display: none;
 }
 
+.flex {
+  display: flex;
+}
+
+.padding {
+  padding: 20px;
+}
+
 @keyframes rotate {
   0% {
     transform: rotate(0deg);
@@ -345,22 +382,6 @@ main {
     transform: rotate(90deg);
   }
 }
-
-/*
-
-*/
-
-/* body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0;
-}
-
-#myCanvas {
-  background-color: #000000;
-  display: block;
-} */
 
 @media screen and (min-width: 1024px) {
   .touchBtns {
@@ -425,6 +446,7 @@ main {
   .start-screen {
     width: auto;
     height: 100%;
+    justify-content: center;
   }
 
   #win-lose-screen {
@@ -432,7 +454,7 @@ main {
     height: 100%;
   }
   #win-lose-screen img {
-    width: 93%;
+    width: 100%;
     height: 100%;
   }
   #gameBtns {

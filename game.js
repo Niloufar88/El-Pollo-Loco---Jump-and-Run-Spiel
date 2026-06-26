@@ -3,6 +3,7 @@ let world;
 let keyboard = new Keyboard();
 let audioManager = new AudioManager();
 
+const mainEl = document.querySelector("main");
 const startGameBtn = document.getElementById("startGame-btn");
 const startScreen = document.getElementById("start-screen");
 const winLoseScreen = document.getElementById("win-lose-screen");
@@ -25,7 +26,7 @@ let saveMutedState = localStorage.getItem("audioMuted");
  * @addEventListener for DOMContentLoaded to initialize the game and set the initial state of the screens,audio and update the mute button icons
  */
 window.addEventListener("DOMContentLoaded", () => {
-  orientationCheckOnload();
+  checkOrientation();
   audioManager.loadAllSounds();
   winLoseScreen.style.display = "none";
   if (touchBtns) touchBtns.style.display = "none";
@@ -44,25 +45,26 @@ function manageLocalstorage() {
 }
 
 /**
- * @matchMedia and @addEventListener for orientation change detection to accordingly display the overlay or hide it.
- */
-window
-  .matchMedia("(orientation:landscape)")
-  .addEventListener("change", (event) => {
-    const landscape = event.matches;
-    if (landscape) {
-      orientationOverlay.style.display = "none";
-    } else {
-      orientationOverlay.style.display = "flex";
-    }
-  });
-
-/**
  * @addEventListener to run the function on resize.
  */
 window.addEventListener("resize", () => {
   checkInnerWidth();
+  checkOrientation();
 });
+
+/**
+ * @function checkOrientation to check the orientation of the device and display or hide the overlay accordingly.
+ */
+function checkOrientation() {
+  const landscape = window.matchMedia("(orientation:landscape)").matches;
+  if (landscape) {
+    orientationOverlay.style.display = "none";
+    mainEl.style.display = "flex";
+  } else {
+    orientationOverlay.style.display = "flex";
+    mainEl.style.display = "none";
+  }
+}
 
 /**
  * @function checkInnerWidth to check the inner width of the window to hide or show the controls button accordingly.
@@ -70,7 +72,6 @@ window.addEventListener("resize", () => {
 function checkInnerWidth() {
   const screenWidth = window.innerWidth;
   let isMobile = screenWidth <= 1023;
-
   if (isMobile) controlsBtn.style.display = "none";
   else controlsBtn.style.display = "block";
 }
@@ -80,21 +81,10 @@ function checkInnerWidth() {
  */
 contentModal.addEventListener("click", (event) => {
   if (event.target === contentModal) {
-    contentModal.style.display = "none";
     contentContainer.innerHTML = "";
+    contentModal.style.display = "none";
   }
 });
-
-/**
- * @function orientationCheckOnload to check the orientation of the device on page load and display or hide the overlay accordingly.
- */
-function orientationCheckOnload() {
-  const windowOrientation = window.matchMedia(
-    "(orientation:landscape)",
-  ).matches;
-  if (windowOrientation) orientationOverlay.style.display = "none";
-  else orientationOverlay.style.display = "flex";
-}
 
 /**
  * @function gameInit to initialize the world object and start the game loop by calling the draw method.
@@ -236,27 +226,37 @@ function showRelevantContent(func) {
     audioManager.menuMusik.click.currentTime = 0;
     audioManager.menuMusik.click.play();
   }
+
   contentContainer.innerHTML = "";
   contentModal.style.display = "flex";
-  contentContainer.innerHTML = func;
   contentContainer.style.padding = "20px";
+  contentContainer.innerHTML = func;
 }
 
 /**
  * @addEventListener for the fullscreen buttons to toggle the fullscreen mode on and off when clicked.
  */
+// fullscreenBtns.forEach((btn) => {
+//   btn.addEventListener("click", (event) => {
+//     let screenId = event.currentTarget.parentElement.dataset.id;
+//     if (!document.fullscreenElement) {
+//       if (screenId === "welcome") {
+//         startScreen.requestFullscreen();
+//       } else if (screenId === "canvas") {
+//         canvasContainer.requestFullscreen();
+//       } else if (screenId === "win-lose-config-btn") {
+//         winLoseScreen.requestFullscreen();
+//       }
+//     } else {
+//       document.exitFullscreen();
+//     }
+//   });
+// });
+
 fullscreenBtns.forEach((btn) => {
-  btn.addEventListener("click", (event) => {
-    let screenId = event.currentTarget.parentElement.dataset.id;
-    if (screenId === "welcome" && !document.fullscreenElement) {
-      startScreen.requestFullscreen();
-    } else if (screenId === "canvas" && !document.fullscreenElement) {
-      canvasContainer.requestFullscreen();
-    } else if (
-      screenId === "win-lose-config-btn" &&
-      !document.fullscreenElement
-    ) {
-      winLoseScreen.requestFullscreen();
+  btn.addEventListener("click", () => {
+    if (!document.fullscreenElement) {
+      mainEl.requestFullscreen();
     } else {
       document.exitFullscreen();
     }
