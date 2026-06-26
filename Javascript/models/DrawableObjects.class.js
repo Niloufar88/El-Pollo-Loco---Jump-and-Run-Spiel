@@ -1,8 +1,3 @@
-/**
- * @class DrawableObjects
- * responsible for all the drawable objects in the game.
- */
-
 class DrawableObjects {
   //Position and size
   x;
@@ -11,10 +6,8 @@ class DrawableObjects {
   height;
   img;
 
-  //Image Cache
   imageCache = {};
 
-  //Animation
   currentImage = 0;
   lastFrameTime = 0;
 
@@ -102,7 +95,6 @@ class DrawableObjects {
   drawCollisionBoxWithOffset(ctx, object) {
     let boxX = object.x + (object.offsetX || 0);
     let boxY = object.y + (object.offsetY || 0);
-
     ctx.strokeStyle = "green";
     ctx.lineWidth = 2;
     ctx.strokeRect(boxX, boxY, object.collisionWidth, object.collisionHeight);
@@ -118,12 +110,10 @@ class DrawableObjects {
     let thisRight = thisLeft + (this.collisionWidth || this.width);
     let thisTop = this.y + (this.offsetY || 0);
     let thisBottom = thisTop + (this.collisionHeight || this.height);
-
     let otherLeft = other.x + (other.offsetX || 0);
     let otherRight = otherLeft + (other.collisionWidth || other.width);
     let otherTop = other.y + (other.offsetY || 0);
     let otherBottom = otherTop + (other.collisionHeight || other.height);
-
     return (
       thisLeft < otherRight &&
       thisRight > otherLeft &&

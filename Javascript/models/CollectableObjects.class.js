@@ -1,10 +1,4 @@
-/**
- * @class CollectableObjects
- * @extends DrawableObjects
- * @constructor - Initializes the collectable object's state and provides methods for collection and animation.
- */
 class CollectableObjects extends DrawableObjects {
-  //state
   isCollected = false;
 
   constructor() {
@@ -26,7 +20,6 @@ class CollectableObjects extends DrawableObjects {
   playAnimation(images, speed) {
     let now = Date.now();
     let timeSinceLastFrame = now - this.lastFrameTime;
-
     if (timeSinceLastFrame >= speed) {
       let index = this.currentImage % images.length;
       this.img = this.imageCache[images[index]];
