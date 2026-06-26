@@ -10,24 +10,16 @@ class ThrowableBottles extends MovableObject {
     this.x = x;
     this.y = y;
 
-    //size
     this.width = 60;
     this.height = 60;
 
-    //Throw Speed
-    this.speedX = 10 * direction;
-    this.speedY = -25;
+    this.speedX = 7 * direction; // 10
+    this.speedY = -10; //-25
 
-    //gravity
-    this.gravity = 1.2;
+    this.gravity = 0.2; //1.2
 
-    //Animation Speed
-    this.rotationSpeed = 60;
+    this.rotationSpeed = 40; //60
 
-    //state
-    // this.hasHit = false;
-
-    //images Array
     this.THROWABLE_BOTTLE_IMAGES = [
       "assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
       "assets/img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png",
@@ -35,7 +27,6 @@ class ThrowableBottles extends MovableObject {
       "assets/img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png",
     ];
 
-    //load Images into ImageCache
     this.loadImage(this.THROWABLE_BOTTLE_IMAGES[0]);
     this.loadImages(this.THROWABLE_BOTTLE_IMAGES);
   }
