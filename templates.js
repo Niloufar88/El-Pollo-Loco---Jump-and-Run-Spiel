@@ -47,16 +47,28 @@ function renderImpressumContent() {
   return `
   <h3 class="header">IMPRESSUM</h3>
             <div class="content-text">
+              <h3> Impressum </h3>
+              <p> ⭐Angaben gemäß § 5 DDG</p>
               <ul>
-              <h3> IMPRESSUM </h3>
-                <li>⭐ Niloufar Shirvani</li>
-                <li>⭐ Omid Siedlung 20/72 </li>
-                <li>⭐ 16897 Teheran</li>
-                <h3> CONTACT </h3>
-                <li>⭐ Telephone: +98 912 3272389</li>
-                <li>⭐ Email: niloufar88@hotmail.com</li>
+                <li> Niloufar Shirvani</li>
+                <li> Omid Siedlung 20/72 </li>
+                <li> 16897 Teheran</li>
+                </ul>
+                <p> <strong>Vertreten durch: </strong><br>
+                Niloufar Shirvani<br>
+                </p> 
+                <h3> ⭐Kontakt </h3>
+                <ul>
+                <li> Telephone: +98 912 3272389</li>
+                <li> Email: niloufar88@hotmail.com</li><br>
+                </ul>
+                <p><strong>Verbraucherstreitbeilegung / Universalschlichtungsstelle</strong>
+                <br>Wir nehmen nicht an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teil und sind dazu auch nicht verpflichtet.
+                </p> 
+                <p>⭐ Impressum von <a href="https://impressum-generator.de" rel="dofollow">Impressum-Generator.de</a>. Powered by <a href="https://www.kanzlei-hasselbach.de/" rel="nofollow">Franziska Hasselbach, Bonn</a>.
+                </p>
                 <li>⭐ © 2026 - El Pollo Loco Project</li>
-              </ul>
+              
             </div>
           </div>
   `;
