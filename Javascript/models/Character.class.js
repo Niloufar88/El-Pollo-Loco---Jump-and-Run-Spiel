@@ -265,7 +265,7 @@ class Character extends MovableObject {
    */
   jump() {
     if (this.isOnGround()) {
-      this.speedY = -15;
+      this.speedY = -10;
       this.isJumping = true;
       this.isPlayingJumpAnimation = true;
       this.currentImage = 0;
