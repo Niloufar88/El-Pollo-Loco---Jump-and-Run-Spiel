@@ -23,6 +23,8 @@ const gameBtns = document.querySelectorAll(".game-btns");
 let activeButton = null;
 let saveMutedState = localStorage.getItem("audioMuted");
 
+manageLocalstorage();
+
 /**
  * @addEventListener for DOMContentLoaded to initialize the game and set the initial state of the screens,audio and update the mute button icons
  */
@@ -30,10 +32,10 @@ window.addEventListener("DOMContentLoaded", () => {
   checkOrientation();
   checkDevice();
   audioManager.loadAllSounds();
-  winLoseScreen.style.display = "none";
-  if (touchBtns) touchBtns.style.display = "none";
+  winLoseScreen.classList.add("hidden");
+  canvasContainer.classList.add("hidden");
+  if (touchBtns) touchBtns.classList.add("hidden");
   updateAllIcons();
-  manageLocalstorage();
   keyboard.setupTouchControls();
 });
 
@@ -43,6 +45,7 @@ window.addEventListener("DOMContentLoaded", () => {
 function manageLocalstorage() {
   if (saveMutedState === null) audioManager.isMuted = true;
   else audioManager.isMuted = saveMutedState === "true";
+  updateAllIcons();
 }
 
 /**
@@ -59,14 +62,18 @@ window.addEventListener("resize", () => {
 function checkOrientation() {
   const landscape = window.matchMedia("(orientation:landscape)").matches;
   if (landscape) {
-    orientationOverlay.style.display = "none";
-    mainEl.style.display = "flex";
+    orientationOverlay.classList.add("hidden");
+    mainEl.classList.remove("hidden");
   } else {
-    orientationOverlay.style.display = "flex";
-    mainEl.style.display = "none";
+    orientationOverlay.classList.remove("hidden");
+    mainEl.classList.add("hidden");
   }
 }
 
+/**
+ * @function isTouchDevice to check if the device is a touch device.
+ * @returns {Boolean} true or false.
+ */
 function isTouchDevice() {
   return (
     !window.matchMedia("(hover: none)").matches ||
@@ -74,6 +81,10 @@ function isTouchDevice() {
   );
 }
 
+/**
+ * @function isSmallScreen to check if the window inner width is less than or equal to 1023px.
+ * @returns {Boolean} true or false
+ */
 function isSmallScreen() {
   return window.innerWidth <= 1023;
 }
@@ -86,13 +97,10 @@ function checkDevice() {
   const isTouch =
     window.matchMedia("(hover: none)").matches ||
     window.matchMedia("(pointer: coarse)").matches;
-
-  if (isSmallScreen || isTouch) {
-    controlsBtn.style.display = "none";
-    // if (touchBtns) touchBtns.style.display = "flex";
+  if (isTouch || isSmallScreen) {
+    controlsBtn.classList.add("hidden");
   } else {
-    controlsBtn.style.display = "block";
-    // if (touchBtns) touchBtns.style.display = "none";
+    controlsBtn.classList.remove("hidden");
   }
 }
 
@@ -106,6 +114,9 @@ contentModal.addEventListener("click", (event) => {
   }
 });
 
+/**
+ * @addEventListener for the game buttons to show the relevant content when clicked, and closing by clicking the same button again.
+ */
 gameBtns.forEach((btn) => {
   btn.addEventListener("click", (event) => {
     let contentId = event.currentTarget.dataset.id;
@@ -125,21 +136,26 @@ gameBtns.forEach((btn) => {
   });
 });
 
+/**
+ * @function closeContentArea to close the content area and reset the active button.
+ */
 function closeContentArea() {
   contentContainer.innerHTML = "";
   contentModal.close();
   activeButton = null;
 }
 
+/**
+ * @function  showRelevantContent to show the relevant content of the clicked button.
+ * @param {Function} func - The function to execute and display its content accordingly and manage the audio by playing the click sound effect if not muted.
+ */
 function showRelevantContent(func) {
   if (!audioManager.isMuted) {
     audioManager.menuMusik.click.currentTime = 0;
     audioManager.menuMusik.click.play();
   }
-
   contentContainer.innerHTML = "";
   contentModal.show();
-  // contentContainer.style.padding = "20px";
   contentContainer.innerHTML = func;
 }
 
@@ -159,7 +175,7 @@ function startGame() {
   managePauseAudios();
   screenToggleBeforePlay();
   checkDevice();
-  if (isSmallScreen() || isTouchDevice()) touchBtns.style.display = "flex";
+  if (isTouchDevice() || isSmallScreen()) touchBtns.style.display = "flex";
   if (world) {
     stopGame();
     resetProperties();
@@ -179,9 +195,7 @@ function restartGame() {
   }
   screenToggleBeforePlay();
   checkDevice();
-  if (isSmallScreen() || isTouchDevice()) touchBtns.style.display = "flex";
-  // if (window.matchMedia("(max-width:1023px)").matches)
-  //   touchBtns.style.display = "flex";
+  if (isTouchDevice() || isSmallScreen()) touchBtns.style.display = "flex";
   gameInit();
   if (!audioManager.isMuted) manageGameAudio();
 }
@@ -206,9 +220,9 @@ function stopGame() {
  * @function screenToggleBeforePlay responsible for toggling the screens before starting or restarting the game, it hides the start screen and win/lose screen and shows the canvas container.
  */
 function screenToggleBeforePlay() {
-  startScreen.style.display = "none";
-  winLoseScreen.style.display = "none";
-  canvasContainer.style.display = "block";
+  startScreen.classList.add("hidden");
+  winLoseScreen.classList.add("hidden");
+  canvasContainer.classList.remove("hidden");
 }
 
 /**
@@ -220,35 +234,26 @@ function backToMenu(event) {
   if (world) stopGame();
   managePauseAudios();
   screenId === "canvas"
-    ? (canvasContainer.style.display = "none")
+    ? canvasContainer.classList.add("hidden")
     : screenId === "win-lose-game-btn"
-      ? (winLoseScreen.style.display = "none")
+      ? winLoseScreen.classList.add("hidden")
       : null;
   if (touchBtns) touchBtns.style.display = "none";
   contentContainer.innerHTML = "";
   contentModal.close();
-  startScreen.style.display = "flex";
+  startScreen.classList.remove("hidden");
   manageUnmuteAudioWelcomeScreen();
-}
-
-/**
- * @function hideControlsButton responsible for hiding the controls button on smaller screens by checking the screen width using matchMedia.
- */
-function hideControlsButton() {
-  if (window.matchMedia("(max-width:1023px)").matches)
-    controlsBtn.style.display = "none";
-  else controlsBtn.style.display = "block";
 }
 
 /**
  * @function showWinScreen  responsible for toggling the screens accordingly when the game ends, it hides the canvas container and start screen, shows the win/lose screen with the relevant image, and manages the audios by calling @function managePauseAudios to pause all audios and play the relevant win or lose music if not muted.
  */
 function showWinScreen() {
-  canvasContainer.style.display = "none";
+  canvasContainer.classList.add("hidden");
   if (touchBtns) touchBtns.style.display = "none";
-  startScreen.style.display = "none";
+  startScreen.classList.add("hidden");
   managePauseAudios();
-  winLoseScreen.style.display = "flex";
+  winLoseScreen.classList.remove("hidden");
   winLoseImg.src = "assets/img/You won A.png";
   winLoseImg.alt = "win";
   if (!audioManager.isMuted) {
@@ -261,11 +266,11 @@ function showWinScreen() {
  * @function showLoseScreen responsible for toggling the screens accordingly when the game ends, it hides the canvas container and start screen, shows the win/lose screen with the relevant image, and manages the audios by calling @function managePauseAudios to pause all audios and play the relevant win or lose music if not muted.
  */
 function showLoseScreen() {
-  canvasContainer.style.display = "none";
+  canvasContainer.classList.add("hidden");
   if (touchBtns) touchBtns.style.display = "none";
-  startScreen.style.display = "none";
+  startScreen.classList.add("hidden");
   managePauseAudios();
-  winLoseScreen.style.display = "flex";
+  winLoseScreen.classList.remove("hidden");
   winLoseImg.src = "assets/img/Game over A.png";
   winLoseImg.alt = "lose";
   if (!audioManager.isMuted) {
@@ -275,52 +280,8 @@ function showLoseScreen() {
 }
 
 /**
- * @function  showRelevantContent to show the relevant content of the clicked button.
- * @param {Function} func - The function to execute and display its content accordingly and manage the audio by playing the click sound effect if not muted.
- */
-
-// function showRelevantContent(func) {
-//   if (!audioManager.isMuted) {
-//     audioManager.menuMusik.click.currentTime = 0;
-//     audioManager.menuMusik.click.play();
-//   }
-
-//   contentContainer.innerHTML = "";
-//   contentModal.style.display = "flex";
-//   contentContainer.style.padding = "20px";
-//   contentContainer.innerHTML = func;
-// }
-
-// howToPlayBtn.addEventListener("click", (event) => {
-//   console.log(event.currentTarget.dataset.id);
-// });
-
-// function showHowToPlayContent(event) {
-//   // console.log(event.target.dataset.id);
-//   const contentId = event.currentTarget.dataset.id;
-
-//   // contentContainer.innerHTML = "";
-// }
-
-/**
  * @addEventListener for the fullscreen buttons to toggle the fullscreen mode on and off when clicked.
  */
-// fullscreenBtns.forEach((btn) => {
-//   btn.addEventListener("click", (event) => {
-//     let screenId = event.currentTarget.parentElement.dataset.id;
-//     if (!document.fullscreenElement) {
-//       if (screenId === "welcome") {
-//         startScreen.requestFullscreen();
-//       } else if (screenId === "canvas") {
-//         canvasContainer.requestFullscreen();
-//       } else if (screenId === "win-lose-config-btn") {
-//         winLoseScreen.requestFullscreen();
-//       }
-//     } else {
-//       document.exitFullscreen();
-//     }
-//   });
-// });
 
 fullscreenBtns.forEach((btn) => {
   btn.addEventListener("click", () => {

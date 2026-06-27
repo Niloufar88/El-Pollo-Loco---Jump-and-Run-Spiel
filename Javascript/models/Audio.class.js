@@ -25,6 +25,7 @@ class AudioManager {
     this.loadBossSounds();
     this.loadCollectablesSounds();
     this.loadCharcaterSounds();
+    this.loadThrowableSounds();
   }
 
   /**
@@ -63,6 +64,12 @@ class AudioManager {
       "assets/sounds/freesound_crunchpixstudio-drop-collect-384918.mp3",
       this.soundEffects,
     );
+  }
+
+  /**
+   * @method loadThrowableSounds Loads all throwable-related sound effects into the soundEffects library.
+   */
+  loadThrowableSounds() {
     this.load(
       "break",
       "assets/sounds/mixkit-glass-break-with-hammer-thud-759.wav",

@@ -35,7 +35,7 @@ class ThrowableBottles extends MovableObject {
     this.y += this.speedY;
     this.speedY += this.gravity;
     this.animationTimer++;
-    if (this.animationTimer >= 12) {
+    if (this.animationTimer >= 15) {
       this.currentImageIndex =
         (this.currentImageIndex + 1) % this.THROWABLE_BOTTLE_IMAGES.length;
       this.img.src = this.THROWABLE_BOTTLE_IMAGES[this.currentImageIndex];

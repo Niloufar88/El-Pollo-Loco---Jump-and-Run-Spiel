@@ -121,7 +121,6 @@ class Endboss extends MovableObject {
     if (this.isDead) return;
     this.health -= damage;
     this.isHurt = true;
-
     if (this.health <= 0) this.die();
     else
       setTimeout(() => {
