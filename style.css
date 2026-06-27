@@ -123,6 +123,8 @@ main {
 }
 
 #contents {
+  max-height: 300px;
+  overflow-y: auto;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -133,7 +135,7 @@ main {
   border-radius: 16px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: safe center;
   align-items: center;
   gap: 16px;
   padding: 20px;
@@ -144,8 +146,12 @@ main {
   line-height: 28px;
 }
 
+.content-text p {
+  margin: 8px 0;
+}
+
 .content-text h3 {
-  font-size: 16px;
+  font-size: 18px;
   margin-bottom: 8px;
   margin-top: 4px;
 }
