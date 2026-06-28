@@ -217,10 +217,17 @@ class Character extends MovableObject {
    * @method moveRight - Moves the character to the right and updates the otherDirection property.
    */
   moveRight() {
-    if (this.x + this.width >= this.world.worldEndX) {
-      this.x = this.world.worldEndX - this.width;
+    let maxAllowedX =
+      this.world.level.endboss.x +
+      this.world.level.endboss.collisionWidth / 2 -
+      this.collisionWidth;
+    if (this.x > maxAllowedX) {
+      this.x = maxAllowedX;
+    } else if (this.x + this.collisionWidth >= this.world.worldEndX) {
+      this.x = this.world.worldEndX - this.collisionWidth;
+    } else {
+      this.x += this.speedX;
     }
-    this.x += this.speedX;
     this.otherDirection = false;
   }
 
