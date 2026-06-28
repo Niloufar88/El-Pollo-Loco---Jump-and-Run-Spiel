@@ -100,7 +100,7 @@ main.hidden {
 
 .start-screen img {
   width: 100%;
-  height: 95%;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -433,8 +433,8 @@ main.hidden {
     display: none;
   }
   main {
-    width: 80vw;
-    /* height: auto; */
+    width: 100vw;
+    height: 100vh;
     aspect-ratio: 3/2;
   }
   .start-screen {
@@ -466,6 +466,7 @@ main.hidden {
   body {
     height: 100vh;
     padding-top: 0;
+    margin-top: 0;
     justify-content: flex-start;
     gap: 0;
   }
@@ -474,18 +475,18 @@ main.hidden {
     display: none;
   }
   main {
-    width: auto;
+    width: 100vw;
     height: 100vh;
     aspect-ratio: 3/2;
   }
   .start-screen {
-    width: auto;
+    width: 100%;
     height: 100%;
     justify-content: center;
   }
 
   #win-lose-screen {
-    width: auto;
+    width: 100%;
     height: 100%;
   }
   #win-lose-screen img {
