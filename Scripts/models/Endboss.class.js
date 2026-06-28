@@ -27,7 +27,7 @@ class Endboss extends MovableObject {
     this.pepeWon = false;
 
     this.health = 100;
-    this.damage = 10;
+    this.damage = 20;
 
     this.BOSS_ALERT = [
       "assets/img/enemies/boss chicken/2_alert/G5.png",

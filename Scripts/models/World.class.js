@@ -94,6 +94,7 @@ class World {
    */
   chickenLogic() {
     this.checkCollisionsWithChickens();
+    this.checkCollisionWithChickens();
     this.level.enemies.forEach((enemy) => {
       enemy.update();
       enemy.drawOnCanvas(this.ctx, enemy);
@@ -217,6 +218,23 @@ class World {
           this.resetBeforePlay(this.audioManager.soundEffects.break);
         }
       }
+    });
+  }
+
+  /**
+   * @method checkCollisionWithChickens - checks if any collision between thrown bottles and the chickens happened.
+   */
+  checkCollisionWithChickens() {
+    this.level.thrownBottles.forEach((thrownBottle) => {
+      this.level.enemies.forEach((enemy) => {
+        if (!enemy.isDead && thrownBottle.isColliding(enemy)) {
+          enemy.die();
+          thrownBottle.hasHit = true;
+          if (!this.audioManager.isMuted) {
+            this.resetBeforePlay(this.audioManager.soundEffects.break);
+          }
+        }
+      });
     });
   }
 
